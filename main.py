@@ -1,14 +1,16 @@
 #!/usr/local/bin/python3.10 -u
 
-from kipr import motor_power, msleep, enable_servos, set_servo_position, analog, push_button, freeze, clear_motor_position_counter, get_motor_position_counter
+from kipr import motor_power, msleep, enable_servos, set_servo_position, analog, push_button, freeze, clear_motor_position_counter, get_motor_position_counter, get_servo_position
 RIGHT_MOTOR = 0
 LEFT_MOTOR = 3
 ARM_SERVO = 1
 CLAW_SERVO = 0
 TOP_HAT = 0
-CLAW_OPEN = 350
+CLAW_OPEN = 200
 CLAW_CLOSE = 1000
-
+ARM_STRAIGHT = 780
+ARM_UP = 600
+ARM_DOWN = 1900
 
 def drive(left_speed, right_speed, time):
     motor_power(LEFT_MOTOR, left_speed)
@@ -41,6 +43,18 @@ def wait_for_button():
     msleep(1000)
 
 
+def slow_servo_movement(servo, newposition):
+    temp = get_servo_position(servo)
+    if newposition > temp:
+        while temp > newposition:
+            set_servo_position(ARM_SERVO, temp)
+            temp -= 5
+            msleep(10)
+    elif newposition < temp:
+        while temp < newposition:
+            set_servo_position(ARM_SERVO, temp)
+            temp += 5
+            msleep(10)
 def get_botgal():
     drive(70, 100, 1000)                 # move tophat out of start box while lining up for line follow
     drive(100, 80, 1000)
@@ -63,10 +77,31 @@ def deliver_botgal():
 def start():
     enable_servos()
     set_servo_position(CLAW_SERVO, CLAW_OPEN)
+    set_servo_position(ARM_SERVO, ARM_STRAIGHT)
+    msleep(1000)
+
+def POST():
+    while analog(TOP_HAT) < 1800:
+        drive(93, 100, 10)
+    stop_motors()
+    drive(100, 0, 1500)
+    stop_motors()
+    slow_servo_movement(CLAW_SERVO, CLAW_OPEN)
+    slow_servo_movement(CLAW_SERVO, CLAW_CLOSE)
+    slow_servo_movement(CLAW_SERVO, CLAW_OPEN)
+    slow_servo_movement(CLAW_SERVO, CLAW_CLOSE)
+    slow_servo_movement(CLAW_SERVO, CLAW_OPEN)
+    slow_servo_movement(ARM_SERVO, ARM_STRAIGHT)
+    slow_servo_movement(ARM_SERVO, ARM_UP)
+    slow_servo_movement(ARM_SERVO, ARM_STRAIGHT)
+    wait_for_button()
 
 
 if __name__ == '__main__':
     start()
-    wait_for_button()
-    get_botgal()
-    deliver_botgal()
+    # drive(100, 95, 3000)
+    POST()
+    # wait_for_button()
+    # get_botgal()
+    # set_servo_position(CLAW_SERVO, CLAW_OPEN)
+    # deliver_botgal()
