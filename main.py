@@ -1,16 +1,10 @@
 #!/usr/local/bin/python3.10 -u
 
-from kipr import motor_power, msleep, enable_servos, set_servo_position, analog, push_button, freeze, clear_motor_position_counter, get_motor_position_counter, get_servo_position
-RIGHT_MOTOR = 0
-LEFT_MOTOR = 3
-ARM_SERVO = 1
-CLAW_SERVO = 0
-TOP_HAT = 0
-CLAW_OPEN = 200
-CLAW_CLOSE = 1000
-ARM_STRAIGHT = 780
-ARM_UP = 600
-ARM_DOWN = 1900
+from kipr import motor_power, msleep, enable_servos, set_servo_position, analog, push_button, freeze, clear_motor_position_counter, get_motor_position_counter, get_servo_position, disable_servos, disable_servo, enable_servo
+from common import ROBOT
+from constants.ports import *
+from constants.servos import *
+
 
 def drive(left_speed, right_speed, time):
     motor_power(LEFT_MOTOR, left_speed)
@@ -32,7 +26,7 @@ def line_follow(time):
 def stop_motors():
     freeze(LEFT_MOTOR)
     freeze(RIGHT_MOTOR)
-    msleep(200)
+    msleep(500)
 
 
 def wait_for_button():
@@ -43,65 +37,88 @@ def wait_for_button():
     msleep(1000)
 
 
-def slow_servo_movement(servo, newposition):
+def move_servo(new_position, step_time=10):
+    servo = new_position.port
     temp = get_servo_position(servo)
-    if newposition > temp:
-        while temp > newposition:
-            set_servo_position(ARM_SERVO, temp)
-            temp -= 5
-            msleep(10)
-    elif newposition < temp:
-        while temp < newposition:
-            set_servo_position(ARM_SERVO, temp)
+    if servo == BackClaw.port:
+        enable_servo(BackClaw.port)
+
+    if temp < new_position:
+        while temp < new_position:
+            set_servo_position(servo, temp)
             temp += 5
-            msleep(10)
+            msleep(step_time)
+    else:
+        while temp > new_position:
+            set_servo_position(servo, temp)
+            temp -= 5
+            msleep(step_time)
+
+    if servo == BackClaw.port:
+        disable_servo(BackClaw.port)
+
+
+
 def get_botgal():
-    drive(70, 100, 1000)                 # move tophat out of start box while lining up for line follow
-    drive(100, 80, 1000)
+    drive(70, 100, 1050)                 # move tophat out of start box while lining up for line follow
+    drive(100, 80, 1050)
     line_follow(1600)                    # go to botgal
     drive(93, 100, 500)                  # square up with pvc
     stop_motors()
-    set_servo_position(CLAW_SERVO, CLAW_CLOSE)
+    wait_for_button()
+    move_servo(Claw.CLOSED, 2)
+    wait_for_button()
+    move_servo(Arm.UP)
+    wait_for_button()
 
 
 def deliver_botgal():
-    drive(-100, -100, 800)
-    drive(0, 100, 1050)                 # cross bump perpendicularly
-    drive(100, 100, 900)
+    drive(-95, -100, 800)
     wait_for_button()
-    drive(0, 100, 1050)
+    drive(0, 100, 1450)
+    wait_for_button()
+    drive(95, 100, 900)
+    drive(0, 100, 1450)
     wait_for_button()
     drive(100, 100, 3000)
 
 
-def start():
+def init():
     enable_servos()
-    set_servo_position(CLAW_SERVO, CLAW_OPEN)
-    set_servo_position(ARM_SERVO, ARM_STRAIGHT)
-    msleep(1000)
-
-def POST():
-    while analog(TOP_HAT) < 1800:
-        drive(93, 100, 10)
-    stop_motors()
-    drive(100, 0, 1500)
-    stop_motors()
-    slow_servo_movement(CLAW_SERVO, CLAW_OPEN)
-    slow_servo_movement(CLAW_SERVO, CLAW_CLOSE)
-    slow_servo_movement(CLAW_SERVO, CLAW_OPEN)
-    slow_servo_movement(CLAW_SERVO, CLAW_CLOSE)
-    slow_servo_movement(CLAW_SERVO, CLAW_OPEN)
-    slow_servo_movement(ARM_SERVO, ARM_STRAIGHT)
-    slow_servo_movement(ARM_SERVO, ARM_UP)
-    slow_servo_movement(ARM_SERVO, ARM_STRAIGHT)
+    POST()
+    move_servo(Claw.OPEN, 0)
+    move_servo(Arm.STRAIGHT)
+    move_servo(BackClaw.UP)
     wait_for_button()
 
 
+def shut_down():
+    disable_servos()
+    stop_motors()
+
+
+def POST():
+    while analog(TOP_HAT) < 1800:
+        drive(95, 100, 10)
+    stop_motors()
+    drive(93, 0, 1450)
+    stop_motors()
+    move_servo(Claw.OPEN, 1)
+    move_servo(Claw.CLOSED, 1)
+    move_servo(Arm.STRAIGHT)
+    move_servo(Arm.UP)
+    move_servo(Arm.DOWN)
+    move_servo(Arm.UP)
+    move_servo(BackClaw.DOWN)
+    move_servo(BackClaw.UP)
+    stop_motors()
+
+
 if __name__ == '__main__':
-    start()
-    # drive(100, 95, 3000)
-    POST()
-    # wait_for_button()
-    # get_botgal()
-    # set_servo_position(CLAW_SERVO, CLAW_OPEN)
-    # deliver_botgal()
+    if ROBOT.is_red:
+        print("yes i am red")
+    init()
+    get_botgal()
+    # TODO: verify that get_botgal() works with the blue robot, finish deliver_botgal()
+    deliver_botgal()
+    shut_down()
