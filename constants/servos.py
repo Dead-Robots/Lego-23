@@ -9,10 +9,18 @@ class Arm(ServoEnum):
 
     DOWN = ROBOT.choose(
         red=1900,
-        blue=2040,
+        blue=1900,
         yellow=1900,
         green=1900
     )
+
+    GRAB = ROBOT.choose(
+        red=675,
+        blue=1075,
+        yellow=675,
+        green=675
+    )
+
     STRAIGHT = ROBOT.choose(
         red=600,
         blue=1000,

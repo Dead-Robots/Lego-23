@@ -89,28 +89,24 @@ def get_botgal():
     line_follow(3000)  # go to botgal
     stop_motors()
     drive(-100, 0, 150)
+    drive(-95, -100, 150)
     stop_motors()
-    wait_for_button()
-    drive(-95, -100, 200)
-    stop_motors()
-    wait_for_button()
+    move_servo(Arm.GRAB)
     # drive(93, 100, 500)                  # square up with pvc
     # stop_motors()
     # wait_for_button()
     move_servo(Claw.CLOSED, 2)
-    wait_for_button()
     move_servo(Arm.UP)
 
 
 def deliver_botgal():
-    drive(-95, -100, 800)
-    # wait_for_button()
-    # drive(0, 100, 1450)
-    # wait_for_button()
-    # drive(95, 100, 900)
-    # drive(0, 100, 1450)
-    # wait_for_button()
-    # drive(100, 100, 3000)
+    drive(-95, -100, 1600)
+    drive(-100, 100, 1150)
+    drive(95, 100, 900)
+    stop_motors()
+    move_servo(Arm.DOWN)
+    move_servo(Claw.OPEN)
+    move_servo(Arm.STRAIGHT)
 
 
 def init():
@@ -194,7 +190,6 @@ if __name__ == '__main__':
     if ROBOT.is_red or ROBOT.is_blue:
         init()
         get_botgal()
-        wait_for_button()
         # TODO: verify that get_botgal() works with the blue robot, finish deliver_botgal()
         deliver_botgal()
         shut_down()
