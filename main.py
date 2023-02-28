@@ -58,34 +58,41 @@ def move_servo(new_position, step_time=10):
         disable_servo(BackClaw.port)
 
 
-
 def get_botgal():
-    drive(70, 100, 1050)                 # move tophat out of start box while lining up for line follow
-    drive(100, 80, 1050)
-    line_follow(1600)                    # go to botgal
-    drive(93, 100, 500)                  # square up with pvc
+    # drive(70, 100, 1050)                 # move tophat out of start box while lining up for line follow
+    # drive(100, 80, 1050)
+    line_follow(3000)                      # go to botgal
+    stop_motors()
+    drive(-100, 0, 300)
     stop_motors()
     wait_for_button()
+    drive(-95, -100, 400)
+    stop_motors()
+    wait_for_button()
+    # drive(93, 100, 500)                  # square up with pvc
+    # stop_motors()
+    # wait_for_button()
     move_servo(Claw.CLOSED, 2)
     wait_for_button()
     move_servo(Arm.UP)
-    wait_for_button()
+
 
 
 def deliver_botgal():
     drive(-95, -100, 800)
-    wait_for_button()
-    drive(0, 100, 1450)
-    wait_for_button()
-    drive(95, 100, 900)
-    drive(0, 100, 1450)
-    wait_for_button()
-    drive(100, 100, 3000)
+    # wait_for_button()
+    # drive(0, 100, 1450)
+    # wait_for_button()
+    # drive(95, 100, 900)
+    # drive(0, 100, 1450)
+    # wait_for_button()
+    # drive(100, 100, 3000)
 
 
 def init():
     enable_servos()
-    POST()
+    disable_servo(BackClaw.port)
+    # POST()
     move_servo(Claw.OPEN, 0)
     move_servo(Arm.STRAIGHT)
     move_servo(BackClaw.UP)
@@ -119,6 +126,7 @@ if __name__ == '__main__':
         print("yes i am red")
     init()
     get_botgal()
+    wait_for_button()
     # TODO: verify that get_botgal() works with the blue robot, finish deliver_botgal()
     deliver_botgal()
     shut_down()
