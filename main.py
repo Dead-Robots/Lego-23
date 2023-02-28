@@ -15,7 +15,7 @@ def drive(left_speed, right_speed, duration):
     msleep(duration)
 
 
-def line_follow_right(duration):
+def line_follow(duration):
     """
     following right side of black line
     :param duration: time in ms
@@ -83,16 +83,15 @@ def move_servo(new_position, step_time=10):
         disable_servo(BackClaw.port)
 
 
-
 def get_botgal():
     # drive(70, 100, 1050)                 # move tophat out of start box while lining up for line follow
     # drive(100, 80, 1050)
-    line_follow(3000)                      # go to botgal
+    line_follow(3000)  # go to botgal
     stop_motors()
-    drive(-100, 0, 300)
+    drive(-100, 0, 150)
     stop_motors()
     wait_for_button()
-    drive(-95, -100, 400)
+    drive(-95, -100, 200)
     stop_motors()
     wait_for_button()
     # drive(93, 100, 500)                  # square up with pvc
@@ -184,7 +183,7 @@ def line_follow_right_lego1(duration, direction=1):
 def ws_to_ddos():
     drive(500, -85, -85)
     drive(-85, 85, 1200)
-    line_follow_right(2785)
+    line_follow(2785)
     freeze(LEFT_MOTOR)
     freeze(RIGHT_MOTOR)
     drive(0, -100, 1500)
@@ -192,7 +191,7 @@ def ws_to_ddos():
 
 
 if __name__ == '__main__':
-    if ROBOT.is_red:
+    if ROBOT.is_red or ROBOT.is_blue:
         init()
         get_botgal()
         wait_for_button()
