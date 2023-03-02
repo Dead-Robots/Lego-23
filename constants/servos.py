@@ -5,7 +5,7 @@ from constants.ports import *
 
 # Red (other than BackClaw) and Blue have tested values
 class Arm(ServoEnum):
-    port = ARM_SERVO
+    port = ARM
 
     DOWN = ROBOT.choose(
         red=1900,
@@ -37,7 +37,7 @@ class Arm(ServoEnum):
 
 
 class Claw(ServoEnum):
-    port = CLAW_SERVO
+    port = CLAW
 
     OPEN = ROBOT.choose(
         red=200,
@@ -56,7 +56,7 @@ class Claw(ServoEnum):
 
 # only setup for blue
 class BackClaw(ServoEnum):
-    port = BACK_CLAW_SERVO
+    port = BACK_CLAW
 
     UP = ROBOT.choose(
         red=200,
