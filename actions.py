@@ -3,7 +3,6 @@ from kipr import motor_power, msleep, enable_servos, set_servo_position, analog,
     clear_motor_position_counter, get_motor_position_counter, get_servo_position, disable_servos, disable_servo, \
     enable_servo
 from common.drive import drive, stop_motors, line_follow, line_follow_left
-from common.servo import move_servo
 from common.utilities import wait_for_button
 from constants.ports import TOP_HAT, LEFT_MOTOR, RIGHT_MOTOR
 from constants.servos import BackClaw, Claw, Arm
@@ -13,9 +12,9 @@ def init():
     enable_servos()
     disable_servo(BackClaw.port)
     # power_on_self_test()
-    move_servo(Claw.OPEN, 0)
-    move_servo(Arm.STRAIGHT)
-    move_servo(BackClaw.UP)
+    move_servo_lego(Claw.OPEN, 0)
+    move_servo_lego(Arm.STRAIGHT)
+    move_servo_lego(BackClaw.UP)
     wait_for_button()
 
 
@@ -25,14 +24,14 @@ def power_on_self_test():
     stop_motors()
     drive(93, 0, 1450)
     stop_motors()
-    move_servo(Claw.OPEN, 1)
-    move_servo(Claw.CLOSED, 1)
-    move_servo(Arm.STRAIGHT)
-    move_servo(Arm.UP)
-    move_servo(Arm.DOWN)
-    move_servo(Arm.UP)
-    move_servo(BackClaw.DOWN)
-    move_servo(BackClaw.UP)
+    move_servo_lego(Claw.OPEN, 1)
+    move_servo_lego(Claw.CLOSED, 1)
+    move_servo_lego(Arm.STRAIGHT)
+    move_servo_lego(Arm.UP)
+    move_servo_lego(Arm.DOWN)
+    move_servo_lego(Arm.UP)
+    move_servo_lego(BackClaw.DOWN)
+    move_servo_lego(BackClaw.UP)
     stop_motors()
 
 
@@ -49,12 +48,12 @@ def get_botgal():
     drive(-100, 0, 150)
     drive(-95, -100, 150)
     stop_motors()
-    move_servo(Arm.GRAB)
+    move_servo_lego(Arm.GRAB)
     # drive(93, 100, 500)                  # square up with pvc
     # stop_motors()
     # wait_for_button()
-    move_servo(Claw.CLOSED, 2)
-    move_servo(Arm.UP)
+    move_servo_lego(Claw.CLOSED, 2)
+    move_servo_lego(Arm.UP)
 
 
 def deliver_botgal():
@@ -62,9 +61,9 @@ def deliver_botgal():
     drive(-100, 100, 1150)
     drive(95, 100, 900)
     stop_motors()
-    move_servo(Arm.DOWN)
-    move_servo(Claw.OPEN)
-    move_servo(Arm.STRAIGHT)
+    move_servo_lego(Arm.DOWN)
+    move_servo_lego(Claw.OPEN)
+    move_servo_lego(Arm.STRAIGHT)
 
 
 def go_to_ws():
@@ -110,3 +109,24 @@ def ws_to_ddos():
     freeze(RIGHT_MOTOR)
     drive(0, -100, 1500)
     line_follow_right_lego1(4500)
+
+
+def move_servo_lego(new_position, step_time=10):
+    servo = new_position.port
+    temp = get_servo_position(servo)
+    if servo == BackClaw.port:
+        enable_servo(BackClaw.port)
+
+    if temp < new_position:
+        while temp < new_position:
+            set_servo_position(servo, temp)
+            temp += 5
+            msleep(step_time)
+    else:
+        while temp > new_position:
+            set_servo_position(servo, temp)
+            temp -= 5
+            msleep(step_time)
+
+    if servo == BackClaw.port:
+        disable_servo(BackClaw.port)
