@@ -11,7 +11,7 @@ from constants.servos import BackClaw, Claw, Arm
 def init():
     enable_servos()
     disable_servo(BackClaw.port)
-    # power_on_self_test()
+    power_on_self_test()
     move_servo_lego(Claw.OPEN, 0)
     move_servo_lego(Arm.STRAIGHT)
     move_servo_lego(BackClaw.UP)
@@ -64,6 +64,19 @@ def deliver_botgal():
     move_servo_lego(Arm.DOWN)
     move_servo_lego(Claw.OPEN)
     move_servo_lego(Arm.STRAIGHT)
+
+
+def wire_shark():
+    drive(-30, 100, 1700)
+    while analog(TOP_HAT) < 2000:
+        drive(0, 100, 10)
+    line_follow_left(2500)
+    stop_motors()
+    wait_for_button()
+    drive(100, -100, 1000)
+    while analog(TOP_HAT) < 2000:
+        drive(20, -20, 10)
+    stop_motors()
 
 
 def go_to_ws():
