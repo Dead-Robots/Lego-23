@@ -1,30 +1,29 @@
 #!/usr/local/bin/python3.10 -u
 
-from actions import init, shut_down, get_botgal, deliver_botgal, go_to_ws, ws_to_ddos, wire_shark
-from common.utilities import wait_for_button
+from actions import init, shut_down, get_botgal, deliver_botgal, wire_shark
+from drive import drive, stop_motors, drive_straight
 from common import ROBOT
+from utilities import wait_for_button
 
 if __name__ == '__main__':
-    if ROBOT.is_red or ROBOT.is_blue:
-        print("hi I am red or blue start")
+    if ROBOT.is_blue:
+        print("hi I am blue start")
         init()
         get_botgal()
         # TODO: verify that get_botgal() works with the blue robot, finish deliver_botgal()
         deliver_botgal()
         wire_shark()
         shut_down()
-    elif ROBOT.is_yellow:
-        print("hi I am yellow start")
+    elif ROBOT.is_red or ROBOT.is_yellow:
+        print("hi I am red or yellow start")
         init()
-        # go_to_botgal()
-        # to_analysis_lab()
-        # wait_for_button()
-        go_to_ws()
+        get_botgal()
         wait_for_button()
-        # TODO: Fix turn once at wireshark, Lower ws_plow, Line follow right to DDOS
-        ws_to_ddos()
-        wait_for_button()
+        # TODO: verify that get_botgal() works with the blue robot, finish deliver_botgal()
+        deliver_botgal()
+        # wire_shark()
         shut_down()
-        print("end")
+    elif ROBOT.is_green:
+        print("hi I am green start")
     else:
         print("robot unidentified")

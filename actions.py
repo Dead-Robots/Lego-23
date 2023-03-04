@@ -1,9 +1,9 @@
 import time
-from kipr import motor_power, msleep, enable_servos, set_servo_position, analog, push_button, freeze, \
-    clear_motor_position_counter, get_motor_position_counter, get_servo_position, disable_servos, disable_servo, \
+from kipr import msleep, enable_servos, set_servo_position, analog, freeze, \
+    get_servo_position, disable_servos, disable_servo, \
     enable_servo
-from common.drive import drive, stop_motors, line_follow, line_follow_left
-from common.utilities import wait_for_button
+from drive import drive, stop_motors, line_follow, line_follow_left, drive_straight
+from utilities import wait_for_button
 from constants.ports import TOP_HAT, LEFT_MOTOR, RIGHT_MOTOR
 from constants.servos import BackClaw, Claw, Arm
 
@@ -11,21 +11,23 @@ from constants.servos import BackClaw, Claw, Arm
 def init():
     enable_servos()
     disable_servo(BackClaw.port)
-    power_on_self_test()
-    move_servo_lego(Claw.OPEN, 0)
-    move_servo_lego(Arm.STRAIGHT)
+    # power_on_self_test()
+    move_servo_lego(Claw.CLOSED, 0)
+    move_servo_lego(Arm.UP)
     move_servo_lego(BackClaw.UP)
     wait_for_button()
+    move_servo_lego(Claw.OPEN, 0)
+    move_servo_lego(Arm.STRAIGHT)
 
 
 def power_on_self_test():
     while analog(TOP_HAT) < 1800:
-        drive(95, 100, 10)
+        drive_straight(10)
     stop_motors()
     drive(93, 0, 1450)
     stop_motors()
     move_servo_lego(Claw.OPEN, 1)
-    move_servo_lego(Claw.CLOSED, 1)
+    move_servo_lego(Claw.GRAB, 1)
     move_servo_lego(Arm.STRAIGHT)
     move_servo_lego(Arm.UP)
     move_servo_lego(Arm.DOWN)
@@ -38,28 +40,24 @@ def power_on_self_test():
 def shut_down():
     disable_servos()
     stop_motors()
+    print("end")
 
 
 def get_botgal():
-    # drive(70, 100, 1050)                 # move tophat out of start box while lining up for line follow
-    # drive(100, 80, 1050)
-    line_follow(3000)  # go to botgal
+    line_follow(3100)  # go to botgal
     stop_motors()
-    drive(-100, 0, 150)
-    drive(-95, -100, 150)
+    drive(-100, 0, 190)
+    drive_straight(150, -1)
     stop_motors()
     move_servo_lego(Arm.GRAB)
-    # drive(93, 100, 500)                  # square up with pvc
-    # stop_motors()
-    # wait_for_button()
-    move_servo_lego(Claw.CLOSED, 2)
+    move_servo_lego(Claw.GRAB, 2)
     move_servo_lego(Arm.UP)
 
 
 def deliver_botgal():
-    drive(-95, -100, 1600)
-    drive(-100, 100, 1150)
-    drive(95, 100, 900)
+    drive_straight(1600, -1)
+    drive(-80, 80, 1525)
+    drive_straight(900)
     stop_motors()
     move_servo_lego(Arm.DOWN)
     move_servo_lego(Claw.OPEN)
