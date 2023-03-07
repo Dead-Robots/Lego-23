@@ -11,7 +11,7 @@ from constants.servos import BackClaw, Claw, Arm
 def init():
     enable_servos()
     disable_servo(BackClaw.port)
-    # power_on_self_test()
+    power_on_self_test()
     move_servo_lego(Claw.CLOSED, 0)
     move_servo_lego(Arm.UP)
     move_servo_lego(BackClaw.UP)
@@ -44,10 +44,7 @@ def shut_down():
 
 
 def get_botgal():
-    line_follow(3100)  # go to botgal
-    stop_motors()
-    drive(-100, 0, 190)
-    drive_straight(150, -1)
+    line_follow(3200)  # go to botgal
     stop_motors()
     move_servo_lego(Arm.GRAB)
     move_servo_lego(Claw.GRAB, 2)
@@ -55,9 +52,13 @@ def get_botgal():
 
 
 def deliver_botgal():
-    drive_straight(1600, -1)
-    drive(-80, 80, 1525)
-    drive_straight(900)
+    drive_straight(800, -1)
+    drive(0, 100, 2000)
+    drive(-100, 100, 5)
+    while analog(TOP_HAT) < 1800:
+        pass
+    line_follow(1000)
+    drive(100, 0, 400)
     stop_motors()
     move_servo_lego(Arm.DOWN)
     move_servo_lego(Claw.OPEN)

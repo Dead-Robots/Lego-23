@@ -8,14 +8,14 @@ class Arm(ServoEnum):
     port = ARM
 
     DOWN = ROBOT.choose(
-        red=1500,
+        red=1800,
         blue=1900,
         yellow=1500,
         green=1900
     )
 
     GRAB = ROBOT.choose(
-        red=675,
+        red=700,
         blue=1075,
         yellow=400,
         green=675

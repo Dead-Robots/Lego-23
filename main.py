@@ -18,7 +18,6 @@ if __name__ == '__main__':
         print("hi I am red or yellow start")
         init()
         get_botgal()
-        wait_for_button()
         # TODO: verify that get_botgal() works with the blue robot, finish deliver_botgal()
         deliver_botgal()
         # wire_shark()
