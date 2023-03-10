@@ -1,3 +1,5 @@
+import time
+
 from constants.ports import LEFT_MOTOR, RIGHT_MOTOR, TOP_HAT
 from kipr import motor_power, msleep, analog, freeze, clear_motor_position_counter, get_motor_position_counter
 from common import ROBOT
@@ -69,6 +71,20 @@ def line_follow_left(duration):
         else:  # on black
             x += 10
             drive(80, 100, 10)
+
+
+def line_follow_right_lego1(duration, direction=1):
+    duration = duration // 1000
+
+    start_time = time.time()
+
+    while time.time() - start_time < duration:
+        if analog(TOP_HAT) > 3100:
+            drive(0, *([direction * 90, direction * 20][::direction]))
+        elif analog(TOP_HAT) < 2600:
+            drive(0, *([direction * 40, direction * 90][::direction]))
+        else:
+            drive(0, direction * 85, direction * 85)
 
 
 def stop_motors():

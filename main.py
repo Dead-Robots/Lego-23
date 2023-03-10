@@ -14,11 +14,19 @@ if __name__ == '__main__':
         deliver_botgal()
         wire_shark()
         shut_down()
-    elif ROBOT.is_red or ROBOT.is_yellow:
-        print("hi I am red or yellow start")
+    elif ROBOT.is_red:
+        print("hi I am red start")
         init()
         get_botgal()
-        # TODO: verify that get_botgal() works with the blue robot, finish deliver_botgal()
+        # TODO: verify that get_botgal() works with the red robot, finish deliver_botgal()
+        deliver_botgal()
+        # wire_shark()
+        shut_down()
+    elif ROBOT.is_yellow:
+        print("hi I am yellow start")
+        init()
+        get_botgal()
+        # TODO: verify that get_botgal() works with the yellow robot, finish deliver_botgal()
         deliver_botgal()
         # wire_shark()
         shut_down()

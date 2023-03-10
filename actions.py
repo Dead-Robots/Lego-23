@@ -2,7 +2,8 @@ import time
 from kipr import msleep, enable_servos, set_servo_position, analog, freeze, \
     get_servo_position, disable_servos, disable_servo, \
     enable_servo
-from drive import drive, stop_motors, line_follow, line_follow_left, drive_straight
+from drive import drive, stop_motors, line_follow, line_follow_left, drive_straight, line_follow_right_lego1
+from servo import move_servo_lego
 from utilities import wait_for_button
 from constants.ports import TOP_HAT, LEFT_MOTOR, RIGHT_MOTOR
 from constants.servos import BackClaw, Claw, Arm
@@ -10,7 +11,7 @@ from constants.servos import BackClaw, Claw, Arm
 
 def init():
     enable_servos()
-    disable_servo(BackClaw.port)
+    disable_servo(BackClaw.port)   # why is this servo disabled but then told to move in power on self test???
     power_on_self_test()
     move_servo_lego(Claw.CLOSED, 0)
     move_servo_lego(Arm.UP)
@@ -99,20 +100,6 @@ def go_to_ws():
     drive(750, -100, -100)
 
 
-def line_follow_right_lego1(duration, direction=1):
-    duration = duration // 1000
-
-    start_time = time.time()
-
-    while time.time() - start_time < duration:
-        if analog(TOP_HAT) > 3100:
-            drive(0, *([direction * 90, direction * 20][::direction]))
-        elif analog(TOP_HAT) < 2600:
-            drive(0, *([direction * 40, direction * 90][::direction]))
-        else:
-            drive(0, direction * 85, direction * 85)
-
-
 def ws_to_ddos():
     drive(500, -85, -85)
     drive(-85, 85, 1200)
@@ -123,22 +110,4 @@ def ws_to_ddos():
     line_follow_right_lego1(4500)
 
 
-def move_servo_lego(new_position, step_time=10):
-    servo = new_position.port
-    temp = get_servo_position(servo)
-    if servo == BackClaw.port:
-        enable_servo(BackClaw.port)
 
-    if temp < new_position:
-        while temp < new_position:
-            set_servo_position(servo, temp)
-            temp += 5
-            msleep(step_time)
-    else:
-        while temp > new_position:
-            set_servo_position(servo, temp)
-            temp -= 5
-            msleep(step_time)
-
-    if servo == BackClaw.port:
-        disable_servo(BackClaw.port)
