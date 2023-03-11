@@ -78,3 +78,10 @@ class BackClaw(ServoEnum):
         yellow=1650,
         green=1000
     )
+
+    SUPERDOWN = ROBOT.choose(
+        red=1900,
+        blue=1250,
+        yellow=1850,
+        green=1200
+    )

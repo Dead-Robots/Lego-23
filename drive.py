@@ -73,6 +73,40 @@ def line_follow_left(duration):
             drive(80, 100, 10)
 
 
+def line_follow_right(duration):
+    """
+    following left side of black line
+    :param duration: time in ms
+    :redrive:
+    """
+
+    x = 0
+    while x < duration:
+        if analog(TOP_HAT) < 1800:  # on white
+            x += 10
+            drive(85, 100, 10)
+        else:  # on black
+            x += 10
+            drive(100, 80, 10)
+
+
+def line_follow_to_ws(duration):
+    """
+    following left side of black line
+    :param duration: time in ms
+    :redrive:
+    """
+
+    x = 0
+    while x < duration:
+        if analog(TOP_HAT) < 1800:  # on white
+            x += 10
+            drive(100, 70, 10)
+        else:  # on black
+            x += 10
+            drive(65, 100, 10)
+
+
 def line_follow_right_lego1(duration, direction=1):
     duration = duration // 1000
 

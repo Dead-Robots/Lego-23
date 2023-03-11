@@ -2,7 +2,8 @@ import time
 from kipr import msleep, enable_servos, set_servo_position, analog, freeze, \
     get_servo_position, disable_servos, disable_servo, \
     enable_servo
-from drive import drive, stop_motors, line_follow, line_follow_left, drive_straight, line_follow_right_lego1
+from drive import drive, stop_motors, line_follow, line_follow_left, drive_straight, line_follow_right_lego1,\
+    line_follow_to_ws, line_follow_right
 from servo import move_servo_lego
 from utilities import wait_for_button
 from constants.ports import TOP_HAT, LEFT_MOTOR, RIGHT_MOTOR
@@ -11,11 +12,10 @@ from constants.servos import BackClaw, Claw, Arm
 
 def init():
     enable_servos()
-    disable_servo(BackClaw.port)   # why is this servo disabled but then told to move in power on self test???
-    power_on_self_test()
+    # power_on_self_test()
+    move_servo_lego(BackClaw.UP)
     move_servo_lego(Claw.CLOSED, 0)
     move_servo_lego(Arm.UP)
-    move_servo_lego(BackClaw.UP)
     wait_for_button()
     move_servo_lego(Claw.OPEN, 0)
     move_servo_lego(Arm.STRAIGHT)
@@ -55,7 +55,7 @@ def get_botgal():
 def deliver_botgal():
     drive_straight(800, -1)
     drive(0, 100, 2000)
-    drive(-100, 100, 5)
+    drive(-85, 85, 0)
     while analog(TOP_HAT) < 1800:
         pass
     line_follow(1000)
@@ -66,48 +66,69 @@ def deliver_botgal():
     move_servo_lego(Arm.STRAIGHT)
 
 
+# def go_to_ws():
+#     drive(-85, 85, 950)
+#     line_follow_left(2000)
+#     wait_for_button()
+#     drive(1000, 100, 95)
+#     wait_for_button()
+#     line_follow_left(3500)
+#     wait_for_button()
+#     freeze(LEFT_MOTOR)
+#     freeze(RIGHT_MOTOR)
+#     msleep(1000)
+#     while analog(TOP_HAT) < 3400:
+#         drive(-85, 85, 5)
+#     while analog(TOP_HAT) > 2050:
+#         drive(-85, 85, 5)
+#     freeze(LEFT_MOTOR)
+#     freeze(RIGHT_MOTOR)
+#     wait_for_button()
+#     drive(750, -100, -100)
+
+
 def wire_shark():
-    drive(-30, 100, 1700)
-    while analog(TOP_HAT) < 2000:
-        drive(0, 100, 10)
-    line_follow_left(2500)
+    drive(-30, 100, 800)
     stop_motors()
-    wait_for_button()
+    drive(0, 100, 0)
+    while analog(TOP_HAT) < 1800:  # line follow to turn until black
+        pass
+    line_follow_to_ws(3255)
+    stop_motors()
     drive(100, -100, 1000)
-    while analog(TOP_HAT) < 2000:
-        drive(20, -20, 10)
+    drive(80, -80, 0)
+    while analog(TOP_HAT) < 1800:  # line follow to turn until black
+        pass
     stop_motors()
-
-
-def go_to_ws():
-    drive(-85, 85, 950)
-    line_follow_left(2000)
-    wait_for_button()
-    drive(1000, 100, 95)
-    wait_for_button()
-    line_follow_left(3500)
-    wait_for_button()
-    freeze(LEFT_MOTOR)
-    freeze(RIGHT_MOTOR)
-    msleep(1000)
-    while analog(TOP_HAT) < 3400:
-        drive(-85, 85, 5)
-    while analog(TOP_HAT) > 2050:
-        drive(-85, 85, 5)
-    freeze(LEFT_MOTOR)
-    freeze(RIGHT_MOTOR)
-    wait_for_button()
-    drive(750, -100, -100)
+    drive(-80, 80, 0)
+    while analog(TOP_HAT) > 1600:  # line follow to turn until white
+        pass
+    drive(-65, 65, 75)
 
 
 def ws_to_ddos():
-    drive(500, -85, -85)
-    drive(-85, 85, 1200)
-    line_follow(2785)
-    freeze(LEFT_MOTOR)
-    freeze(RIGHT_MOTOR)
-    drive(0, -100, 1500)
-    line_follow_right_lego1(4500)
-
-
-
+    drive(-85, -85, 100)
+    move_servo_lego(BackClaw.DOWN)
+    drive(85, 85, 1500)
+    stop_motors()
+    wait_for_button()
+    drive(-85, -85, 150)
+    msleep(100)
+    move_servo_lego(BackClaw.SUPERDOWN)
+    msleep(100)
+    line_follow_left(7000)
+    wait_for_button()
+    drive(-80, 80, 0)
+    while analog(TOP_HAT) < 1800:  # line follow to turn until black
+        pass
+    stop_motors()
+    # drive(100, 90, 0)
+    # while analog(TOP_HAT) < 1800:  # arc until white to line up for right line follow
+    #     pass
+    # wait_for_button()
+    # drive(-80, 80, 150)
+    # wait_for_button()
+    # line_follow_right(2000)
+    # wait_for_button()
+    # drive(0, -100, 1500)
+    # line_follow_right_lego1(4500)
