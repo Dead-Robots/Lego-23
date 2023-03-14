@@ -118,10 +118,13 @@ def ws_to_ddos():
     msleep(100)
     line_follow_left(7000)
     wait_for_button()
+    drive(-85, 85, 800)
+    wait_for_button()
     drive(-80, 80, 0)
     while analog(TOP_HAT) < 1800:  # line follow to turn until black
         pass
     stop_motors()
+
     # drive(100, 90, 0)
     # while analog(TOP_HAT) < 1800:  # arc until white to line up for right line follow
     #     pass

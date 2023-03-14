@@ -10,9 +10,9 @@ if __name__ == '__main__':
         print("hi I am blue start")
         init()
         get_botgal()
-        # TODO: verify that get_botgal() works with the blue robot, finish deliver_botgal()
         deliver_botgal()
         wire_shark()
+        ws_to_ddos()
         shut_down()
     elif ROBOT.is_red:
         print("hi I am red start")
