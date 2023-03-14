@@ -9,7 +9,7 @@ class Arm(ServoEnum):
 
     DOWN = ROBOT.choose(
         red=1800,
-        blue=1900,
+        blue=2000,
         yellow=1500,
         green=1900
     )
@@ -30,7 +30,7 @@ class Arm(ServoEnum):
 
     UP = ROBOT.choose(
         red=350,
-        blue=650,
+        blue=750,
         yellow=0,
         green=350
     )
@@ -41,14 +41,14 @@ class Claw(ServoEnum):
 
     OPEN = ROBOT.choose(
         red=600,
-        blue=0,
+        blue=650,
         yellow=300,
         green=200
     )
 
     CLOSED = ROBOT.choose(
         red=1230,
-        blue=1570,
+        blue=1450,
         yellow=1000,
         green=1000
     )

@@ -5,6 +5,10 @@ from drive import drive, stop_motors, drive_straight
 from common import ROBOT
 from utilities import wait_for_button
 
+# TODO: hardware needs to fix blue claw, can't grab botgal. deliver ws to analysis lab, figure out spacing with other
+#  objects
+
+
 if __name__ == '__main__':
     if ROBOT.is_blue:
         print("hi I am blue start")

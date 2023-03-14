@@ -59,7 +59,7 @@ def deliver_botgal():
     while analog(TOP_HAT) < 1800:
         pass
     line_follow(1000)
-    drive(100, 0, 400)
+    drive(100, 0, 350)
     stop_motors()
     move_servo_lego(Arm.DOWN)
     move_servo_lego(Claw.OPEN)
@@ -111,19 +111,19 @@ def ws_to_ddos():
     move_servo_lego(BackClaw.DOWN)
     drive(85, 85, 1500)
     stop_motors()
-    wait_for_button()
-    drive(-85, -85, 150)
-    msleep(100)
+    drive(-85, -85, 50)
     move_servo_lego(BackClaw.SUPERDOWN)
-    msleep(100)
-    line_follow_left(7000)
-    wait_for_button()
-    drive(-85, 85, 800)
-    wait_for_button()
+    line_follow_left(6500)
+    drive(-85, 85, 1450)
     drive(-80, 80, 0)
     while analog(TOP_HAT) < 1800:  # line follow to turn until black
         pass
+    drive(-40, 40, 0)
+    while analog(TOP_HAT) > 1600:  # line follow to turn until white
+        pass
+    drive(-65, 65, 210)
     stop_motors()
+    drive(-80, -80, 800)
 
     # drive(100, 90, 0)
     # while analog(TOP_HAT) < 1800:  # arc until white to line up for right line follow

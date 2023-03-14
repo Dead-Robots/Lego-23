@@ -73,9 +73,26 @@ def line_follow_left(duration):
             drive(80, 100, 10)
 
 
-def line_follow_right(duration):
+def line_follow_to_ddos(duration):  # less aggressive
     """
     following left side of black line
+    :param duration: time in ms
+    :redrive:
+    """
+
+    x = 0
+    while x < duration:
+        if analog(TOP_HAT) < 1800:  # on white
+            x += 10
+            drive(100, 90, 10)
+        else:  # on black
+            x += 10
+            drive(85, 100, 10)
+
+
+def line_follow_right(duration):
+    """
+    following right side of black line
     :param duration: time in ms
     :redrive:
     """
