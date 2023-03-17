@@ -124,7 +124,8 @@ def ws_to_ddos():
     drive(-65, 65, 210)
     stop_motors()
     drive(-80, -80, 1200)
-    wait_for_button()
+    stop_motors()
+    msleep(15000)
 
     # drive(100, 90, 0)
     # while analog(TOP_HAT) < 1800:  # arc until white to line up for right line follow
@@ -146,4 +147,5 @@ def ddos_to_analysis():
     # drive(85, 85, 250)
     # wait_for_button()
     dramatic_line_follow(4000)
-    drive(85, 0, 500)
+    stop_motors()
+    drive(0, 85, 1000)

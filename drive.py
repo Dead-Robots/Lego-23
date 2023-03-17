@@ -155,7 +155,7 @@ def straight_timed_slow(duration):
 
 def straight_timed_fast(duration):
     offset = ROBOT.load("fast") or 0
-    print("Driving at speed 90 with offset", offset)
-    motor_power(LEFT_MOTOR, 90)
-    motor_power(RIGHT_MOTOR, 90 + offset)
+    print("Driving at speed 85 with offset", offset)
+    motor_power(LEFT_MOTOR, 85)
+    motor_power(RIGHT_MOTOR, 85 + offset)
     msleep(duration)
