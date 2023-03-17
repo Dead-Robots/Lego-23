@@ -55,7 +55,7 @@ class Claw(ServoEnum):
 
     GRAB = ROBOT.choose(
         red=1700,
-        blue=1570,
+        blue=1870,
         yellow=1500,
         green=1000
     )

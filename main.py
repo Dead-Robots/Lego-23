@@ -1,6 +1,6 @@
 #!/usr/local/bin/python3.10 -u
 
-from actions import init, shut_down, get_botgal, deliver_botgal, wire_shark, ws_to_ddos
+from actions import init, shut_down, get_botgal, deliver_botgal, wire_shark, ws_to_ddos, ddos_to_analysis
 from drive import drive, stop_motors, drive_straight
 from common import ROBOT
 from utilities import wait_for_button
@@ -17,6 +17,7 @@ if __name__ == '__main__':
         deliver_botgal()
         wire_shark()
         ws_to_ddos()
+        ddos_to_analysis()
         shut_down()
     elif ROBOT.is_red:
         print("hi I am red start")

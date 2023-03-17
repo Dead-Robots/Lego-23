@@ -107,7 +107,7 @@ def line_follow_right(duration):
             drive(100, 80, 10)
 
 
-def line_follow_to_ws(duration):
+def dramatic_line_follow(duration):
     """
     following left side of black line
     :param duration: time in ms
@@ -118,10 +118,10 @@ def line_follow_to_ws(duration):
     while x < duration:
         if analog(TOP_HAT) < 1800:  # on white
             x += 10
-            drive(100, 70, 10)
+            drive(100, 65, 10)
         else:  # on black
             x += 10
-            drive(65, 100, 10)
+            drive(60, 100, 10)
 
 
 def line_follow_right_lego1(duration, direction=1):

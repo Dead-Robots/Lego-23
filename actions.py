@@ -3,7 +3,7 @@ from kipr import msleep, enable_servos, set_servo_position, analog, freeze, \
     get_servo_position, disable_servos, disable_servo, \
     enable_servo
 from drive import drive, stop_motors, line_follow, line_follow_left, drive_straight, line_follow_right_lego1,\
-    line_follow_to_ws, line_follow_right
+    dramatic_line_follow, line_follow_right
 from servo import move_servo_lego
 from utilities import wait_for_button
 from constants.ports import TOP_HAT, LEFT_MOTOR, RIGHT_MOTOR
@@ -12,7 +12,7 @@ from constants.servos import BackClaw, Claw, Arm
 
 def init():
     enable_servos()
-    # power_on_self_test()
+    power_on_self_test()
     move_servo_lego(BackClaw.UP)
     move_servo_lego(Claw.CLOSED, 0)
     move_servo_lego(Arm.UP)
@@ -93,7 +93,7 @@ def wire_shark():
     drive(0, 100, 0)
     while analog(TOP_HAT) < 1800:  # line follow to turn until black
         pass
-    line_follow_to_ws(3255)
+    dramatic_line_follow(3255)
     stop_motors()
     drive(100, -100, 1000)
     drive(80, -80, 0)
@@ -113,7 +113,7 @@ def ws_to_ddos():
     stop_motors()
     drive(-85, -85, 50)
     move_servo_lego(BackClaw.SUPERDOWN)
-    line_follow_left(6500)
+    line_follow_left(6250)
     drive(-85, 85, 1450)
     drive(-80, 80, 0)
     while analog(TOP_HAT) < 1800:  # line follow to turn until black
@@ -123,7 +123,8 @@ def ws_to_ddos():
         pass
     drive(-65, 65, 210)
     stop_motors()
-    drive(-80, -80, 800)
+    drive(-80, -80, 1200)
+    wait_for_button()
 
     # drive(100, 90, 0)
     # while analog(TOP_HAT) < 1800:  # arc until white to line up for right line follow
@@ -135,3 +136,14 @@ def ws_to_ddos():
     # wait_for_button()
     # drive(0, -100, 1500)
     # line_follow_right_lego1(4500)
+
+
+def ddos_to_analysis():
+    # drive(85, 85, 250)
+    # wait_for_button()
+    # drive(0, 85, 400)
+    # wait_for_button()
+    # drive(85, 85, 250)
+    # wait_for_button()
+    dramatic_line_follow(4000)
+    drive(85, 0, 500)
