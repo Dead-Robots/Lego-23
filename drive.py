@@ -1,7 +1,8 @@
 import time
 
 from constants.ports import LEFT_MOTOR, RIGHT_MOTOR, TOP_HAT
-from kipr import motor_power, msleep, analog, freeze, clear_motor_position_counter, get_motor_position_counter
+from kipr import motor_power, msleep, analog, freeze, clear_motor_position_counter, get_motor_position_counter, \
+    a_button, b_button, c_button
 from common import ROBOT
 
 
@@ -11,7 +12,7 @@ def drive(left_speed, right_speed, duration):
     msleep(duration)
 
 
-def drive_straight(duration, direction=1):         # direction is 1 for forward or -1 for reverse defaults to 1
+def drive_straight(duration, direction=1):  # direction is 1 for forward or -1 for reverse defaults to 1
     if ROBOT.is_yellow:
         drive(direction * 100, direction * 97, duration)
     if ROBOT.is_blue:
@@ -142,3 +143,19 @@ def stop_motors():
     freeze(LEFT_MOTOR)
     freeze(RIGHT_MOTOR)
     msleep(500)
+
+
+def straight_timed_slow(duration):
+    offset = ROBOT.load("slow") or 0
+    print("Driving at speed 45 with offset", offset)
+    motor_power(LEFT_MOTOR, 45)
+    motor_power(RIGHT_MOTOR, 45 + offset)
+    msleep(duration)
+
+
+def straight_timed_fast(duration):
+    offset = ROBOT.load("fast") or 0
+    print("Driving at speed 90 with offset", offset)
+    motor_power(LEFT_MOTOR, 90)
+    motor_power(RIGHT_MOTOR, 90 + offset)
+    msleep(duration)
