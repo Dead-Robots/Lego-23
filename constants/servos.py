@@ -5,7 +5,12 @@ from constants.ports import *
 
 # Red (other than BackClaw) and Blue have tested values
 class Arm(ServoEnum):
-    port = ARM
+    port = ROBOT.choose(
+        red=3,
+        blue=ARM,
+        yellow=ARM,
+        green=ARM
+    )
 
     DOWN = ROBOT.choose(
         red=1800,
@@ -35,26 +40,33 @@ class Arm(ServoEnum):
         green=350
     )
 
+    NOODLE = ROBOT.choose(
+        red=1300,
+        blue=1700,
+        yellow=1030,
+        green=1300
+    )
+
 
 class Claw(ServoEnum):
     port = CLAW
 
     OPEN = ROBOT.choose(
-        red=600,
+        red=000,
         blue=650,
         yellow=300,
         green=200
     )
 
     CLOSED = ROBOT.choose(
-        red=1230,
+        red=900,
         blue=1450,
         yellow=1000,
         green=1000
     )
 
     GRAB = ROBOT.choose(
-        red=1700,
+        red=1000,
         blue=1870,
         yellow=1500,
         green=1000

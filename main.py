@@ -1,6 +1,7 @@
 #!/usr/local/bin/python3.10 -u
+from kipr import enable_servos
 
-from actions import init, shut_down, get_botgal, deliver_botgal, wire_shark, ws_to_ddos, ddos_to_analysis
+from actions import init, shut_down, get_botgal, deliver_botgal, wire_shark, ws_to_ddos, ddos_to_analysis, knock_over_rings, get_noodle_one
 from drive import drive, stop_motors, drive_straight
 from common import ROBOT
 from utilities import wait_for_button
@@ -18,6 +19,8 @@ if __name__ == '__main__':
         wire_shark()
         ws_to_ddos()
         ddos_to_analysis()
+        knock_over_rings()
+        get_noodle_one()
         shut_down()
     elif ROBOT.is_red:
         print("hi I am red start")
@@ -26,6 +29,7 @@ if __name__ == '__main__':
         deliver_botgal()
         wire_shark()
         ws_to_ddos()
+        ddos_to_analysis()
         shut_down()
     elif ROBOT.is_yellow:
         print("hi I am yellow start")
