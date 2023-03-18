@@ -102,10 +102,10 @@ def line_follow_right(duration):
     while x < duration:
         if analog(TOP_HAT) < 1800:  # on white
             x += 10
-            drive(85, 100, 10)
+            drive(65, 100, 10)
         else:  # on black
             x += 10
-            drive(100, 80, 10)
+            drive(100, 62, 10)
 
 
 def dramatic_line_follow(duration):
