@@ -142,20 +142,58 @@ def line_follow_right_lego1(duration, direction=1):
 def stop_motors():
     freeze(LEFT_MOTOR)
     freeze(RIGHT_MOTOR)
-    msleep(500)
 
 
-def straight_timed_slow(duration):
+def straight_timed_slow(duration, stop=True):
     offset = ROBOT.load("slow") or 0
-    print("Driving at speed 45 with offset", offset)
+    # print("Driving at speed 45 with offset", offset)
     motor_power(LEFT_MOTOR, 45)
     motor_power(RIGHT_MOTOR, 45 + offset)
     msleep(duration)
+    if stop:
+        stop_motors()
 
 
-def straight_timed_fast(duration):
+def straight_timed_fast(duration, stop=True):
     offset = ROBOT.load("fast") or 0
-    print("Driving at speed 85 with offset", offset)
+    # print("Driving at speed 85 with offset", offset)
     motor_power(LEFT_MOTOR, 85)
     motor_power(RIGHT_MOTOR, 85 + offset)
     msleep(duration)
+    if stop:
+        stop_motors()
+
+
+def straight_distance_fast(distance):
+    offset = ROBOT.load("fast") or 0
+    ticks = distance * ROBOT.load("inches_to_ticks")
+    if ticks > 0:
+        motor_power(LEFT_MOTOR, 85)
+        motor_power(RIGHT_MOTOR, 85 + offset)
+        clear_motor_position_counter(LEFT_MOTOR)
+        while get_motor_position_counter(LEFT_MOTOR) < ticks:
+            print(get_motor_position_counter(LEFT_MOTOR), ticks, ROBOT.load("inches_to_ticks"))
+        stop_motors()
+    else:
+        print("No backwards capability yet (sorry)")
+    # if ticks < 0:
+    #     motor_power(LEFT_MOTOR, -85)
+    #     motor_power(RIGHT_MOTOR, -85 - offset)
+    #     clear_motor_position_counter(LEFT_MOTOR)
+    #     while get_motor_position_counter(LEFT_MOTOR) > ticks:
+    #         print(get_motor_position_counter(LEFT_MOTOR), ticks, ROBOT.load("inches_to_ticks"))
+    #     stop_motors()
+
+
+def straight_distance_slow(distance):
+    offset = ROBOT.load("slow") or 0
+    ticks = distance * ROBOT.load("inches_to_ticks")
+    if ticks > 0:
+        motor_power(LEFT_MOTOR, 45)
+        motor_power(RIGHT_MOTOR, 45 + offset)
+        clear_motor_position_counter(LEFT_MOTOR)
+        while get_motor_position_counter(LEFT_MOTOR) < ticks:
+            print(get_motor_position_counter(LEFT_MOTOR), ticks, ROBOT.load("inches_to_ticks"))
+        stop_motors()
+    else:
+        print("No backwards capability yet (sorry)")
