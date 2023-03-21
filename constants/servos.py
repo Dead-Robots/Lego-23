@@ -34,7 +34,7 @@ class Arm(ServoEnum):
     )
 
     UP = ROBOT.choose(
-        red=350,
+        red=335,
         blue=750,
         yellow=0,
         green=350
