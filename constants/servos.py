@@ -41,10 +41,17 @@ class Arm(ServoEnum):
     )
 
     NOODLE = ROBOT.choose(
-        red=1300,
-        blue=1700,
-        yellow=1030,
-        green=1300
+        red=1200,
+        blue=1600,
+        yellow=930,
+        green=1200
+    )
+
+    RING = ROBOT.choose(
+        red=1530,
+        blue=1930,
+        yellow=1260,
+        green=1530
     )
 
 
@@ -70,6 +77,14 @@ class Claw(ServoEnum):
         blue=1870,
         yellow=1500,
         green=1000
+    )
+
+    NOODLE_GRAB = ROBOT.choose(
+        red=840
+    )
+
+    NOODLE_OPEN = ROBOT.choose(
+        red=450
     )
 
 

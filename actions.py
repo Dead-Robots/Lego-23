@@ -16,7 +16,7 @@ def init():
     move_servo_lego(BackClaw.UP)
     move_servo_lego(Claw.CLOSED, 0)
     move_servo_lego(Arm.UP)
-    wait_for_button()
+    wait_for_button("push button to start")
     move_servo_lego(Claw.OPEN, 0)
     move_servo_lego(Arm.STRAIGHT)
 
@@ -62,12 +62,15 @@ def deliver_botgal():
     drive(-85, 85, 0)
     while analog(TOP_HAT) < 1800:
         pass
-    line_follow_right(1200)
+    line_follow_right(1000)
     stop_motors()
     move_servo_lego(Arm.DOWN)
-    drive(100, 20, 400)
+    drive_straight(450)
+    drive(100, 20, 500)
     stop_motors()
     move_servo_lego(Claw.OPEN)
+    drive_straight(350, -1)
+    stop_motors()
     move_servo_lego(Arm.STRAIGHT)
 
 
@@ -78,7 +81,7 @@ def deliver_botgal():
 #     drive(1000, 100, 95)
 #     wait_for_button()
 #     line_follow_left(3500)
-#     wait_for_button()
+#     wait_for_button()400
 #     freeze(LEFT_MOTOR)
 #     freeze(RIGHT_MOTOR)
 #     msleep(1000)
@@ -109,16 +112,17 @@ def wire_shark():
     while analog(TOP_HAT) > 1600:  # line follow to turn until white
         pass
     drive(-65, 65, 75)
+    drive_straight(1750, -1)
+    stop_motors()
+    move_servo_lego(BackClaw.DOWN, 5)
 
 
 def ws_to_ddos():
-    drive(-85, -85, 100)
-    move_servo_lego(BackClaw.DOWN)
-    drive(85, 85, 1500)
+    drive_straight(1400)
     # stop_motors()
-    drive(-85, -85, 50)
-    move_servo_lego(BackClaw.SUPERDOWN)
-    line_follow_left(6800)
+    # drive(-85, -85, 50)
+    move_servo_lego(BackClaw.SUPERDOWN, 5)
+    line_follow_left(6400)
     drive(-85, 85, 1450)
     drive(-80, 80, 0)
     while analog(TOP_HAT) < 1800:  # line follow to turn until black
@@ -130,7 +134,7 @@ def ws_to_ddos():
     # stop_motors()
     drive(-80, -80, 1300)
     stop_motors()
-    msleep(10)
+    msleep(5000)
 
     # drive(100, 90, 0)
     # while analog(TOP_HAT) < 1800:  # arc until white to line up for right line follow
@@ -150,7 +154,6 @@ def ddos_to_analysis():
     # drive(0, 85, 400)
     # wait_for_button()
     # drive(85, 85, 250)
-    wait_for_button()
     dramatic_line_follow(1700)
     stop_motors()
     drive(0, 85, 1500)
@@ -160,19 +163,16 @@ def ddos_to_analysis():
 
 
 def knock_over_rings():
-    drive_straight(650)
-    drive(-80, 80, 1800)
+    drive_straight(700)
+    drive(-80, 80, 1850)
     stop_motors()
-    move_servo_lego(Arm.DOWN)
-    drive(100, -100, 600)
-    stop_motors()
-    move_servo_lego(Claw.CLOSED)
-    drive(-100, 100, 500)
+    move_servo_lego(Claw.CLOSED, 0)
+    move_servo_lego(Arm.RING)
+    drive(-100, 100, 450)
     stop_motors()
 
 
 def get_noodle_one():
-    wait_for_button()
     drive(-60, 60, 0)
     while analog(TOP_HAT) < 1800:
         pass

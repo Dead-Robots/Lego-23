@@ -12,7 +12,7 @@ from utilities import wait_for_button
 
 if __name__ == '__main__':
     if ROBOT.is_blue:
-        print("hi I am blue start")
+        print("I am BLUE")
         init()
         get_botgal()
         deliver_botgal()
@@ -23,18 +23,20 @@ if __name__ == '__main__':
         get_noodle_one()
         shut_down()
     elif ROBOT.is_red:
-        print("hi I am red start")
+        print("I am RED")
         init()
         get_botgal()
         deliver_botgal()
         wire_shark()
         ws_to_ddos()
+        # wait_for_button("Waiting for ping pong balls.")
         ddos_to_analysis()
         knock_over_rings()
-        get_noodle_one()
+        # wait_for_button()
+        # get_noodle_one()
         shut_down()
     elif ROBOT.is_yellow:
-        print("hi I am yellow start")
+        print("I am YELLOW")
         init()
         get_botgal()
         # TODO: verify that get_botgal() works with the yellow robot, finish deliver_botgal()
@@ -42,6 +44,6 @@ if __name__ == '__main__':
         # wire_shark()
         shut_down()
     elif ROBOT.is_green:
-        print("hi I am green start")
+        print("I am GREEN")
     else:
         print("robot unidentified")
