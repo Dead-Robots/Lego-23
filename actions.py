@@ -65,7 +65,7 @@ def deliver_botgal():
     line_follow_right(1000)
     stop_motors()
     move_servo_lego(Arm.DOWN)
-    drive_straight(450)
+    drive_straight(200)
     drive(100, 20, 500)
     stop_motors()
     move_servo_lego(Claw.OPEN)
@@ -119,16 +119,16 @@ def wire_shark():
 
 def ws_to_ddos():
     drive_straight(1400)
-    # stop_motors()
-    # drive(-85, -85, 50)
+    stop_motors()
+    drive(-85, -85, 50)
     move_servo_lego(BackClaw.SUPERDOWN, 5)
-    line_follow_left(6400)
+    line_follow_left(6000)
     drive(-85, 85, 1450)
     drive(-80, 80, 0)
-    while analog(TOP_HAT) < 1800:  # line follow to turn until black
+    while analog(TOP_HAT) < 1800:  # line follow turn until black
         pass
     drive(-40, 40, 0)
-    while analog(TOP_HAT) > 1600:  # line follow to turn until white
+    while analog(TOP_HAT) > 1600:  # line follow turn until white
         pass
     drive(-65, 65, 150)
     # stop_motors()
@@ -164,7 +164,9 @@ def ddos_to_analysis():
 
 def knock_over_rings():
     drive_straight(700)
-    drive(-80, 80, 1850)
+    drive(-80, 80, 1550)
+    stop_motors()
+    drive(-85, -85, 50)
     stop_motors()
     move_servo_lego(Claw.CLOSED, 0)
     move_servo_lego(Arm.RING)

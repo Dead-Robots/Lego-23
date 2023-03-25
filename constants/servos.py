@@ -80,11 +80,13 @@ class Claw(ServoEnum):
     )
 
     NOODLE_GRAB = ROBOT.choose(
-        red=840
+        red=840,
+        blue=500
     )
 
     NOODLE_OPEN = ROBOT.choose(
-        red=450
+        red=450,
+        blue=250,
     )
 
 

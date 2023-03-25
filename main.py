@@ -20,7 +20,7 @@ if __name__ == '__main__':
         ws_to_ddos()
         ddos_to_analysis()
         knock_over_rings()
-        get_noodle_one()
+        #get_noodle_one()
         shut_down()
     elif ROBOT.is_red:
         print("I am RED")

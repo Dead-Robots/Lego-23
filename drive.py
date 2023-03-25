@@ -48,7 +48,7 @@ def line_follow(duration):
             if ROBOT.is_yellow:
                 drive(100, 80, 10)
             elif ROBOT.is_blue:
-                drive(100, 85, 10)
+                drive(100, 75, 10)
             elif ROBOT.is_red:
                 drive(100, 80, 10)
             elif ROBOT.is_green:
