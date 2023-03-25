@@ -18,7 +18,7 @@ def drive_straight(duration, direction=1):  # direction is 1 for forward or -1 f
     if ROBOT.is_blue:
         drive(direction * 95, direction * 100, duration)
     if ROBOT.is_red:
-        drive(direction * 100, direction * 100, duration)
+        drive(direction * 100, direction * 95, duration)
     if ROBOT.is_green:
         drive(direction * 100, direction * 100, duration)
 

@@ -5,12 +5,19 @@ from actions import init, shut_down, get_botgal, deliver_botgal, wire_shark, ws_
 from drive import drive, stop_motors, drive_straight
 from common import ROBOT
 from utilities import wait_for_button
+from calibrate import *
 
 # TODO: hardware needs to fix blue claw, can't grab botgal. deliver ws to analysis lab, figure out spacing with other
 #  objects
 
 
 if __name__ == '__main__':
+    # run_calibration()
+    # straight_distance_fast(3 * 12)
+    # wait_for_button()
+    # straight_distance_slow(3 * 12)
+    # print("done!")
+
     if ROBOT.is_blue:
         print("I am BLUE")
         init()
