@@ -50,7 +50,5 @@ if __name__ == '__main__':
         deliver_botgal()
         # wire_shark()
         shut_down()
-    elif ROBOT.is_green:
-        print("I am GREEN")
     else:
         print("robot unidentified")

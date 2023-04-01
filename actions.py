@@ -49,297 +49,179 @@ def shut_down():
 
 
 def get_botgal():
-    line_follow(2750)  # go to botgal
-    if ROBOT.is_red:
-        drive_straight(420)
-    elif ROBOT.is_blue:
-        drive_straight(420)
-    elif ROBOT.is_yellow:
-        drive_straight(420)
-    elif ROBOT.is_green:
-        drive_straight(420)
-    else:
-        print("ROBOT UNIDENTIFIED")
+    # goes to botgal
+    line_follow(2750)
+    ROBOT.run(drive_straight, red=420)
+    ROBOT.run(drive_straight, blue=420)
+    ROBOT.run(drive_straight, yellow=420)
     stop_motors()
-    if ROBOT.is_red:
-        drive_straight(200, -1)
-    elif ROBOT.is_blue:
-        drive_straight(200, -1)
-    elif ROBOT.is_yellow:
-        drive_straight(200, -1)
-    elif ROBOT.is_green:
-        drive_straight(200, -1)
-    else:
-        print("ROBOT UNIDENTIFIED")
+    # backs up to prepare for grab
+    ROBOT.run(drive_straight, red=(200, -1))
+    ROBOT.run(drive_straight, blue=(200, -1))
+    ROBOT.run(drive_straight, yellow=(200, -1))
     stop_motors()
+    # grabs and lifts botgal
     move_servo_lego(Arm.GRAB, 4)
     move_servo_lego(Claw.GRAB, 4)
     move_servo_lego(Arm.UP, 20)
 
 
 def deliver_botgal():
-
-    if ROBOT.is_red:
-        drive_straight(600, -1)
-    elif ROBOT.is_blue:
-        drive_straight(600, -1)
-    elif ROBOT.is_yellow:
-        drive_straight(600, -1)
-    elif ROBOT.is_green:
-        drive_straight(600, -1)
-    else:
-        print("ROBOT UNIDENTIFIED")
-
-    if ROBOT.is_red:
-        drive(0, 100, 2000)
-    elif ROBOT.is_blue:
-        drive(0, 100, 2000)
-    elif ROBOT.is_yellow:
-        drive(0, 100, 2000)
-    elif ROBOT.is_green:
-        drive(0, 100, 2000)
-    else:
-        print("ROBOT UNIDENTIFIED")
-
+    # backs up to make space for turn
+    ROBOT.run(drive_straight, red=(600, -1))
+    ROBOT.run(drive_straight, blue=(600, -1))
+    ROBOT.run(drive_straight, yellow=(600, -1))
+    # turns left past black line
+    ROBOT.run(drive, red=(0, 100, 2000))
+    ROBOT.run(drive, blue=(0, 100, 2000))
+    ROBOT.run(drive, yellow=(0, 100, 2000))
+    # turns left to next black line
     drive(-85, 85, 0)
     while analog(TOP_HAT) < 1800:
         pass
-
-    line_follow_right(
-        ROBOT.choose(
-            red=1000,
-            blue=1000,
-            yellow=1000,
-            green=1000
-        )
-    )
-
+    # line follows to botgal delivery zone
+    ROBOT.run(line_follow_right, red=1000)
+    ROBOT.run(line_follow_right, blue=1000)
+    ROBOT.run(line_follow_right, yellow=1000)
     stop_motors()
-
+    # lowers arm early to avoid hitting green pool noodles
     move_servo_lego(Arm.DOWN, 4)
-    if ROBOT.is_red:
-        drive_straight(470)
-    elif ROBOT.is_blue:
-        drive_straight(470)
-    elif ROBOT.is_yellow:
-        drive_straight(470)
-    elif ROBOT.is_green:
-        drive_straight(470)
-    else:
-        print("ROBOT UNIDENTIFIED")
-
-    drive(100, 10, ROBOT.choose(
-            red=525,
-            blue=525,
-            yellow=525,
-            green=525
-        )
-    )
-
+    # drives straight to get botgal in line with the delivery zone
+    ROBOT.run(drive_straight, red=470)
+    ROBOT.run(drive_straight, blue=470)
+    ROBOT.run(drive_straight, yellow=470)
+    # arcs right to move botgal away from black line
+    ROBOT.run(drive, red=(100, 10, 525))
+    ROBOT.run(drive, blue=(100, 10, 525))
+    ROBOT.run(drive, yellow=(100, 10, 525))
     stop_motors()
+    # releases botgal
     move_servo_lego(Claw.OPEN, 2)
-
-    if ROBOT.is_red:
-        drive_straight(350, -1)
-    elif ROBOT.is_blue:
-        drive_straight(350, -1)
-    elif ROBOT.is_yellow:
-        drive_straight(350, -1)
-    elif ROBOT.is_green:
-        drive_straight(350, -1)
-    else:
-        print("ROBOT UNIDENTIFIED")
-
+    # backs away from botgal to make room for lifting arm
+    ROBOT.run(drive_straight, red=(350, -1))
+    ROBOT.run(drive_straight, blue=(350, -1))
+    ROBOT.run(drive_straight, yellow=(350, -1))
     stop_motors()
+    # lifts arm and closes claw to help get out of Create's path
     move_servo_lego(Arm.STRAIGHT, 4)
     move_servo_lego(Arm.UP, 5)
     move_servo_lego(Claw.CLOSED, 0)
 
 
 def wire_shark():
-
-    drive(-30, 100, ROBOT.choose(
-            red=800,
-            blue=800,
-            yellow=800,
-            green=800
-        )
-    )
-
-    # stop_motors()
+    # turns past black line
+    ROBOT.run(drive, red=(-30, 100, 800))
+    ROBOT.run(drive, blue=(-30, 100, 800))
+    ROBOT.run(drive, yellow=(-30, 100, 800))
+    # turns until next black line to prepare for line follow
     drive(0, 100, 0)
-    while analog(TOP_HAT) < 1800:  # line follow to turn until black
+    while analog(TOP_HAT) < 1800:
         pass
-
-    dramatic_line_follow(
-        ROBOT.choose(
-            red=3650,
-            blue=3650,
-            yellow=3650,
-            green=3650
-        )
-    )
-    # stop_motors()
-    drive(100, -100, ROBOT.choose(
-            red=1000,
-            blue=1000,
-            yellow=1000,
-            green=1000
-        )
-    )
+    # line follows to wireshark
+    ROBOT.run(dramatic_line_follow, red=3650)
+    ROBOT.run(dramatic_line_follow, blue=3650)
+    ROBOT.run(dramatic_line_follow, yellow=3650)
+    # turns right past black line
+    ROBOT.run(drive, red=(100, -100, 1000))
+    ROBOT.run(drive, blue=(100, -100, 1000))
+    ROBOT.run(drive, yellow=(100, -100, 1000))
+    # turns until next black line
     drive(80, -80, 0)
-    while analog(TOP_HAT) < 1800:  # line follow to turn until black
+    while analog(TOP_HAT) < 1800:
         pass
-    # stop_motors()
-    drive(-80, 80, 0)
-    while analog(TOP_HAT) > 1600:  # line follow to turn until white
+    # turns back until white
+    drive(-40, 40, 0)
+    while analog(TOP_HAT) > 1600:
         pass
-    drive(-65, 65, ROBOT.choose(
-            red=40,
-            blue=40,
-            yellow=40,
-            green=40
-        )
-    )
-    if ROBOT.is_red:
-        drive_straight(1250, -1)
-    elif ROBOT.is_blue:
-        drive_straight(1250, -1)
-    elif ROBOT.is_yellow:
-        drive_straight(1250, -1)
-    elif ROBOT.is_green:
-        drive_straight(1250, -1)
-    else:
-        print("ROBOT UNIDENTIFIED")
+    # turns left slightly to line up correctly with wireshark
+    ROBOT.run(drive, red=(-65, 65, 40))
+    ROBOT.run(drive, blue=(-65, 65, 40))
+    ROBOT.run(drive, yellow=(-65, 65, 40))
+    # backs up to wireshark
+    ROBOT.run(drive_straight, red=(1250, -1))
+    ROBOT.run(drive_straight, blue=(1250, -1))
+    ROBOT.run(drive_straight, yellow=(1250, -1))
     stop_motors()
+    # grabs wireshark
     move_servo_lego(BackClaw.DOWN, 5)
     move_servo_lego(Claw.OPEN)
 
 
 def ws_to_ddos():
-    if ROBOT.is_red:
-        drive_straight(1400)
-    elif ROBOT.is_blue:
-        drive_straight(1400)
-    elif ROBOT.is_yellow:
-        drive_straight(1400)
-    elif ROBOT.is_green:
-        drive_straight(1400)
-    else:
-        print("ROBOT UNIDENTIFIED")
-    # stop_motors()
-    drive(-85, -85, ROBOT.choose(
-            red=10,
-            blue=10,
-            yellow=10,
-            green=10
-        )
-    )
+    # begins moving to ddos with wireshark
+    ROBOT.run(drive_straight, red=1390)
+    ROBOT.run(drive_straight, blue=1390)
+    ROBOT.run(drive_straight, yellow=1390)
+    # moves backclaw farther down to more securely grab wireshark
     move_servo_lego(BackClaw.SUPERDOWN, 2)
-    line_follow_left(ROBOT.choose(
-            red=6000,
-            blue=6000,
-            yellow=6000,
-            green=6000
-        )
-    )
-    drive(-85, 85, ROBOT.choose(
-            red=1450,
-            blue=1450,
-            yellow=1450,
-            green=1450
-        )
-    )
+    # line follow to ddos
+    ROBOT.run(line_follow_left, red=6400)
+    ROBOT.run(line_follow_left, blue=6400)
+    ROBOT.run(line_follow_left, yellow=6400)
+    # turns left past black line
+    ROBOT.run(drive, red=(-85, 85, 1450))
+    ROBOT.run(drive, blue=(-85, 85, 1450))
+    ROBOT.run(drive, yellow=(-85, 85, 1450))
+    # turns until next black line
     drive(-80, 80, 0)
-    while analog(TOP_HAT) < 1800:  # line follow to turn until black
+    while analog(TOP_HAT) < 1800:
         pass
+    # turns until the end of the black line
     drive(-40, 40, 0)
-    while analog(TOP_HAT) > 1600:  # line follow to turn until white
+    while analog(TOP_HAT) > 1600:
         pass
     stop_motors()
-    drive(-65, 65, ROBOT.choose(
-            red=100,
-            blue=100,
-            yellow=100,
-            green=100
-        )
-    )
-    # stop_motors()
-    if ROBOT.is_red:
-        drive_straight(780, -1)
-    elif ROBOT.is_blue:
-        drive_straight(780, -1)
-    elif ROBOT.is_yellow:
-        drive_straight(780, -1)
-    elif ROBOT.is_green:
-        drive_straight(780, -1)
-    else:
-        print("ROBOT UNIDENTIFIED")
+    # turns left to line up with ddos
+    ROBOT.run(drive, red=(-65, 65, 100))
+    ROBOT.run(drive, blue=(-65, 65, 100))
+    ROBOT.run(drive, yellow=(-65, 65, 100))
+    # backs up to position wireshark under ddos
+    ROBOT.run(drive_straight, red=(780, -1))
+    ROBOT.run(drive_straight, blue=(780, -1))
+    ROBOT.run(drive_straight, yellow=(780, -1))
     stop_motors()
-    msleep(ROBOT.choose(
-            red=5000,
-            blue=5000,
-            yellow=5000,
-            green=5000
-        )
-    )
+    # waits for ddos to release ping pong balls at 60s
+    ROBOT.run(msleep, red=5000)
+    ROBOT.run(msleep, blue=5000)
+    ROBOT.run(msleep, yellow=5000)
 
 
 def ddos_to_analysis():
-    dramatic_line_follow(ROBOT.choose(
-            red=1400,
-            blue=1400,
-            yellow=1400,
-            green=1400
-        )
-    )
+    # line follows to line up with delivery zone
+    ROBOT.run(dramatic_line_follow, red=1800)
+    ROBOT.run(dramatic_line_follow, blue=1800)
+    ROBOT.run(dramatic_line_follow, yellow=1800)
     stop_motors()
-    drive(0, 85, ROBOT.choose(
-            red=1500,
-            blue=1500,
-            yellow=1500,
-            green=1500
-        )
-    )
-    drive(-85, -85, ROBOT.choose(
-            red=900,
-            blue=900,
-            yellow=900,
-            green=900
-        )
-    )
+    # turns left to line up with delivery zone
+    ROBOT.run(drive, red=(0, 85, 1500))
+    ROBOT.run(drive, blue=(0, 85, 1500))
+    ROBOT.run(drive, yellow=(0, 85, 1500))
+    # backs up to put wireshark in delivery zone
+    ROBOT.run(drive_straight, red=(850, -1))
+    ROBOT.run(drive_straight, blue=(850, -1))
+    ROBOT.run(drive_straight, yellow=(850, -1))
     stop_motors()
+    # releases wireshark
     move_servo_lego(BackClaw.UP)
 
 
 def knock_over_rings():
-    if ROBOT.is_red:
-        drive_straight(800)
-    elif ROBOT.is_blue:
-        drive_straight(800)
-    elif ROBOT.is_yellow:
-        drive_straight(800)
-    elif ROBOT.is_green:
-        drive_straight(800)
-    else:
-        print("ROBOT UNIDENTIFIED")
-    drive(-80, 80, ROBOT.choose(
-            red=1650,
-            blue=1650,
-            yellow=1650,
-            green=1650
-        )
-    )
+    # moves away from rings to space the claw correctly
+    ROBOT.run(drive_straight, red=800)
+    ROBOT.run(drive_straight, blue=800)
+    ROBOT.run(drive_straight, yellow=800)
+    # turns right to prepare to knock over rings
+    ROBOT.run(drive, red=(-80, 80, 1650))
+    ROBOT.run(drive, blue=(-80, 80, 1650))
+    ROBOT.run(drive, yellow=(-80, 80, 1650))
     stop_motors()
+    # closes the claw and lowers the arm to prepare to knock over rings
     move_servo_lego(Claw.CLOSED, 0)
-    move_servo_lego(Arm.RING)
-    drive(-100, 100, ROBOT.choose(
-            red=450,
-            blue=450,
-            yellow=450,
-            green=450
-        )
-    )
+    move_servo_lego(Arm.RING, 4)
+    # turns quickly to knock over rings
+    ROBOT.run(drive, red=(-100, 100, 450))
+    ROBOT.run(drive, blue=(-100, 100, 450))
+    ROBOT.run(drive, yellow=(-100, 100, 450))
     stop_motors()
 
 
@@ -349,11 +231,7 @@ def get_noodle_one():
         pass
     stop_motors()
     wait_for_button()
-    drive(-80, 80, ROBOT.choose(
-            red=1400,
-            blue=1400,
-            yellow=1400,
-            green=1400
-        )
-    )
+    ROBOT.run(drive, red=(-80, 80, 1400))
+    ROBOT.run(drive, blue=(-80, 80, 1400))
+    ROBOT.run(drive, yellow=(-80, 80, 1400))
     stop_motors()

@@ -19,8 +19,6 @@ def drive_straight(duration, direction=1):  # direction is 1 for forward or -1 f
         drive(direction * 95, direction * 100, duration)
     if ROBOT.is_red:
         drive(direction * 100, direction * 95, duration)
-    if ROBOT.is_green:
-        drive(direction * 100, direction * 100, duration)
 
 
 def line_follow(duration):
@@ -39,8 +37,6 @@ def line_follow(duration):
                 drive(80, 100, 10)
             elif ROBOT.is_red:
                 drive(80, 100, 10)
-            elif ROBOT.is_green:
-                drive(80, 100, 10)
             else:
                 print("Robot unidentified in line-follow")
         else:  # on black
@@ -50,8 +46,6 @@ def line_follow(duration):
             elif ROBOT.is_blue:
                 drive(100, 85, 10)
             elif ROBOT.is_red:
-                drive(100, 80, 10)
-            elif ROBOT.is_green:
                 drive(100, 80, 10)
             else:
                 print("Robot unidentified in line-follow")
