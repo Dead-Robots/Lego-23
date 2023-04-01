@@ -37,7 +37,7 @@ def power_on_self_test():
     move_servo_lego(Arm.STRAIGHT, 4)
     move_servo_lego(Arm.UP, 5)
     move_servo_lego(Claw.GRAB, 0)
-    move_servo_lego(BackClaw.DOWN, 5)
+    move_servo_lego(BackClaw.SUPERDOWN, 5)
     move_servo_lego(BackClaw.UP, 5)
     stop_motors()
 
@@ -114,19 +114,20 @@ def wire_shark():
     while analog(TOP_HAT) > 1600:
         pass
     # turns left slightly to line up correctly with wireshark
-    drive(-65, 65, ROBOT.choose(red=40, blue=40, yellow=40))
+    drive(-65, 65, ROBOT.choose(red=40, blue=20, yellow=40))
     # backs up to wireshark
     drive_straight(ROBOT.choose(red=1250, blue=1250, yellow=1250), -1)
     stop_motors()
     # grabs wireshark
-    move_servo_lego(BackClaw.DOWN, 5)
-    move_servo_lego(Claw.OPEN)
+    move_servo_lego(BackClaw.DOWN, 2)
+    move_servo_lego(Claw.OPEN, 0)
 
 
 def ws_to_ddos():
     # begins moving to ddos with wireshark
     drive_straight(ROBOT.choose(red=1390, blue=1390, yellow=1390))
     # moves backclaw farther down to more securely grab wireshark
+    drive_straight(ROBOT.choose(red=10, blue=10, yellow=10), -1)
     move_servo_lego(BackClaw.SUPERDOWN, 2)
     # line follow to ddos
     line_follow_left(ROBOT.choose(red=6400, blue=6400, yellow=6400))
@@ -142,7 +143,7 @@ def ws_to_ddos():
         pass
     stop_motors()
     # turns left to line up with ddos
-    drive(-65, 65, ROBOT.choose(red=100, blue=100, yellow=100))
+    drive(-65, 65, ROBOT.choose(red=100, blue=0, yellow=100))
     # backs up to position wireshark under ddos
     drive_straight(ROBOT.choose(red=780, blue=780, yellow=780), -1)
     stop_motors()
@@ -173,7 +174,7 @@ def knock_over_rings():
     move_servo_lego(Claw.CLOSED, 0)
     move_servo_lego(Arm.RING, 4)
     # turns quickly to knock over rings
-    #   drive(-100, 100, ROBOT.choose(450))  # fix this !!!!!!!!!!!!!!!!!!!!!!
+    drive(-100, 100, ROBOT.choose(red=450, blue=450, yellow=450))
     stop_motors()
 
 
