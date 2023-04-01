@@ -55,6 +55,7 @@ def get_botgal():
     stop_motors()
     # backs up to prepare for grab
     drive_straight(ROBOT.choose(red=200, blue=200, yellow=200), -1)
+
     stop_motors()
     # grabs and lifts botgal
     move_servo_lego(Arm.GRAB, 4)
@@ -67,6 +68,7 @@ def deliver_botgal():
     drive_straight(ROBOT.choose(red=600, blue=600, yellow=600), -1)
     # turns left past black line
     drive(0, 100, ROBOT.choose(red=2000, blue=2000, yellow=2000))
+
     # turns left to next black line
     drive(-85, 85, 0)
     while analog(TOP_HAT) < 1800:
@@ -171,7 +173,7 @@ def knock_over_rings():
     move_servo_lego(Claw.CLOSED, 0)
     move_servo_lego(Arm.RING, 4)
     # turns quickly to knock over rings
-    drive(-100, 100, ROBOT.choose(450))
+    #   drive(-100, 100, ROBOT.choose(450))  # fix this !!!!!!!!!!!!!!!!!!!!!!
     stop_motors()
 
 
