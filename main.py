@@ -1,17 +1,15 @@
 #!/usr/local/bin/python3.10 -u
 from kipr import enable_servos
 
-from actions import init, shut_down, get_botgal, deliver_botgal, wire_shark, ws_to_ddos, ddos_to_analysis, knock_over_rings, get_noodle_one
-from drive import drive, stop_motors, drive_straight
+from actions import init, shut_down, get_botgal, deliver_botgal, wire_shark, ws_to_ddos, ddos_to_analysis, \
+    knock_over_rings, get_noodle_one
 from common import ROBOT
-from utilities import wait_for_button
+from utilities import wait_for_button, debug
 from calibrate import *
-
-# TODO: hardware needs to fix blue claw, can't grab botgal. deliver ws to analysis lab, figure out spacing with other
-#  objects
 
 
 if __name__ == '__main__':
+    # drive calibration code:
     # run_calibration()
     # straight_distance_fast(3 * 12)
     # wait_for_button()
@@ -20,35 +18,26 @@ if __name__ == '__main__':
 
     if ROBOT.is_blue:
         print("I am BLUE")
-        init()
-        get_botgal()
-        deliver_botgal()
-        wire_shark()
-        ws_to_ddos()
-        ddos_to_analysis()
-        knock_over_rings()
-        get_noodle_one()
-        shut_down()
     elif ROBOT.is_red:
         print("I am RED")
-        init()
-        get_botgal()
-        deliver_botgal()
-        wire_shark()
-        ws_to_ddos()
-        # wait_for_button("Waiting for ping pong balls.")
-        ddos_to_analysis()
-        knock_over_rings()
-        # wait_for_button()
-        # get_noodle_one()
-        shut_down()
-    elif ROBOT.is_yellow:
+    elif ROBOT.is_yellow:  # not tested
         print("I am YELLOW")
-        init()
-        get_botgal()
-        # TODO: verify that get_botgal() works with the yellow robot, finish deliver_botgal()
-        deliver_botgal()
-        # wire_shark()
-        shut_down()
+        print("Not tested. Set servo values")
+        debug()
     else:
-        print("robot unidentified")
+        print("Help! I'm having an identity crisis (robot unidentified)")
+        debug()
+    init()
+    get_botgal()
+    deliver_botgal()
+    wait_for_button()
+    wire_shark()
+    wait_for_button()
+    ws_to_ddos()
+    wait_for_button()
+    ddos_to_analysis()
+    wait_for_button()
+    knock_over_rings()
+    wait_for_button()
+    get_noodle_one()
+    shut_down()

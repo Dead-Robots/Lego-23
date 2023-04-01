@@ -13,13 +13,13 @@ class Arm(ServoEnum):
 
     DOWN = ROBOT.choose(
         red=1800,
-        blue=2000,
+        blue=2040,
         yellow=1500
     )
 
     GRAB = ROBOT.choose(
         red=700,
-        blue=1075,
+        blue=1100,
         yellow=400
     )
 
@@ -31,7 +31,7 @@ class Arm(ServoEnum):
 
     UP = ROBOT.choose(
         red=335,
-        blue=750,
+        blue=680,
         yellow=0
     )
 
@@ -53,32 +53,36 @@ class Claw(ServoEnum):
 
     OPEN = ROBOT.choose(
         red=000,
-        blue=650,
+        blue=430,
         yellow=300
     )
 
     CLOSED = ROBOT.choose(
         red=900,
-        blue=1450,
+        blue=1330,
         yellow=1000
     )
 
     GRAB = ROBOT.choose(
         red=1000,
-        blue=1870,
+        blue=1430,
         yellow=1500
     )
 
     NOODLE_GRAB = ROBOT.choose(
-        red=840
+        red=840,
+        blue=1270,
+        yellow=840
     )
 
     NOODLE_OPEN = ROBOT.choose(
-        red=450
+        red=450,
+        blue=880,
+        yellow=450
     )
 
 
-# only setup for blue
+# only setup for blue, red
 class BackClaw(ServoEnum):
     port = BACK_CLAW
 
@@ -90,12 +94,12 @@ class BackClaw(ServoEnum):
 
     DOWN = ROBOT.choose(
         red=1600,
-        blue=1050,
+        blue=980,
         yellow=1650
     )
 
     SUPERDOWN = ROBOT.choose(
         red=1900,
-        blue=1250,
+        blue=1290,
         yellow=1850
     )
