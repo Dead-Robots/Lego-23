@@ -1,9 +1,9 @@
 import time
 
 from constants.ports import LEFT_MOTOR, RIGHT_MOTOR, TOP_HAT
-from kipr import motor_power, msleep, analog, freeze, clear_motor_position_counter, get_motor_position_counter, \
-    a_button, b_button, c_button
+from kipr import motor_power, msleep, analog, clear_motor_position_counter, get_motor_position_counter
 from common import ROBOT
+from utilities import stop_motors
 
 
 def drive(left_speed, right_speed, duration):
@@ -12,20 +12,24 @@ def drive(left_speed, right_speed, duration):
     msleep(duration)
 
 
-def drive_straight(duration, direction=1):  # direction is 1 for forward or -1 for reverse defaults to 1
+def drive_straight(duration, direction=1):
+    """
+    following right side of black line
+    :param duration: time in ms
+    :param direction: 1 for forward or -1 for reverse, defaults to forward
+    """
     if ROBOT.is_yellow:
-        drive(direction * 100, direction * 97, duration)
+        drive(direction * 100, direction * 96, duration)
     if ROBOT.is_blue:
-        drive(direction * 95, direction * 100, duration)
+        drive(direction * 98, direction * 100, duration)
     if ROBOT.is_red:
-        drive(direction * 100, direction * 95, duration)
+        drive(direction * 100, direction * 92, duration)
 
 
 def line_follow(duration):
     """
     following right side of black line
     :param duration: time in ms
-    :redrive:
     """
     x = 0
     while x < duration:
@@ -55,7 +59,6 @@ def line_follow_left(duration):
     """
     following left side of black line
     :param duration: time in ms
-    :redrive:
     """
 
     x = 0
@@ -72,7 +75,6 @@ def line_follow_to_ddos(duration):  # less aggressive
     """
     following left side of black line
     :param duration: time in ms
-    :redrive:
     """
 
     x = 0
@@ -89,7 +91,6 @@ def line_follow_right(duration):
     """
     following right side of black line
     :param duration: time in ms
-    :redrive:
     """
 
     x = 0
@@ -131,11 +132,6 @@ def line_follow_right_lego1(duration, direction=1):
             drive(0, *([direction * 40, direction * 90][::direction]))
         else:
             drive(0, direction * 85, direction * 85)
-
-
-def stop_motors():
-    freeze(LEFT_MOTOR)
-    freeze(RIGHT_MOTOR)
 
 
 def straight_timed_slow(duration, stop=True):

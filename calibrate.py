@@ -4,8 +4,8 @@ from kipr import b_button, freeze, c_button, a_button, get_motor_position_counte
 
 from common import ROBOT
 from constants.ports import LEFT_MOTOR, RIGHT_MOTOR
-from drive import drive, straight_timed_fast, stop_motors, straight_distance_fast, straight_distance_slow
-from utilities import wait_for_button
+from drive import drive, straight_timed_fast, straight_distance_fast, straight_distance_slow
+from utilities import wait_for_button, stop_motors
 
 
 # Press the green button in the gutter to run the script.
