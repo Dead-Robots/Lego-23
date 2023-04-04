@@ -2,10 +2,12 @@ import time
 from kipr import msleep, enable_servos, set_servo_position, analog, freeze, \
     get_servo_position, disable_servos, disable_servo, \
     enable_servo
+
+from calibrate import choose_to_calibrate
 from drive import drive, line_follow, line_follow_left, drive_straight, line_follow_right_lego1,\
     dramatic_line_follow, line_follow_right
 from servo import move_servo_lego
-from utilities import wait_for_button, stop_motors
+from utilities import wait_for_button, stop_motors, debug
 from constants.ports import TOP_HAT, LEFT_MOTOR, RIGHT_MOTOR
 from constants.servos import BackClaw, Claw, Arm
 from common import ROBOT
@@ -14,6 +16,8 @@ from common import ROBOT
 def init():
     enable_servos()
     power_on_self_test()
+    choose_to_calibrate()
+    debug()
     move_servo_lego(BackClaw.UP)
     move_servo_lego(Claw.CLOSED, 0)
     move_servo_lego(Arm.UP)

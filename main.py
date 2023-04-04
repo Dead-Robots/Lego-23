@@ -23,7 +23,6 @@ if __name__ == '__main__':
     elif ROBOT.is_yellow:  # not tested
         print("I am YELLOW")
         print("Not tested. Set servo values")
-        debug()
     else:
         print("Help! I'm having an identity crisis (robot unidentified)")
         debug()
