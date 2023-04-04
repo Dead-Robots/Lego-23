@@ -94,12 +94,12 @@ class BackClaw(ServoEnum):
 
     DOWN = ROBOT.choose(
         red=1600,
-        blue=980,
+        blue=850,
         yellow=1650
     )
 
     SUPERDOWN = ROBOT.choose(
         red=1900,
-        blue=1290,
+        blue=1200,
         yellow=1850
     )

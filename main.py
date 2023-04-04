@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3.10 -u
 from kipr import enable_servos
 
-from actions import init, shut_down, get_botgal, deliver_botgal, wire_shark, ws_to_ddos, ddos_to_analysis, \
+from actions import init, shut_down, get_botgal, deliver_botgal, get_wire_shark, ws_to_ddos, ddos_to_analysis, \
     knock_over_rings, get_noodle_one
 from common import ROBOT
 from utilities import wait_for_button, debug
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     init()
     get_botgal()
     deliver_botgal()
-    wire_shark()
+    get_wire_shark()
     ws_to_ddos()
     ddos_to_analysis()
     knock_over_rings()
