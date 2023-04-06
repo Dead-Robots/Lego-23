@@ -12,7 +12,7 @@ class Arm(ServoEnum):
     )
 
     DOWN = ROBOT.choose(
-        red=1800,
+        red=1775,
         blue=2040,
         yellow=1500
     )
@@ -87,7 +87,7 @@ class BackClaw(ServoEnum):
     port = BACK_CLAW
 
     UP = ROBOT.choose(
-        red=700,
+        red=630,
         blue=160,
         yellow=750
     )

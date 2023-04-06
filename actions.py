@@ -17,7 +17,7 @@ def init():
     enable_servos()
     power_on_self_test()
     choose_to_calibrate()
-    debug()
+    # debug()
     move_servo_lego(BackClaw.UP)
     move_servo_lego(Claw.CLOSED, 0)
     move_servo_lego(Arm.UP)
@@ -120,7 +120,7 @@ def get_wire_shark():
     # turns left slightly to line up correctly with wireshark
     drive(-65, 65, ROBOT.choose(red=40, blue=150, yellow=40))
     # backs up to wireshark
-    drive_straight(ROBOT.choose(red=1250, blue=950, yellow=1250), -1)
+    drive_straight(ROBOT.choose(red=1250, blue=860, yellow=1250), -1)
     stop_motors()
     drive_straight(ROBOT.choose(red=0, blue=20, yellow=0))
     stop_motors()
@@ -136,8 +136,10 @@ def ws_to_ddos():
     # begins moving to ddos with wireshark
     drive_straight(ROBOT.choose(red=390, blue=390, yellow=390))
     # moves backclaw farther down to more securely grab wireshark
-    drive_straight(ROBOT.choose(red=20, blue=20, yellow=20), -1)
+    drive_straight(ROBOT.choose(red=100, blue=100, yellow=100), -1)
     move_servo_lego(BackClaw.SUPERDOWN, 0)
+    enable_servo(BackClaw.port)
+    drive_straight(ROBOT.choose(red=100, blue=100, yellow=100), -1)
     # line follow to ddos
     line_follow_left(ROBOT.choose(red=7500, blue=6500, yellow=7500))
     # turns left past black line
@@ -154,7 +156,7 @@ def ws_to_ddos():
     drive(-65, 65, ROBOT.choose(red=100, blue=150, yellow=100))
     stop_motors()
     # backs up to position wireshark under ddos
-    drive_straight(ROBOT.choose(red=780, blue=650, yellow=780), -1)
+    drive_straight(ROBOT.choose(red=780, blue=800, yellow=780), -1)
     stop_motors()
     # waits for ddos to release ping pong balls at 60s
     msleep(ROBOT.choose(red=5000, blue=5000, yellow=5000))
@@ -162,7 +164,7 @@ def ws_to_ddos():
 
 def ddos_to_analysis():
     # line follows to line up with delivery zone
-    dramatic_line_follow(ROBOT.choose(red=1500, blue=1300, yellow=1800))
+    dramatic_line_follow(ROBOT.choose(red=1500, blue=1250, yellow=1800))
     stop_motors()
     # turns left to line up with delivery zone
     drive(0, 85, ROBOT.choose(red=1500, blue=1500, yellow=1500))
