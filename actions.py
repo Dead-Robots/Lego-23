@@ -17,13 +17,10 @@ def init():
     enable_servos()
     power_on_self_test()
     choose_to_calibrate()
-    # debug()
     move_servo_lego(BackClaw.UP)
     move_servo_lego(Claw.CLOSED, 0)
     move_servo_lego(Arm.UP)
     wait_for_button("push button to start")
-    move_servo_lego(Claw.OPEN, 0)
-    move_servo_lego(Arm.STRAIGHT)
 
 
 def power_on_self_test():
@@ -54,13 +51,15 @@ def shut_down():
 
 
 def get_botgal():
+    # moves claw and arm from start position
+    move_servo_lego(Claw.OPEN, 0)
+    move_servo_lego(Arm.STRAIGHT)
     # goes to botgal
     line_follow(2750)
     drive_straight(ROBOT.choose(red=420, blue=420, yellow=420))
     stop_motors()
     # backs up to prepare for grab
     drive_straight(ROBOT.choose(red=200, blue=100, yellow=200), -1)
-
     stop_motors()
     # grabs and lifts botgal
     move_servo_lego(Arm.GRAB, 4)
@@ -120,7 +119,7 @@ def get_wire_shark():
     # turns left slightly to line up correctly with wireshark
     drive(-65, 65, ROBOT.choose(red=40, blue=150, yellow=40))
     # backs up to wireshark
-    drive_straight(ROBOT.choose(red=1250, blue=860, yellow=1250), -1)
+    drive_straight(ROBOT.choose(red=1250, blue=880, yellow=1250), -1)
     stop_motors()
     drive_straight(ROBOT.choose(red=0, blue=20, yellow=0))
     stop_motors()
@@ -129,7 +128,6 @@ def get_wire_shark():
     enable_servo(BackClaw.port)
     # grabs wireshark
     msleep(300)
-    move_servo_lego(Claw.OPEN, 0)
 
 
 def ws_to_ddos():
@@ -158,8 +156,6 @@ def ws_to_ddos():
     # backs up to position wireshark under ddos
     drive_straight(ROBOT.choose(red=780, blue=800, yellow=780), -1)
     stop_motors()
-    # waits for ddos to release ping pong balls at 60s
-    msleep(ROBOT.choose(red=5000, blue=5000, yellow=5000))
 
 
 def ddos_to_analysis():
@@ -179,10 +175,9 @@ def knock_over_rings():
     # moves away from rings to space the claw correctly
     drive_straight(ROBOT.choose(red=800, blue=800, yellow=800))
     # turns right to prepare to knock over rings
-    drive(-80, 80, ROBOT.choose(red=1650, blue=1650, yellow=1650))
+    drive(-80, 80, ROBOT.choose(red=1650, blue=1400, yellow=1650))
     stop_motors()
-    # closes the claw and lowers the arm to prepare to knock over rings
-    move_servo_lego(Claw.CLOSED, 0)
+    # lowers the arm to prepare to knock over rings
     move_servo_lego(Arm.RING, 4)
     # turns quickly to knock over rings
     drive(-100, 100, ROBOT.choose(red=450, blue=450, yellow=450))

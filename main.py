@@ -1,5 +1,5 @@
 #!/usr/local/bin/python3.10 -u
-from kipr import enable_servos
+from kipr import enable_servos, msleep
 
 from actions import init, shut_down, get_botgal, deliver_botgal, get_wire_shark, ws_to_ddos, ddos_to_analysis, \
     knock_over_rings, get_noodle_one
@@ -7,6 +7,9 @@ from common import ROBOT
 from utilities import wait_for_button, debug
 from calibrate import *
 
+import time
+
+start_time = 0
 
 if __name__ == '__main__':
     # drive calibration code:
@@ -27,10 +30,13 @@ if __name__ == '__main__':
         print("Help! I'm having an identity crisis (robot unidentified)")
         debug()
     init()
+    start_time = time.time()
     get_botgal()
     deliver_botgal()
     get_wire_shark()
     ws_to_ddos()
+    while time.time() - start_time < 62.0:
+        msleep(10)
     ddos_to_analysis()
     knock_over_rings()
     # get_noodle_one()
