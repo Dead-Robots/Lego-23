@@ -4,6 +4,40 @@ from constants.ports import *
 
 #1710 arm, 1200
 
+class Claw(ServoEnum):
+    port = CLAW
+
+    OPEN = ROBOT.choose(
+        red=000,
+        blue=430,
+        yellow=300
+    )
+
+    CLOSED = ROBOT.choose(
+        red=850,
+        blue=1330,
+        yellow=1000
+    )
+
+    GRAB = ROBOT.choose(
+        red=950,
+        blue=1430,
+        yellow=1500
+    )
+
+    NOODLE_GRAB = ROBOT.choose(
+        red=840,
+        blue=1270,
+        yellow=840
+    )
+
+    NOODLE_OPEN = ROBOT.choose(
+        red=450,
+        blue=880,
+        yellow=450
+    )
+
+
 # Red (other than BackClaw) and Blue have tested values
 class Arm(ServoEnum):
     port = ROBOT.choose(
@@ -19,7 +53,7 @@ class Arm(ServoEnum):
     )
 
     GRAB = ROBOT.choose(
-        red=700,
+        red=720,
         blue=1100,
         yellow=400
     )
@@ -46,40 +80,6 @@ class Arm(ServoEnum):
         red=1530,
         blue=1930,
         yellow=1260
-    )
-
-
-class Claw(ServoEnum):
-    port = CLAW
-
-    OPEN = ROBOT.choose(
-        red=000,
-        blue=430,
-        yellow=300
-    )
-
-    CLOSED = ROBOT.choose(
-        red=900,
-        blue=1330,
-        yellow=1000
-    )
-
-    GRAB = ROBOT.choose(
-        red=1000,
-        blue=1430,
-        yellow=1500
-    )
-
-    NOODLE_GRAB = ROBOT.choose(
-        red=840,
-        blue=1270,
-        yellow=840
-    )
-
-    NOODLE_OPEN = ROBOT.choose(
-        red=450,
-        blue=880,
-        yellow=450
     )
 
 

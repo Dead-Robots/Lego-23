@@ -99,13 +99,13 @@ def deliver_botgal():
 
 def get_wire_shark():
     # turns past black line
-    drive(-30, 100, ROBOT.choose(red=800, blue=1000, yellow=800))
+    drive(-30, 100, ROBOT.choose(red=1000, blue=1000, yellow=800))
     # turns until next black line to prepare for line follow
     drive(0, 100, 0)
     while analog(TOP_HAT) < 2300:
         pass
     # line follows to wireshark
-    dramatic_line_follow(ROBOT.choose(red=3850, blue=3600, yellow=3850))
+    dramatic_line_follow(ROBOT.choose(red=3600, blue=3600, yellow=3850))
     # turns right past black line
     drive(100, -100, ROBOT.choose(red=1000, blue=1000, yellow=1000))
     # turns until next black line
@@ -119,9 +119,9 @@ def get_wire_shark():
     # turns left slightly to line up correctly with wireshark
     drive(-65, 65, ROBOT.choose(red=40, blue=150, yellow=40))
     # backs up to wireshark
-    drive_straight(ROBOT.choose(red=1250, blue=880, yellow=1250), -1)
+    drive_straight(ROBOT.choose(red=1000, blue=880, yellow=1250), -1)
     stop_motors()
-    drive_straight(ROBOT.choose(red=0, blue=20, yellow=0))
+    drive_straight(ROBOT.choose(red=10, blue=20, yellow=0))
     stop_motors()
     # sets the backclaw to down prior to enabling it to prevent it from jumping upwards
     set_servo_position(BackClaw.port, BackClaw.DOWN)
