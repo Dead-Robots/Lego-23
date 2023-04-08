@@ -33,7 +33,7 @@ def line_follow(duration):
     """
     x = 0
     while x < duration:
-        if analog(TOP_HAT) < 3200:  # on white or grey
+        if analog(TOP_HAT) < 3000:  # on white or grey
             x += 10
             if ROBOT.is_yellow:
                 drive(84, 100, 10)

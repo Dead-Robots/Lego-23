@@ -1,14 +1,12 @@
 import time
-from kipr import msleep, enable_servos, set_servo_position, analog, freeze, \
-    get_servo_position, disable_servos, disable_servo, \
-    enable_servo
+from kipr import msleep, enable_servos, set_servo_position, analog, disable_servos, enable_servo
 
 from calibrate import choose_to_calibrate
 from drive import drive, line_follow, line_follow_left, drive_straight, line_follow_right_lego1,\
     dramatic_line_follow, line_follow_right
 from servo import move_servo_lego
 from utilities import wait_for_button, stop_motors, debug
-from constants.ports import TOP_HAT, LEFT_MOTOR, RIGHT_MOTOR
+from constants.ports import TOP_HAT
 from constants.servos import BackClaw, Claw, Arm
 from common import ROBOT
 
@@ -16,7 +14,7 @@ from common import ROBOT
 def init():
     enable_servos()
     power_on_self_test()
-    choose_to_calibrate()
+    # choose_to_calibrate()
     move_servo_lego(BackClaw.UP)
     move_servo_lego(Claw.CLOSED, 0)
     move_servo_lego(Arm.UP)
@@ -55,8 +53,8 @@ def get_botgal():
     move_servo_lego(Claw.OPEN, 0)
     move_servo_lego(Arm.STRAIGHT)
     # goes to botgal
-    line_follow(2750)
-    drive_straight(ROBOT.choose(red=420, blue=420, yellow=420))
+    line_follow(ROBOT.choose(red=2850, blue=2750, yellow=2750))
+    drive_straight(ROBOT.choose(red=320, blue=420, yellow=420))
     stop_motors()
     # backs up to prepare for grab
     drive_straight(ROBOT.choose(red=200, blue=100, yellow=200), -1)
@@ -119,7 +117,7 @@ def get_wire_shark():
     # turns left slightly to line up correctly with wireshark
     drive(-65, 65, ROBOT.choose(red=40, blue=150, yellow=40))
     # backs up to wireshark
-    drive_straight(ROBOT.choose(red=1000, blue=880, yellow=1250), -1)
+    drive_straight(ROBOT.choose(red=1125, blue=880, yellow=1250), -1)
     stop_motors()
     drive_straight(ROBOT.choose(red=10, blue=20, yellow=0))
     stop_motors()
@@ -139,7 +137,7 @@ def ws_to_ddos():
     enable_servo(BackClaw.port)
     drive_straight(ROBOT.choose(red=100, blue=100, yellow=100), -1)
     # line follow to ddos
-    line_follow_left(ROBOT.choose(red=7500, blue=6500, yellow=7500))
+    line_follow_left(ROBOT.choose(red=7250, blue=6500, yellow=7500))
     # turns left past black line
     drive(-85, 85, ROBOT.choose(red=1450, blue=1450, yellow=1450))
     # turns until next black line
@@ -151,7 +149,7 @@ def ws_to_ddos():
     while analog(TOP_HAT) > 2300:
         pass
     # turns left to line up with ddos
-    drive(-65, 65, ROBOT.choose(red=100, blue=150, yellow=100))
+    drive(-65, 65, ROBOT.choose(red=50, blue=150, yellow=100))
     stop_motors()
     # backs up to position wireshark under ddos
     drive_straight(ROBOT.choose(red=780, blue=800, yellow=780), -1)
@@ -194,12 +192,24 @@ def get_noodle_one():
     while analog(TOP_HAT) > 2300:
         pass
     wait_for_button("second turn completed")
-    line_follow_left(700)
+    line_follow_left(ROBOT.choose(red=700, blue=700, yellow=700))
     wait_for_button("went straight")
-    drive(-60, 60, 1500)
-    # move_servo_lego(Arm.NOODLE)
-    # move_servo_lego(Claw.NOODLE_GRAB)
-    # stop_motors()
-    # wait_for_button()
-    # drive(-80, 80, ROBOT.choose(red=1400, blue=1400, yellow=1400))
-    # stop_motors()
+    drive(-60, 60, ROBOT.choose(red=1400, blue=1500, yellow=1500))
+    wait_for_button("turned")
+    drive_straight(ROBOT.choose(red=750, blue=750, yellow=750))
+    wait_for_button("went straight")
+    move_servo_lego(Arm.RED_NOODLE_GRAB_1, 6)
+    move_servo_lego(Claw.RED_NOODLE_GRAB_1, 2)
+    wait_for_button("initially gripped the noodle")
+    drive_straight(ROBOT.choose(red=400, blue=400, yellow=400), -1)
+    stop_motors()
+    wait_for_button("started moving the noodle out")
+    move_servo_lego(Claw.OPEN, 2)
+    move_servo_lego(Arm.RED_NOODLE_GRAB_2, 4)
+    drive_straight(ROBOT.choose(red=200, blue=200, yellow=200))
+    stop_motors()
+    wait_for_button("moved to prepare to fully grab the noodle")
+    move_servo_lego(Claw.RED_NOODLE_GRAB_2, 2)
+    drive_straight(ROBOT.choose(red=800, blue=800, yellow=800), -1)
+    wait_for_button("pulled out the noodle")
+    move_servo_lego(Arm.STRAIGHT, 4)
