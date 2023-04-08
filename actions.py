@@ -209,7 +209,7 @@ def get_noodle_one():
     move_servo_lego(Claw.NOODLE_GRAB, 2)
     drive_straight(200, -1)
     move_servo_lego(Claw.NOODLE_OPEN)
-    
+
     # stop_motors()
     # wait_for_button()
     # drive(-80, 80, ROBOT.choose(red=1400, blue=1400, yellow=1400))
