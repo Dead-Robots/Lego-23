@@ -2,6 +2,7 @@ from common import ROBOT
 from common.core.enums import ServoEnum
 from constants.ports import *
 
+#1710 arm, 1200
 
 # Red (other than BackClaw) and Blue have tested values
 class Arm(ServoEnum):
@@ -13,7 +14,7 @@ class Arm(ServoEnum):
 
     DOWN = ROBOT.choose(
         red=1775,
-        blue=2040,
+        blue=2600,
         yellow=1500
     )
 
@@ -36,9 +37,9 @@ class Arm(ServoEnum):
     )
 
     NOODLE = ROBOT.choose(
-        red=1200,
-        blue=1600,
-        yellow=930
+        red=1310,
+        blue=1710,
+        yellow=1040
     )
 
     RING = ROBOT.choose(

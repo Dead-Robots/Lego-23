@@ -77,14 +77,14 @@ def deliver_botgal():
     while analog(TOP_HAT) < 2300:
         pass
     # line follows to botgal delivery zone
-    line_follow_right(ROBOT.choose(red=1000, blue=1000, yellow=1000))
+    line_follow_right(ROBOT.choose(red=1000, blue=900, yellow=1000))
     stop_motors()
     # lowers arm early to avoid hitting green pool noodles
     move_servo_lego(Arm.DOWN, 4)
     # drives straight to get botgal in line with the delivery zone
-    drive_straight(ROBOT.choose(red=470, blue=470, yellow=470))
+    drive_straight(ROBOT.choose(red=470, blue=570, yellow=470))
     # arcs right to move botgal away from black line
-    drive(100, 10, ROBOT.choose(red=525, blue=475, yellow=525))
+    drive(100, 10, ROBOT.choose(red=525, blue=450, yellow=525))
     stop_motors()
     # releases botgal
     move_servo_lego(Claw.OPEN, 2)
@@ -185,10 +185,21 @@ def knock_over_rings():
 
 
 def get_noodle_one():
+    move_servo_lego(Arm.STRAIGHT, 4)
     drive(-60, 60, 0)
     while analog(TOP_HAT) < 2300:
         pass
-    stop_motors()
-    wait_for_button()
-    drive(-80, 80, ROBOT.choose(red=1400, blue=1400, yellow=1400))
-    stop_motors()
+    wait_for_button("First Turn completed")
+    drive(-60, 60, 0)
+    while analog(TOP_HAT) > 2300:
+        pass
+    wait_for_button("second turn completed")
+    line_follow_left(700)
+    wait_for_button("went straight")
+    drive(-60, 60, 1500)
+    # move_servo_lego(Arm.NOODLE)
+    # move_servo_lego(Claw.NOODLE_GRAB)
+    # stop_motors()
+    # wait_for_button()
+    # drive(-80, 80, ROBOT.choose(red=1400, blue=1400, yellow=1400))
+    # stop_motors()

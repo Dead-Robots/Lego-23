@@ -39,5 +39,5 @@ if __name__ == '__main__':
         msleep(10)
     ddos_to_analysis()
     knock_over_rings()
-    # get_noodle_one()
+    get_noodle_one()
     shut_down()
