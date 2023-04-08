@@ -8,17 +8,29 @@ from drive import drive, straight_timed_fast, straight_distance_fast, straight_d
 from utilities import wait_for_button, stop_motors
 
 
+# def choose_to_calibrate_adam():
+#     while not push_button():
+#         print("Press 'B' to calibrate drive, push button to skip")
+#         while True:
+#             if b_button():
+#                 while b_button():
+#                     pass
+#                 run_calibration()
+#                 break
+#             elif push_button():
+#                 break
+#         break
+#     while push_button():
+#         pass
+
+
 def choose_to_calibrate():
+    print("Press 'B' to calibrate drive, push button to skip")
     while not push_button():
-        print("Press 'B' to calibrate drive, push button to skip")
-        while True:
-            if b_button():
-                while b_button():
-                    pass
-                run_calibration()
-                break
-            elif push_button():
-                break
+        if b_button():
+            while b_button():
+                pass
+            run_calibration()
     while push_button():
         pass
 
@@ -31,6 +43,16 @@ def run_calibration():
     wait_for_button()
     calibrate_distance_from_ticks(10000)
     wait_for_button()
+    print("fast for 36 inches")
+    straight_distance_fast(36)
+    print("slow for 36 inches")
+    straight_distance_slow(36)
+    wait_for_button()
+    print("fast backwards for 36 inches")
+    straight_distance_fast(-36)
+    print("slow backwards for 36 inches")
+    straight_distance_slow(-36)
+    print("done calibrating :)")
 
 
 def calibrate_drive_offset(base_speed, name: str, duration=7500):
