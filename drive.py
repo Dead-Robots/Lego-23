@@ -33,14 +33,14 @@ def line_follow(duration):
     """
     x = 0
     while x < duration:
-        if analog(TOP_HAT) < 1800:  # on white
+        if analog(TOP_HAT) < 3200:  # on white or grey
             x += 10
             if ROBOT.is_yellow:
                 drive(84, 100, 10)
             elif ROBOT.is_blue:
                 drive(80, 100, 10)
             elif ROBOT.is_red:
-                drive(80, 100, 10)
+                drive(87, 100, 10)
             else:
                 print("Robot unidentified in line-follow")
         else:  # on black
@@ -50,7 +50,7 @@ def line_follow(duration):
             elif ROBOT.is_blue:
                 drive(100, 85, 10)
             elif ROBOT.is_red:
-                drive(100, 80, 10)
+                drive(100, 74, 10)
             else:
                 print("Robot unidentified in line-follow")
 
