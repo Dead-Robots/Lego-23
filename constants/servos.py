@@ -48,7 +48,7 @@ class Arm(ServoEnum):
 
     DOWN = ROBOT.choose(
         red=1775,
-        blue=2600,
+        blue=2700,
         yellow=1500
     )
 
@@ -72,13 +72,13 @@ class Arm(ServoEnum):
 
     NOODLE = ROBOT.choose(
         red=1310,
-        blue=1710,
+        blue=1720,
         yellow=1040
     )
 
     RING = ROBOT.choose(
         red=1530,
-        blue=1930,
+        blue=1900,
         yellow=1260
     )
 
@@ -95,12 +95,12 @@ class BackClaw(ServoEnum):
 
     DOWN = ROBOT.choose(
         red=1600,
-        blue=850,
+        blue=1050,
         yellow=1650
     )
 
     SUPERDOWN = ROBOT.choose(
         red=1900,
-        blue=1200,
+        blue=1375,
         yellow=1850
     )

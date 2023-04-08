@@ -19,4 +19,5 @@ def stop_motors():
 def debug():
     disable_servos()
     stop_motors()
+    print("stopping code for debug")
     exit(0)
