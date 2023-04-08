@@ -162,17 +162,16 @@ def straight_distance_fast(distance):
         motor_power(RIGHT_MOTOR, 85 + offset)
         clear_motor_position_counter(LEFT_MOTOR)
         while get_motor_position_counter(LEFT_MOTOR) < ticks:
-            print(get_motor_position_counter(LEFT_MOTOR), ticks, ROBOT.load("inches_to_ticks"))
-        stop_motors()
-    else:
-        print("No backwards capability yet (sorry)")
-    # if ticks < 0:
-    #     motor_power(LEFT_MOTOR, -85)
-    #     motor_power(RIGHT_MOTOR, -85 - offset)
-    #     clear_motor_position_counter(LEFT_MOTOR)
-    #     while get_motor_position_counter(LEFT_MOTOR) > ticks:
-    #         print(get_motor_position_counter(LEFT_MOTOR), ticks, ROBOT.load("inches_to_ticks"))
-    #     stop_motors()
+            # print(get_motor_position_counter(LEFT_MOTOR), ticks, ROBOT.load("inches_to_ticks"))
+            pass
+    if ticks < 0:
+        motor_power(LEFT_MOTOR, -85)
+        motor_power(RIGHT_MOTOR, -85 - offset)
+        clear_motor_position_counter(LEFT_MOTOR)
+        while get_motor_position_counter(LEFT_MOTOR) > ticks:
+            # print(get_motor_position_counter(LEFT_MOTOR), ticks, ROBOT.load("inches_to_ticks"))
+            pass
+    stop_motors()
 
 
 def straight_distance_slow(distance):
@@ -183,7 +182,13 @@ def straight_distance_slow(distance):
         motor_power(RIGHT_MOTOR, 45 + offset)
         clear_motor_position_counter(LEFT_MOTOR)
         while get_motor_position_counter(LEFT_MOTOR) < ticks:
-            print(get_motor_position_counter(LEFT_MOTOR), ticks, ROBOT.load("inches_to_ticks"))
-        stop_motors()
-    else:
-        print("No backwards capability yet (sorry)")
+            # print(get_motor_position_counter(LEFT_MOTOR), ticks, ROBOT.load("inches_to_ticks"))
+            pass
+    if ticks < 0:
+        motor_power(LEFT_MOTOR, -45)
+        motor_power(RIGHT_MOTOR, -45 - offset)
+        clear_motor_position_counter(LEFT_MOTOR)
+        while get_motor_position_counter(LEFT_MOTOR) > ticks:
+            # print(get_motor_position_counter(LEFT_MOTOR), ticks, ROBOT.load("inches_to_ticks"))
+            pass
+    stop_motors()

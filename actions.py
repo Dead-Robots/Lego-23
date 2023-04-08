@@ -14,7 +14,7 @@ from common import ROBOT
 def init():
     enable_servos()
     power_on_self_test()
-    # choose_to_calibrate()
+    choose_to_calibrate()
     move_servo_lego(BackClaw.UP)
     move_servo_lego(Claw.CLOSED, 0)
     move_servo_lego(Arm.UP)
