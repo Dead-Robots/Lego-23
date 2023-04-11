@@ -14,10 +14,10 @@ from common import ROBOT
 def init():
     enable_servos()
     power_on_self_test()
-    choose_to_calibrate()
     move_servo_lego(BackClaw.UP)
     move_servo_lego(Claw.CLOSED, 0)
     move_servo_lego(Arm.UP)
+    choose_to_calibrate()
     wait_for_button("push button to start")
 
 
@@ -38,6 +38,8 @@ def power_on_self_test():
     move_servo_lego(Arm.UP, 5)
     move_servo_lego(Claw.GRAB, 0)
     move_servo_lego(BackClaw.SUPERDOWN, 5)
+    move_servo_lego(BackClaw.DOWN, 5)
+    msleep(1000)
     move_servo_lego(BackClaw.UP, 5)
     stop_motors()
 
@@ -83,7 +85,7 @@ def deliver_botgal():
     # drives straight to get botgal in line with the delivery zone
     drive_straight(ROBOT.choose(red=470, blue=570, yellow=470))
     # arcs right to move botgal away from black line
-    drive(100, 10, ROBOT.choose(red=525, blue=350, yellow=525))
+    drive(100, 30, ROBOT.choose(red=525, blue=350, yellow=525))
     stop_motors()
     # releases botgal
     move_servo_lego(Claw.OPEN, 2)
@@ -104,21 +106,27 @@ def get_wire_shark():
     while analog(TOP_HAT) < 2300:
         pass
     # line follows to wireshark
-    dramatic_line_follow(ROBOT.choose(red=3600, blue=3600, yellow=3850))
+    dramatic_line_follow(ROBOT.choose(red=3300, blue=3200, yellow=3850))
+    stop_motors()
+    # lowers the backclaw to sweep the poms out of the way
+    move_servo_lego(BackClaw.SUPERDOWN, 2)
     # turns right past black line
-    drive(100, -100, ROBOT.choose(red=1000, blue=1000, yellow=1000))
+    drive(100, -100, ROBOT.choose(red=800, blue=800, yellow=1000))
     # turns until next black line
     drive(80, -80, 0)
     while analog(TOP_HAT) < 2300:
         pass
     # turns back until white
-    drive(-40, 40, 0)
+    drive(-30, 30, 0)
     while analog(TOP_HAT) > 2300:
         pass
     # turns left slightly to line up correctly with wireshark
     drive(-65, 65, ROBOT.choose(red=40, blue=150, yellow=40))
+    # lifts backclaw again to prepare to get wireshark
+    stop_motors()
+    move_servo_lego(BackClaw.UP, 3)
     # backs up to wireshark
-    drive_straight(ROBOT.choose(red=1125, blue=980, yellow=1250), -1)
+    drive_straight(ROBOT.choose(red=1425, blue=1450, yellow=1250), -1)
     stop_motors()
     drive_straight(ROBOT.choose(red=10, blue=20, yellow=0))
     stop_motors()
@@ -131,19 +139,19 @@ def get_wire_shark():
 
 def ws_to_ddos():
     # begins moving to ddos with wireshark
-    drive_straight(ROBOT.choose(red=390, blue=390, yellow=390))
+    drive_straight(ROBOT.choose(red=400, blue=400, yellow=400))
     # moves backclaw farther down to more securely grab wireshark
-    drive_straight(ROBOT.choose(red=100, blue=200, yellow=100), -1)
+    drive_straight(ROBOT.choose(red=100, blue=100, yellow=100), -1)
     move_servo_lego(BackClaw.SUPERDOWN, 2)
     enable_servo(BackClaw.port)
-    drive_straight(ROBOT.choose(red=100, blue=200, yellow=100), -1)
+    drive_straight(ROBOT.choose(red=100, blue=100, yellow=100), -1)
     # line follow to ddos
-    line_follow_left(ROBOT.choose(red=0, blue=1000, yellow=0))
-    drive_straight(ROBOT.choose(red=0, blue=200, yellow=0), -1)
-    move_servo_lego(BackClaw.SUPERDOWN, 0)
-    enable_servo(BackClaw.port)
-    drive_straight(ROBOT.choose(red=0, blue=200, yellow=0))
-    line_follow_left(ROBOT.choose(red=7250, blue=5500, yellow=7500))
+    # line_follow_left(ROBOT.choose(red=0, blue=1000, yellow=0))
+    # drive_straight(ROBOT.choose(red=0, blue=200, yellow=0), -1)
+    # move_servo_lego(BackClaw.SUPERDOWN, 0)
+    # enable_servo(BackClaw.port)
+    # drive_straight(ROBOT.choose(red=0, blue=200, yellow=0))
+    line_follow_left(ROBOT.choose(red=7250, blue=7100, yellow=7500))
     # turns left past black line
     drive(-85, 85, ROBOT.choose(red=1450, blue=1450, yellow=1450))
     # turns until next black line
@@ -158,7 +166,7 @@ def ws_to_ddos():
     drive(-65, 65, ROBOT.choose(red=50, blue=135, yellow=100))
     stop_motors()
     # backs up to position wireshark under ddos
-    drive_straight(ROBOT.choose(red=780, blue=950, yellow=780), -1)
+    drive_straight(ROBOT.choose(red=780, blue=800, yellow=780), -1)
     stop_motors()
 
 
@@ -179,7 +187,7 @@ def knock_over_rings():
     # moves away from rings to space the claw correctly
     drive_straight(ROBOT.choose(red=800, blue=800, yellow=800))
     # turns right to prepare to knock over rings
-    drive(-80, 80, ROBOT.choose(red=1650, blue=1400, yellow=1650))
+    drive(-80, 80, ROBOT.choose(red=1650, blue=1450, yellow=1650))
     stop_motors()
     # lowers the arm to prepare to knock over rings
     move_servo_lego(Arm.RING, 4)
@@ -207,29 +215,23 @@ def get_noodle_one():
         move_servo_lego(Claw.NOODLE_OPEN)
 
     if ROBOT.is_red:
-        wait_for_button("First Turn completed")
         drive(-60, 60, 0)
         while analog(TOP_HAT) > 2300:
             pass
-        wait_for_button("second turn completed")
         line_follow_left(ROBOT.choose(red=700, blue=700, yellow=700))
-        wait_for_button("went straight")
-        drive(-60, 60, ROBOT.choose(red=1400, blue=1500, yellow=1500))
-        wait_for_button("turned")
-        drive_straight(ROBOT.choose(red=750, blue=750, yellow=750))
-        wait_for_button("went straight")
+        drive(-60, 60, ROBOT.choose(red=1450, blue=1500, yellow=1500))
+        drive_straight(ROBOT.choose(red=730, blue=750, yellow=750))
+        stop_motors()
+        move_servo_lego(Claw.NOODLE_OPEN)
         move_servo_lego(Arm.RED_NOODLE_GRAB_1, 6)
         move_servo_lego(Claw.RED_NOODLE_GRAB_1, 2)
-        wait_for_button("initially gripped the noodle")
         drive_straight(ROBOT.choose(red=400, blue=400, yellow=400), -1)
         stop_motors()
-        wait_for_button("started moving the noodle out")
-        move_servo_lego(Claw.OPEN, 2)
+        move_servo_lego(Claw.NOODLE_OPEN, 2)
         move_servo_lego(Arm.RED_NOODLE_GRAB_2, 4)
-        drive_straight(ROBOT.choose(red=200, blue=200, yellow=200))
+        drive_straight(ROBOT.choose(red=400, blue=200, yellow=200))
         stop_motors()
-        wait_for_button("moved to prepare to fully grab the noodle")
         move_servo_lego(Claw.RED_NOODLE_GRAB_2, 2)
-        drive_straight(ROBOT.choose(red=800, blue=800, yellow=800), -1)
-        wait_for_button("pulled out the noodle")
+        drive_straight(ROBOT.choose(red=1400, blue=800, yellow=800), -1)
+        stop_motors()
         move_servo_lego(Arm.STRAIGHT, 4)

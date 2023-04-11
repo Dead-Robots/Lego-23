@@ -43,7 +43,7 @@ class Claw(ServoEnum):
         yellow=840
     )
 
-    GREEN_NOODLE_OPEN = ROBOT.choose(
+    NOODLE_OPEN = ROBOT.choose(
         red=450,
         blue=880,
         yellow=450
@@ -109,18 +109,18 @@ class BackClaw(ServoEnum):
 
     UP = ROBOT.choose(
         red=630,
-        blue=160,
+        blue=650,
         yellow=630
     )
 
     DOWN = ROBOT.choose(
         red=1600,
-        blue=1050,
+        blue=1400,
         yellow=1600
     )
 
     SUPERDOWN = ROBOT.choose(
         red=1900,
-        blue=1375,
+        blue=1700,
         yellow=1900
     )
