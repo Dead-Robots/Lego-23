@@ -34,7 +34,7 @@ if __name__ == '__main__':
     deliver_botgal()
     get_wire_shark()
     ws_to_ddos()
-    while time.time() - start_time < 62.0:
+    while time.time() - start_time < 61.0:
         msleep(10)
     ddos_to_analysis()
     knock_over_rings()

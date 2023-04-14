@@ -13,12 +13,12 @@ from common import ROBOT
 
 
 def init():
+    choose_to_calibrate()
     enable_servos()
     power_on_self_test()
     move_servo_lego(BackClaw.UP)
     move_servo_lego(Claw.CLOSED, 0)
     move_servo_lego(Arm.UP)
-    choose_to_calibrate()
     wait_for_button("push button to start")
 
 
@@ -145,6 +145,7 @@ def ws_to_ddos():
     move_servo_lego(BackClaw.SUPERDOWN, 2)
     enable_servo(BackClaw.port)
     drive_straight(ROBOT.choose(red=100, blue=100, yellow=100), -1)
+    # line follow to ddos
     # line_follow_left(ROBOT.choose(red=7250, blue=7100, yellow=7500))
     line_follow_ticks(ROBOT.choose(red=14350, blue=14350, yellow=14350))
     wait_for_button()
@@ -193,6 +194,7 @@ def knock_over_rings():
 
 
 def get_noodle_one():
+    msleep(13000)
     move_servo_lego(Arm.STRAIGHT, 4)
     drive(-60, 60, 0)
     while analog(TOP_HAT) < TOP_HAT_THRESHOLD:
@@ -216,7 +218,7 @@ def get_noodle_one():
             pass
         line_follow_left(ROBOT.choose(red=700, blue=700, yellow=700))
         drive(-60, 60, ROBOT.choose(red=1450, blue=1500, yellow=1500))
-        drive_straight(ROBOT.choose(red=730, blue=750, yellow=750))
+        drive_straight(ROBOT.choose(red=700, blue=750, yellow=750))
         stop_motors()
         move_servo_lego(Claw.NOODLE_OPEN)
         move_servo_lego(Arm.RED_NOODLE_GRAB_1, 6)
@@ -228,6 +230,12 @@ def get_noodle_one():
         drive_straight(ROBOT.choose(red=400, blue=200, yellow=200))
         stop_motors()
         move_servo_lego(Claw.RED_NOODLE_GRAB_2, 2)
-        drive_straight(ROBOT.choose(red=1400, blue=800, yellow=800), -1)
+        drive_straight(ROBOT.choose(red=1200, blue=800, yellow=800), -1)
         stop_motors()
         move_servo_lego(Arm.STRAIGHT, 4)
+        drive_straight(ROBOT.choose(red=900))
+        drive(-60, 60, ROBOT.choose(red=1200, blue=1500, yellow=1500))
+        drive_straight(500)
+        drive(-60, 60, ROBOT.choose(red=1450, blue=1500, yellow=1500))
+
+
