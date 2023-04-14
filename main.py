@@ -6,7 +6,7 @@ from actions import init, shut_down, get_botgal, deliver_botgal, get_wire_shark,
 from common import ROBOT
 from utilities import wait_for_button, debug
 from calibrate import *
-
+from drive import drive_straight
 import time
 
 start_time = 0
@@ -25,7 +25,6 @@ if __name__ == '__main__':
         print("I am RED")
     elif ROBOT.is_yellow:  # not tested
         print("I am YELLOW")
-        print("Not tested. Set servo values")
     else:
         print("Help! I'm having an identity crisis (robot unidentified)")
         debug()
