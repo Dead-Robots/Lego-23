@@ -17,8 +17,8 @@ def init():
     enable_servos()
     power_on_self_test()
     move_servo_lego(BackClaw.UP)
-    move_servo_lego(Claw.CLOSED, 0)
-    move_servo_lego(Arm.UP)
+    move_servo_lego(Claw.CLOSED, 0, False)
+    move_servo_lego(Arm.UP, False)
     wait_for_button("push button to start")
 
 
@@ -30,19 +30,17 @@ def power_on_self_test():
     msleep(800)
     drive_straight(500)
     drive(93, 0, 1450)
-    stop_motors()
     move_servo_lego(Claw.OPEN, 0)
-    move_servo_lego(Arm.STRAIGHT, 4)
-    move_servo_lego(Arm.UP, 5)
-    move_servo_lego(Arm.DOWN, 4)
-    move_servo_lego(Arm.STRAIGHT, 4)
-    move_servo_lego(Arm.UP, 5)
-    move_servo_lego(Claw.GRAB, 0)
-    move_servo_lego(BackClaw.SUPERDOWN, 5)
-    move_servo_lego(BackClaw.DOWN, 5)
-    msleep(1000)
-    move_servo_lego(BackClaw.UP, 5)
-    stop_motors()
+    move_servo_lego(Arm.STRAIGHT, 4, False)
+    move_servo_lego(Arm.UP, 5, False)
+    move_servo_lego(Arm.DOWN, 4, False)
+    move_servo_lego(Arm.STRAIGHT, 4, False)
+    move_servo_lego(Arm.UP, 5, False)
+    move_servo_lego(Claw.GRAB, 0, False)
+    move_servo_lego(BackClaw.SUPERDOWN, 5, False)
+    move_servo_lego(BackClaw.DOWN, 5, False)
+    msleep(800)
+    move_servo_lego(BackClaw.UP, 5, False)
 
 
 def shut_down():
@@ -53,19 +51,17 @@ def shut_down():
 
 def get_botgal():
     # moves claw and arm from start position
-    move_servo_lego(Claw.OPEN, 0)
-    move_servo_lego(Arm.STRAIGHT)
+    move_servo_lego(Claw.OPEN, 0, False)
+    move_servo_lego(Arm.STRAIGHT, 5, False)
     # goes to botgal
     line_follow(ROBOT.choose(red=2850, blue=2750, yellow=2750))
     drive_straight(ROBOT.choose(red=320, blue=420, yellow=420))
-    stop_motors()
     # backs up to prepare for grab
     drive_straight(ROBOT.choose(red=200, blue=100, yellow=200), -1)
-    stop_motors()
     # grabs and lifts botgal
     move_servo_lego(Arm.GRAB, 4)
-    move_servo_lego(Claw.GRAB, 4)
-    move_servo_lego(Arm.UP, 20)
+    move_servo_lego(Claw.GRAB, 4, False)
+    move_servo_lego(Arm.UP, 20, False)
 
 
 def deliver_botgal():
@@ -79,35 +75,31 @@ def deliver_botgal():
         pass
     # line follows to botgal delivery zone
     line_follow_right(ROBOT.choose(red=1000, blue=900, yellow=1000))
-    stop_motors()
     # lowers arm early to avoid hitting green pool noodles
     move_servo_lego(Arm.DOWN, 4)
     # drives straight to get botgal in line with the delivery zone
     drive_straight(ROBOT.choose(red=470, blue=570, yellow=470))
     # arcs right to move botgal away from black line
     drive(100, 30, ROBOT.choose(red=525, blue=350, yellow=525))
-    stop_motors()
     # releases botgal
     move_servo_lego(Claw.OPEN, 2)
     # backs away from botgal to make room for lifting arm
     drive_straight(ROBOT.choose(red=350, blue=350, yellow=350), -1)
-    stop_motors()
     # lifts arm and closes claw to help get out of Create's path
     move_servo_lego(Arm.STRAIGHT, 4)
-    move_servo_lego(Arm.UP, 5)
-    move_servo_lego(Claw.CLOSED, 0)
+    move_servo_lego(Arm.UP, 5, False)
+    move_servo_lego(Claw.CLOSED, 0, False)
 
 
 def get_wire_shark():
     # turns past black line
-    drive(-30, 100, ROBOT.choose(red=1000, blue=1000, yellow=1000))
+    drive(-30, 100, ROBOT.choose(red=1000, blue=1200, yellow=1000))
     # turns until next black line to prepare for line follow
     drive(0, 100, 0)
     while analog(TOP_HAT) < TOP_HAT_THRESHOLD:
         pass
     # line follows to wireshark
-    dramatic_line_follow(ROBOT.choose(red=3300, blue=3200, yellow=3400))
-    stop_motors()
+    dramatic_line_follow(ROBOT.choose(red=3300, blue=3300, yellow=3400))
     # lowers the backclaw to sweep the poms out of the way
     move_servo_lego(BackClaw.SUPERDOWN, 2)
     # turns right past black line
@@ -121,12 +113,11 @@ def get_wire_shark():
     while analog(TOP_HAT) > TOP_HAT_THRESHOLD:
         pass
     # turns left slightly to line up correctly with wireshark
-    drive(-65, 65, ROBOT.choose(red=40, blue=150, yellow=80))
+    drive(-65, 65, ROBOT.choose(red=40, blue=140, yellow=80))
     # lifts backclaw again to prepare to get wireshark
-    stop_motors()
     move_servo_lego(BackClaw.UP, 3)
     # backs up to wireshark
-    drive_straight(ROBOT.choose(red=1425, blue=1450, yellow=1250), -1)
+    drive_straight(ROBOT.choose(red=1425, blue=1350, yellow=1250), -1)
     stop_motors()
     drive_straight(ROBOT.choose(red=10, blue=20, yellow=0))
     stop_motors()
@@ -141,14 +132,12 @@ def ws_to_ddos():
     # begins moving to ddos with wireshark
     drive_straight(ROBOT.choose(red=400, blue=400, yellow=400))
     # moves backclaw farther down to more securely grab wireshark
-    drive_straight(ROBOT.choose(red=100, blue=100, yellow=100), -1)
+    drive_straight(ROBOT.choose(red=100, blue=150, yellow=100), -1)
     move_servo_lego(BackClaw.SUPERDOWN, 2)
     enable_servo(BackClaw.port)
-    drive_straight(ROBOT.choose(red=100, blue=100, yellow=100), -1)
+    drive_straight(ROBOT.choose(red=100, blue=150, yellow=100), -1)
     # line follow to ddos
-    # line_follow_left(ROBOT.choose(red=7250, blue=7100, yellow=7500))
-    line_follow_ticks(ROBOT.choose(red=14350, blue=14350, yellow=14350))
-    wait_for_button()
+    line_follow_ticks(ROBOT.choose(red=14350, blue=10750, yellow=14350))
     # turns left past black line
     drive(-85, 85, ROBOT.choose(red=1450, blue=1450, yellow=1450))
     # turns until next black line
@@ -160,8 +149,7 @@ def ws_to_ddos():
     while analog(TOP_HAT) > TOP_HAT_THRESHOLD:
         pass
     # turns left to line up with ddos
-    drive(-65, 65, ROBOT.choose(red=50, blue=135, yellow=20))
-    stop_motors()
+    drive(-65, 65, ROBOT.choose(red=50, blue=160, yellow=20))
     # backs up to position wireshark under ddos
     drive_straight(ROBOT.choose(red=780, blue=800, yellow=830), -1)
     stop_motors()
@@ -169,13 +157,11 @@ def ws_to_ddos():
 
 def ddos_to_analysis():
     # line follows to line up with delivery zone
-    dramatic_line_follow(ROBOT.choose(red=1500, blue=1250, yellow=1500))
-    stop_motors()
+    dramatic_line_follow(ROBOT.choose(red=1500, blue=1450, yellow=1500))
     # turns left to line up with delivery zone
     drive(0, 85, ROBOT.choose(red=1500, blue=1500, yellow=1500))
     # backs up to put wireshark in delivery zone
     drive_straight(ROBOT.choose(red=850, blue=850, yellow=850), -1)
-    stop_motors()
     # releases wireshark
     move_servo_lego(BackClaw.UP)
 
@@ -185,7 +171,6 @@ def knock_over_rings():
     drive_straight(ROBOT.choose(red=800, blue=800, yellow=800))
     # turns right to prepare to knock over rings
     drive(-80, 80, ROBOT.choose(red=1650, blue=1450, yellow=1650))
-    stop_motors()
     # lowers the arm to prepare to knock over rings
     move_servo_lego(Arm.RING, 4)
     # turns quickly to knock over rings
@@ -195,47 +180,31 @@ def knock_over_rings():
 
 def get_noodle_one():
     msleep(13000)
-    move_servo_lego(Arm.STRAIGHT, 4)
+    move_servo_lego(Arm.STRAIGHT, 4, False)
     drive(-60, 60, 0)
     while analog(TOP_HAT) < TOP_HAT_THRESHOLD:
         pass
-    if ROBOT.is_blue:
-        drive(-60, 60, 200)
-        line_follow_left(700)
-        drive(-60, 60, 1360)
-        stop_motors()
-        move_servo_lego(Arm.NOODLE)
-        move_servo_lego(Claw.NOODLE_OPEN, 0)
-        drive_straight(625)
-        wait_for_button()
-        move_servo_lego(Claw.NOODLE_GRAB, 2)
-        drive_straight(200, -1)
-        move_servo_lego(Claw.NOODLE_OPEN)
-
-    if ROBOT.is_red or ROBOT.is_yellow:
-        drive(-60, 60, 0)
-        while analog(TOP_HAT) > TOP_HAT_THRESHOLD:
-            pass
-        line_follow_left(ROBOT.choose(red=700, blue=700, yellow=700))
-        drive(-60, 60, ROBOT.choose(red=1450, blue=1500, yellow=1500))
-        drive_straight(ROBOT.choose(red=700, blue=750, yellow=750))
-        stop_motors()
-        move_servo_lego(Claw.NOODLE_OPEN)
-        move_servo_lego(Arm.RED_NOODLE_GRAB_1, 6)
-        move_servo_lego(Claw.RED_NOODLE_GRAB_1, 2)
-        drive_straight(ROBOT.choose(red=400, blue=400, yellow=400), -1)
-        stop_motors()
-        move_servo_lego(Claw.NOODLE_OPEN, 2)
-        move_servo_lego(Arm.RED_NOODLE_GRAB_2, 4)
-        drive_straight(ROBOT.choose(red=400, blue=200, yellow=200))
-        stop_motors()
-        move_servo_lego(Claw.RED_NOODLE_GRAB_2, 2)
-        drive_straight(ROBOT.choose(red=1200, blue=800, yellow=800), -1)
-        stop_motors()
-        move_servo_lego(Arm.STRAIGHT, 4)
-        drive_straight(ROBOT.choose(red=900))
-        drive(-60, 60, ROBOT.choose(red=1200, blue=1500, yellow=1500))
-        drive_straight(500)
-        drive(-60, 60, ROBOT.choose(red=1450, blue=1500, yellow=1500))
+    drive(-60, 60, 0)
+    while analog(TOP_HAT) > TOP_HAT_THRESHOLD:
+        pass
+    line_follow_left(ROBOT.choose(red=700, blue=700, yellow=700))
+    drive(-60, 60, ROBOT.choose(red=1450, blue=1350, yellow=1500))
+    drive_straight(ROBOT.choose(red=700, blue=750, yellow=750))
+    move_servo_lego(Claw.NOODLE_OPEN)
+    move_servo_lego(Arm.RED_NOODLE_GRAB_1, 6, False)
+    move_servo_lego(Claw.RED_NOODLE_GRAB_1, 2, False)
+    drive_straight(ROBOT.choose(red=400, blue=400, yellow=400), -1)
+    move_servo_lego(Claw.NOODLE_OPEN, 2)
+    move_servo_lego(Arm.RED_NOODLE_GRAB_2, 4, False)
+    drive_straight(ROBOT.choose(red=400, blue=300, yellow=200))
+    move_servo_lego(Claw.RED_NOODLE_GRAB_2, 2)
 
 
+def deliver_noodle_one():
+    drive_straight(ROBOT.choose(red=1200, blue=1050, yellow=800), -1)
+    move_servo_lego(Arm.STRAIGHT, 5)
+    drive(-80, 80, ROBOT.choose(red=1200, blue=1450, yellow=1500))
+    drive_straight(ROBOT.choose(red=800, blue=1200, yellow=800), -1)
+    move_servo_lego(Arm.RED_NOODLE_GRAB_2, 5)
+    move_servo_lego(Claw.OPEN, 2, False)
+    move_servo_lego(Arm.STRAIGHT, 5, False)
