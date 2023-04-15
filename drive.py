@@ -120,6 +120,17 @@ def dramatic_line_follow(duration):
             x += 10
             drive(60, 100, 10)
 
+def drive_until_black(left_motor, right_motor):
+    drive(left_motor, right_motor, 0)
+    while analog(TOP_HAT) < TOP_HAT_THRESHOLD:
+        pass
+    stop_motors()
+
+def drive_until_white(left_motor, right_motor):
+    drive(left_motor, right_motor, 0)
+    while analog(TOP_HAT) > TOP_HAT_THRESHOLD:
+        pass
+    stop_motors()
 
 def line_follow_right_lego1(duration, direction=1):
     duration = duration // 1000

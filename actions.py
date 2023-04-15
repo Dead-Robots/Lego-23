@@ -4,7 +4,7 @@ from kipr import msleep, enable_servos, set_servo_position, analog, disable_serv
 from calibrate import choose_to_calibrate
 from constants.sensors import TOP_HAT_THRESHOLD
 from drive import drive, line_follow, line_follow_left, drive_straight, line_follow_right_lego1, \
-    dramatic_line_follow, line_follow_right, line_follow_ticks
+    dramatic_line_follow, line_follow_right, line_follow_ticks, drive_until_black, drive_until_white
 from servo import move_servo_lego
 from utilities import wait_for_button, stop_motors, debug
 from constants.ports import TOP_HAT
@@ -85,7 +85,7 @@ def deliver_botgal():
     # drives straight to get botgal in line with the delivery zone
     drive_straight(ROBOT.choose(red=470, blue=570, yellow=470))
     # arcs right to move botgal away from black line
-    drive(100, 30, ROBOT.choose(red=525, blue=350, yellow=525))
+    drive(100, 30, ROBOT.choose(red=500, blue=350, yellow=525))
     stop_motors()
     # releases botgal
     move_servo_lego(Claw.OPEN, 2)
@@ -100,12 +100,10 @@ def deliver_botgal():
 
 def get_wire_shark():
     # turns past black line
-    drive(-30, 100, ROBOT.choose(red=1000, blue=1000, yellow=1000))
     # turns until next black line to prepare for line follow
-    drive(0, 100, 0)
-    while analog(TOP_HAT) < TOP_HAT_THRESHOLD:
-        pass
     # line follows to wireshark
+    drive(0, 100, 2000)
+    drive_until_black(0, 100)
     dramatic_line_follow(ROBOT.choose(red=3300, blue=3200, yellow=3400))
     stop_motors()
     # lowers the backclaw to sweep the poms out of the way
@@ -121,7 +119,7 @@ def get_wire_shark():
     while analog(TOP_HAT) > TOP_HAT_THRESHOLD:
         pass
     # turns left slightly to line up correctly with wireshark
-    drive(-65, 65, ROBOT.choose(red=40, blue=150, yellow=80))
+    drive(-65, 65, ROBOT.choose(red=160, blue=150, yellow=80))
     # lifts backclaw again to prepare to get wireshark
     stop_motors()
     move_servo_lego(BackClaw.UP, 3)
@@ -148,7 +146,6 @@ def ws_to_ddos():
     # line follow to ddos
     # line_follow_left(ROBOT.choose(red=7250, blue=7100, yellow=7500))
     line_follow_ticks(ROBOT.choose(red=14350, blue=14350, yellow=14350))
-    wait_for_button()
     # turns left past black line
     drive(-85, 85, ROBOT.choose(red=1450, blue=1450, yellow=1450))
     # turns until next black line
@@ -160,10 +157,10 @@ def ws_to_ddos():
     while analog(TOP_HAT) > TOP_HAT_THRESHOLD:
         pass
     # turns left to line up with ddos
-    drive(-65, 65, ROBOT.choose(red=50, blue=135, yellow=20))
+    drive(-65, 65, ROBOT.choose(red=160, blue=135, yellow=20))
     stop_motors()
     # backs up to position wireshark under ddos
-    drive_straight(ROBOT.choose(red=780, blue=800, yellow=830), -1)
+    drive_straight(ROBOT.choose(red=850, blue=800, yellow=830), -1)
     stop_motors()
 
 
@@ -217,7 +214,7 @@ def get_noodle_one():
         while analog(TOP_HAT) > TOP_HAT_THRESHOLD:
             pass
         line_follow_left(ROBOT.choose(red=700, blue=700, yellow=700))
-        drive(-60, 60, ROBOT.choose(red=1450, blue=1500, yellow=1500))
+        drive(-60, 60, ROBOT.choose(red=1500, blue=1500, yellow=1500))
         drive_straight(ROBOT.choose(red=700, blue=750, yellow=750))
         stop_motors()
         move_servo_lego(Claw.NOODLE_OPEN)
