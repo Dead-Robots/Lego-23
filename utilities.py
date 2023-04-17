@@ -10,10 +10,10 @@ def wait_for_button(text="waiting for button"):
     msleep(1000)
 
 
-def stop_motors():
+def stop_motors(stop_time=400):
     freeze(LEFT_MOTOR)
     freeze(RIGHT_MOTOR)
-    msleep(500)
+    msleep(stop_time)
 
 
 def debug():

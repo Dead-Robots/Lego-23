@@ -96,30 +96,25 @@ def get_wire_shark():
     # turns until next black line to prepare for line follow
     # line follows to wireshark
     drive(0, 100, 2000)
-    drive_until_black(0, 100)
+    drive_until_black(0, 100, False)
     dramatic_line_follow(ROBOT.choose(red=3300, blue=3200, yellow=3400))
     # lowers the backclaw to sweep the poms out of the way
     move_servo_lego(BackClaw.SUPERDOWN, 2)
     # turns right past black line
     drive(100, -100, ROBOT.choose(red=800, blue=800, yellow=1000))
     # turns until next black line
-    drive(80, -80, 0)
-    while analog(TOP_HAT) < TOP_HAT_THRESHOLD:
-        pass
+    drive_until_black(80, -80, False)
     # turns back until white
-    drive(-30, 30, 0)
-    while analog(TOP_HAT) > TOP_HAT_THRESHOLD:
-        pass
+    drive_until_white(-30, 30, False)
     # turns left slightly to line up correctly with wireshark
     drive(-65, 65, ROBOT.choose(red=160, blue=140, yellow=80))
     # lifts backclaw again to prepare to get wireshark
     move_servo_lego(BackClaw.UP, 3)
     # backs up to wireshark
     drive_straight(ROBOT.choose(red=1425, blue=1350, yellow=1250), -1)
-    stop_motors()
     drive_straight(ROBOT.choose(red=10, blue=20, yellow=0))
-    stop_motors()
     # sets the backclaw to down prior to enabling it to prevent it from jumping upwards
+    stop_motors(0)
     set_servo_position(BackClaw.port, BackClaw.DOWN)
     enable_servo(BackClaw.port)
     # grabs wireshark
@@ -139,13 +134,9 @@ def ws_to_ddos():
     # turns left past black line
     drive(-85, 85, ROBOT.choose(red=1450, blue=1450, yellow=1450))
     # turns until next black line
-    drive(-80, 80, 0)
-    while analog(TOP_HAT) < TOP_HAT_THRESHOLD:
-        pass
+    drive_until_black(-80, 80, False)
     # turns until the end of the black line
-    drive(-40, 40, 0)
-    while analog(TOP_HAT) > TOP_HAT_THRESHOLD:
-        pass
+    drive_until_white(-40, 40, False)
     # turns left to line up with ddos
     drive(-65, 65, ROBOT.choose(red=160, blue=160, yellow=20))
     # backs up to position wireshark under ddos
@@ -177,32 +168,44 @@ def knock_over_rings():
 
 
 def get_noodle_one():
+    # waits for Create
     msleep(13000)
+    # moves arm up so it does not run into anything
     move_servo_lego(Arm.STRAIGHT, 4, False)
-    drive(-60, 60, 0)
-    while analog(TOP_HAT) < TOP_HAT_THRESHOLD:
-        pass
-    drive(-60, 60, 0)
-    while analog(TOP_HAT) > TOP_HAT_THRESHOLD:
-        pass
+    # turns left past the black line
+    drive_until_black(-60, 60, False)
+    drive_until_white(-60, 60, False)
+    # line follows to line up with the noodle
     line_follow_left(ROBOT.choose(red=700, blue=700, yellow=700))
+    # turns left to face the noodle
     drive(-60, 60, ROBOT.choose(red=1500, blue=1350, yellow=1500))
+    # drives forward so the noodle is within reach
     drive_straight(ROBOT.choose(red=700, blue=750, yellow=750))
+    # initially grabs the noodle
     move_servo_lego(Claw.NOODLE_OPEN)
     move_servo_lego(Arm.RED_NOODLE_GRAB_1, 6, False)
     move_servo_lego(Claw.RED_NOODLE_GRAB_1, 2, False)
+    # pulls the server partway from the server rack
     drive_straight(ROBOT.choose(red=400, blue=400, yellow=400), -1)
+    # releases the claw
     move_servo_lego(Claw.NOODLE_OPEN, 2)
+    # moves the arm and drives forward to more securely grab the noodle
     move_servo_lego(Arm.RED_NOODLE_GRAB_2, 4, False)
     drive_straight(ROBOT.choose(red=400, blue=300, yellow=200))
+    # grabs the noodle
     move_servo_lego(Claw.RED_NOODLE_GRAB_2, 2)
 
 
 def deliver_noodle_one():
+    # removes the noodle from the server rack
     drive_straight(ROBOT.choose(red=1200, blue=1050, yellow=800), -1)
+    # lifts the arm
     move_servo_lego(Arm.STRAIGHT, 4)
-    drive(-80, 80, ROBOT.choose(red=1200, blue=1450, yellow=1500))
+    # drives away from analysis lab to avoid hitting the cubes while turning
     drive_straight(ROBOT.choose(red=800, blue=1200, yellow=800), -1)
+    # turns around to score the noodle
+    drive(-80, 80, ROBOT.choose(red=1200, blue=1450, yellow=1500))
+    # lowers the arm and drops the noodle into analysis lab
     move_servo_lego(Arm.RED_NOODLE_GRAB_2, 5)
     move_servo_lego(Claw.OPEN, 2, False)
     move_servo_lego(Arm.STRAIGHT, 5, False)

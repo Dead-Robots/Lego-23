@@ -9,8 +9,6 @@ from calibrate import *
 from drive import drive_straight
 import time
 
-start_time = 0
-
 if __name__ == '__main__':
     # drive calibration code:
     # run_calibration()
