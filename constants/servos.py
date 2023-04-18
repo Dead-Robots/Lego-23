@@ -68,7 +68,7 @@ class Arm(ServoEnum):
 
     STRAIGHT = ROBOT.choose(
         red=600,
-        blue=1000,
+        blue=970,
         yellow=250
     )
 
@@ -86,7 +86,7 @@ class Arm(ServoEnum):
 
     RED_NOODLE_GRAB_2 = ROBOT.choose(
         red=1420,
-        blue=1750,
+        blue=1760,
         yellow=1070
     )
 
