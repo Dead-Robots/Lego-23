@@ -99,7 +99,7 @@ class Arm(ServoEnum):
     RING = ROBOT.choose(
         red=1530,
         blue=1900,
-        yellow=1180
+        yellow=1075
     )
 
 

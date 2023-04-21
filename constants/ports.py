@@ -2,6 +2,7 @@ from common import ROBOT
 # motor ports
 RIGHT_MOTOR = 0
 LEFT_MOTOR = 3
+SERVO_REPLACEMENT = 1
 
 # servo ports
 CLAW = 0
