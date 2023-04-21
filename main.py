@@ -2,7 +2,7 @@
 from kipr import enable_servos, msleep
 
 from actions import init, shut_down, get_botgal, deliver_botgal, get_wire_shark, ws_to_ddos, ddos_to_analysis, \
-    knock_over_rings, get_noodle_one, deliver_noodle_one
+    knock_over_rings, get_noodle_one, deliver_noodle_one, avoid_create
 from common import ROBOT
 from utilities import wait_for_button, debug
 from calibrate import *
@@ -40,4 +40,5 @@ if __name__ == '__main__':
     knock_over_rings()
     get_noodle_one()
     deliver_noodle_one()
+    avoid_create()
     shut_down()

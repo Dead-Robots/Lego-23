@@ -213,3 +213,20 @@ def deliver_noodle_one():
     move_servo_lego(Arm.RED_NOODLE_GRAB_2, 4)
     move_servo_lego(Claw.OPEN, 2, False)
     move_servo_lego(Arm.STRAIGHT, 4, False)
+
+
+def avoid_create():
+    gyro_turn(80, -80, 90)
+    drive_straight(ROBOT.choose(red=1500, blue=1500, yellow=1500))
+    stop_motors(0)
+    move_servo_lego(Claw.CLOSED, 2, False)
+    move_servo_lego(Claw.OPEN, 2, False)
+    move_servo_lego(Claw.CLOSED, 2, False)
+    move_servo_lego(Claw.OPEN, 2, False)
+    move_servo_lego(Claw.CLOSED, 2, False)
+    move_servo_lego(Claw.CLOSED, 2, False)
+    move_servo_lego(Claw.OPEN, 2, False)
+    move_servo_lego(Claw.CLOSED, 2, False)
+    move_servo_lego(Claw.OPEN, 2, False)
+    move_servo_lego(Claw.CLOSED, 2, False)
+
