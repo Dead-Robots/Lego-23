@@ -1,3 +1,4 @@
+import time
 from kipr import msleep, enable_servos, set_servo_position, analog, disable_servos, enable_servo
 
 from calibrate import choose_to_calibrate
@@ -88,7 +89,7 @@ def deliver_botgal():
     move_servo_lego(Claw.OPEN, 2)
     # backs away from botgal to make room for lifting arm
     drive_straight(ROBOT.choose(red=350, blue=350, yellow=350), -1)
-    # lifts arm and closes claw to help get out of Creates path
+    # lifts arm and closes claw to help get out of Create's path
     move_servo_lego(Arm.STRAIGHT, 4)
     move_servo_lego(Arm.UP, 5, False)
     move_servo_lego(Claw.CLOSED, 0, False)
@@ -248,4 +249,21 @@ def yellow_deliver_noodle_one():
     motor_power(SERVO_REPLACEMENT, -100)
     msleep(200)
     stop_motors()
+
+
+
+def avoid_create():
+    gyro_turn(80, -80, 90)
+    drive_straight(ROBOT.choose(red=1500, blue=1500, yellow=1500))
+    stop_motors(0)
+    move_servo_lego(Claw.CLOSED, 2, False)
+    move_servo_lego(Claw.OPEN, 2, False)
+    move_servo_lego(Claw.CLOSED, 2, False)
+    move_servo_lego(Claw.OPEN, 2, False)
+    move_servo_lego(Claw.CLOSED, 2, False)
+    move_servo_lego(Claw.CLOSED, 2, False)
+    move_servo_lego(Claw.OPEN, 2, False)
+    move_servo_lego(Claw.CLOSED, 2, False)
+    move_servo_lego(Claw.OPEN, 2, False)
+    move_servo_lego(Claw.CLOSED, 2, False)
 
