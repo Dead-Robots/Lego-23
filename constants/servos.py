@@ -80,13 +80,13 @@ class Arm(ServoEnum):
 
     RED_NOODLE_GRAB_1 = ROBOT.choose(
         red=1370,
-        blue=1710,
+        blue=1730,
         yellow=1020
     )
 
     RED_NOODLE_GRAB_2 = ROBOT.choose(
         red=1420,
-        blue=1760,
+        blue=1775,
         yellow=1070
     )
 

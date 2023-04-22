@@ -1,6 +1,6 @@
 import time
 
-from constants.ports import LEFT_MOTOR, RIGHT_MOTOR, TOP_HAT, TOP_HAT_TWO
+from constants.ports import LEFT_MOTOR, RIGHT_MOTOR, LEFT_TOP_HAT, RIGHT_TOP_HAT
 from constants.sensors import TOP_HAT_THRESHOLD, TOP_HAT_THRESHOLD_GREY, gyroscope
 from kipr import motor_power, msleep, analog, clear_motor_position_counter, get_motor_position_counter
 from common import ROBOT
@@ -34,7 +34,7 @@ def line_follow(duration):
     """
     x = 0
     while x < duration:
-        if analog(TOP_HAT) < TOP_HAT_THRESHOLD_GREY:  # on white or grey
+        if analog(LEFT_TOP_HAT) < TOP_HAT_THRESHOLD_GREY:  # on white or grey
             x += 10
             if ROBOT.is_yellow:
                 drive(84, 100, 10)
@@ -64,7 +64,7 @@ def line_follow_left(duration):
 
     x = 0
     while x < duration:
-        if analog(TOP_HAT) < TOP_HAT_THRESHOLD:  # on white
+        if analog(LEFT_TOP_HAT) < TOP_HAT_THRESHOLD:  # on white
             x += 10
             drive(100, 85, 10)
         else:  # on black
@@ -80,7 +80,7 @@ def line_follow_to_ddos(duration):  # less aggressive
 
     x = 0
     while x < duration:
-        if analog(TOP_HAT) < TOP_HAT_THRESHOLD:  # on white
+        if analog(LEFT_TOP_HAT) < TOP_HAT_THRESHOLD:  # on white
             x += 10
             drive(100, 90, 10)
         else:  # on black
@@ -96,7 +96,7 @@ def line_follow_right(duration):
 
     x = 0
     while x < duration:
-        if analog(TOP_HAT) < TOP_HAT_THRESHOLD:  # on white
+        if analog(LEFT_TOP_HAT) < TOP_HAT_THRESHOLD:  # on white
             x += 10
             drive(65, 100, 10)
         else:  # on black
@@ -113,7 +113,7 @@ def dramatic_line_follow(duration):
 
     x = 0
     while x < duration:
-        if analog(TOP_HAT) < TOP_HAT_THRESHOLD:  # on white
+        if analog(LEFT_TOP_HAT) < TOP_HAT_THRESHOLD:  # on white
             x += 10
             drive(100, 65, 10)
         else:  # on black
@@ -123,7 +123,7 @@ def dramatic_line_follow(duration):
 
 def drive_until_black(left_motor, right_motor, stop=True):
     drive(left_motor, right_motor, 0)
-    while analog(TOP_HAT) < TOP_HAT_THRESHOLD:
+    while analog(LEFT_TOP_HAT) < TOP_HAT_THRESHOLD:
         pass
     if stop:
         stop_motors()
@@ -131,7 +131,7 @@ def drive_until_black(left_motor, right_motor, stop=True):
 
 def drive_until_white(left_motor, right_motor, stop=True):
     drive(left_motor, right_motor, 0)
-    while analog(TOP_HAT) > TOP_HAT_THRESHOLD:
+    while analog(LEFT_TOP_HAT) > TOP_HAT_THRESHOLD:
         pass
     if stop:
         stop_motors()
@@ -143,9 +143,9 @@ def line_follow_right_lego1(duration, direction=1):
     start_time = time.time()
 
     while time.time() - start_time < duration:
-        if analog(TOP_HAT) > 3100:
+        if analog(LEFT_TOP_HAT) > 3100:
             drive(0, *([direction * 90, direction * 20][::direction]))
-        elif analog(TOP_HAT) < 2600:
+        elif analog(LEFT_TOP_HAT) < 2600:
             drive(0, *([direction * 40, direction * 90][::direction]))
         else:
             drive(0, direction * 85, direction * 85)
@@ -215,7 +215,7 @@ def line_follow_ticks(ticks, stop=True):
     clear_motor_position_counter(RIGHT_MOTOR)
     clear_motor_position_counter(LEFT_MOTOR)
     while (get_motor_position_counter(RIGHT_MOTOR) + get_motor_position_counter(LEFT_MOTOR)) / 2 < ticks:
-        if analog(TOP_HAT) < TOP_HAT_THRESHOLD:  # on white
+        if analog(LEFT_TOP_HAT) < TOP_HAT_THRESHOLD:  # on white
             drive(100, 80, 10)
         else:  # on black
             drive(80, 100, 10)
@@ -235,7 +235,7 @@ def gyro_turn(left_speed, right_speed, angle):
 
 
 def line_follow_to_line(stop=True):
-    while analog(TOP_HAT_TWO) < TOP_HAT_THRESHOLD:
+    while analog(RIGHT_TOP_HAT) < TOP_HAT_THRESHOLD:
         dramatic_line_follow(10)
     if stop:
         stop_motors()

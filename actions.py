@@ -8,10 +8,10 @@ from drive import drive, line_follow, line_follow_left, drive_straight, line_fol
     line_follow_to_line
 from servo import move_servo_lego
 from utilities import wait_for_button, stop_motors, debug
-from constants.ports import TOP_HAT, SERVO_REPLACEMENT
+from constants.ports import LEFT_TOP_HAT, SERVO_REPLACEMENT, RIGHT_TOP_HAT
 from constants.servos import BackClaw, Claw, Arm
-from common import ROBOT
-from kipr import motor_power
+from common import ROBOT, light
+from kipr import motor_power, shut_down_in
 
 
 def init():
@@ -25,13 +25,15 @@ def init():
     move_servo_lego(BackClaw.UP)
     move_servo_lego(Claw.CLOSED, 0, False)
     move_servo_lego(Arm.STRAIGHT, 5, False)
-    wait_for_button("push button to start")
+    light.wait_4_light(5)
+    shut_down_in(119)
 
 
 def power_on_self_test():
     set_servo_position(BackClaw.port, BackClaw.UP)
-    while analog(TOP_HAT) < TOP_HAT_THRESHOLD:
-        drive_straight(10)
+    drive_straight(0)
+    while analog(LEFT_TOP_HAT) < TOP_HAT_THRESHOLD:
+        pass
     stop_motors()
     msleep(800)
     drive_straight(500)
@@ -47,6 +49,10 @@ def power_on_self_test():
     move_servo_lego(BackClaw.DOWN, 4, False)
     msleep(800)
     move_servo_lego(BackClaw.UP, 4, False)
+    drive_straight(0, -1)
+    while analog(RIGHT_TOP_HAT) < TOP_HAT_THRESHOLD:
+        pass
+    stop_motors()
 
 
 def shut_down():
@@ -59,8 +65,8 @@ def get_botgal():
     # moves from starting position
     move_servo_lego(Claw.OPEN, 2, False)
     # goes to botgal
-    line_follow(ROBOT.choose(red=2850, blue=2750, yellow=2750))
-    drive_straight(ROBOT.choose(red=530, blue=420, yellow=420))
+    line_follow(ROBOT.choose(red=2850, blue=2550, yellow=2750))
+    drive_straight(ROBOT.choose(red=530, blue=620, yellow=420))
     # backs up to prepare for grab
     drive_straight(ROBOT.choose(red=200, blue=100, yellow=200), -1)
     # grabs and lifts botgal
@@ -84,7 +90,7 @@ def deliver_botgal():
     drive_straight(ROBOT.choose(red=470, blue=570, yellow=470))
     # arcs right to move botgal away from black line
     drive_until_white(100, 30, False)
-    gyro_turn(100, 30, 6)
+    gyro_turn(100, 30, 5)
     # releases botgal
     move_servo_lego(Claw.OPEN, 2)
     # backs away from botgal to make room for lifting arm
@@ -102,7 +108,7 @@ def get_wire_shark():
     drive_until_black(0, 100, False)
     # line follows to wireshark
     line_follow_to_line(False)
-    line_follow_ticks(5700, False)
+    line_follow_ticks(ROBOT.choose(red=5700, blue=4300, yellow=5700), False)
     # lowers the backclaw to sweep the poms out of the way
     move_servo_lego(BackClaw.SUPERDOWN, 1)
     # turns right past black line
@@ -143,7 +149,7 @@ def ws_to_ddos():
     # turns until the end of the black line
     drive_until_white(-40, 40, False)
     # turns left to line up with ddos
-    drive(-65, 65, ROBOT.choose(red=150, blue=160, yellow=100))
+    drive(-65, 65, ROBOT.choose(red=150, blue=125, yellow=100))
     # backs up to position wireshark under ddos
     drive_straight(ROBOT.choose(red=850, blue=800, yellow=830), -1)
     stop_motors()
@@ -184,7 +190,7 @@ def get_noodle_one():
     line_follow_left(ROBOT.choose(red=500, blue=350, yellow=500))
     # turns left to face the noodle
     drive_until_white(-80, 80, False)
-    gyro_turn(-80, 80, ROBOT.choose(red=88, blue=87, yellow=87))
+    gyro_turn(-80, 80, ROBOT.choose(red=88, blue=88, yellow=87))
     # drives forward so the noodle is within reach
     drive_straight(ROBOT.choose(red=700, blue=650, yellow=750))
     # initially grabs the noodle
@@ -254,7 +260,7 @@ def yellow_deliver_noodle_one():
 
 
 def avoid_create():
-    gyro_turn(80, -80, 75)
+    gyro_turn(80, -80, 65)
     drive_straight(ROBOT.choose(red=2500, blue=2500, yellow=2500))
     stop_motors(0)
     move_servo_lego(Claw.CLOSED, 2, False)

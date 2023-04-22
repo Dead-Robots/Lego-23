@@ -10,5 +10,5 @@ ARM = ROBOT.choose(red=2, blue=1, yellow=1)    # Red has issues with servo port 
 BACK_CLAW = ROBOT.choose(red=1, blue=2, yellow=2)
 
 # sensor ports
-TOP_HAT = 0
-TOP_HAT_TWO = 1
+LEFT_TOP_HAT = 0
+RIGHT_TOP_HAT = 1
