@@ -25,6 +25,7 @@ def init():
     move_servo_lego(BackClaw.UP)
     move_servo_lego(Claw.CLOSED, 0, False)
     move_servo_lego(Arm.STRAIGHT, 5, False)
+    wait_for_button("press button to calibrate")
     light.wait_4_light(5)
     shut_down_in(119)
 
@@ -79,7 +80,7 @@ def deliver_botgal():
     # backs up to make space for turn
     drive_straight(ROBOT.choose(red=600, blue=600, yellow=600), -1)
     # turns left past black line
-    gyro_turn(0, 100, 40)
+    gyro_turn(0, 100, ROBOT.choose(red=40, blue=40, yellow=40))
     # turns left to next black line
     drive_until_black(-85, 85, False)
     # line follows to botgal delivery zone
@@ -103,7 +104,7 @@ def deliver_botgal():
 
 def get_wire_shark():
     # turns past black line
-    gyro_turn(0, 100, 70)
+    gyro_turn(0, 100, ROBOT.choose(red=80, blue=70, yellow=70))
     # turns until next black line to prepare for line follow
     drive_until_black(0, 100, False)
     # line follows to wireshark
@@ -216,8 +217,8 @@ def deliver_noodle_one():
     # drives away from analysis lab to avoid hitting the cubes while turning
     drive_straight(ROBOT.choose(red=800, blue=1200, yellow=800), 1)
     # turns around to score the noodle
-    gyro_turn(-80, 80, 145)
-    drive_straight(600, -1)
+    gyro_turn(-80, 80, ROBOT.choose(red=145, blue=145, yellow=145))
+    drive_straight(ROBOT.choose(red=600, blue=600, yellow=600), -1)
     # lowers the arm and drops the noodle into analysis lab
     move_servo_lego(Arm.RED_NOODLE_GRAB_2, 4)
     move_servo_lego(Claw.OPEN, 2, False)
@@ -226,7 +227,7 @@ def deliver_noodle_one():
 
 def yellow_get_noodle_one():
     # waits for Create
-    msleep(13000)
+    msleep(ROBOT.choose(red=13000, blue=13000, yellow=13000))
     # moves arm up so it does not run into anything
     move_servo_lego(Arm.STRAIGHT, 4, False)
     # turns left past the black line
@@ -236,7 +237,7 @@ def yellow_get_noodle_one():
     line_follow_left(ROBOT.choose(red=700, blue=350, yellow=150))
     # turns left to face the noodle
     drive_until_white(-80, 80, False)
-    gyro_turn(-80, 80, 90)
+    gyro_turn(-80, 80, ROBOT.choose(red=90, blue=90, yellow=90))
     # drives forward so the noodle is within reach
     wait_for_button()
     drive_straight(ROBOT.choose(red=1800, blue=1800, yellow=1850))

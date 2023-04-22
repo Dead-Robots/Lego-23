@@ -14,7 +14,7 @@ class Claw(ServoEnum):
     )
 
     CLOSED = ROBOT.choose(
-        red=850,
+        red=880,
         blue=1430,
         yellow=1950
     )

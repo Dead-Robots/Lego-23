@@ -22,7 +22,7 @@ def drive_straight(duration, direction=1):
     if ROBOT.is_yellow:
         drive(int(direction * 100), int(direction * 96), duration)
     if ROBOT.is_blue:
-        drive(int(direction * 98), int(direction * 100), duration)
+        drive(int(direction * 97), int(direction * 100), duration)
     if ROBOT.is_red:
         drive(int(direction * 96), int(direction * 100), duration)
 
