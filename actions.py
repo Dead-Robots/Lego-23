@@ -83,14 +83,14 @@ def deliver_botgal():
     # turns left to next black line
     drive_until_black(-85, 85, False)
     # line follows to botgal delivery zone
-    line_follow_right(ROBOT.choose(red=1000, blue=900, yellow=1000))
+    line_follow_right(ROBOT.choose(red=700, blue=900, yellow=1000))
     # lowers arm early to avoid hitting green pool noodles
     move_servo_lego(Arm.DOWN, 4)
     # drives straight to get botgal in line with the delivery zone
-    drive_straight(ROBOT.choose(red=470, blue=570, yellow=470))
+    drive_straight(ROBOT.choose(red=1300, blue=570, yellow=470))
     # arcs right to move botgal away from black line
     drive_until_white(100, 30, False)
-    gyro_turn(100, 30, 5)
+    gyro_turn(100, 30, ROBOT.choose(red=3, blue=4, yellow=5))
     # releases botgal
     move_servo_lego(Claw.OPEN, 2)
     # backs away from botgal to make room for lifting arm
@@ -108,7 +108,7 @@ def get_wire_shark():
     drive_until_black(0, 100, False)
     # line follows to wireshark
     line_follow_to_line(False)
-    line_follow_ticks(ROBOT.choose(red=5700, blue=4300, yellow=5700), False)
+    line_follow_ticks(ROBOT.choose(red=6000, blue=4300, yellow=5700), False)
     # lowers the backclaw to sweep the poms out of the way
     move_servo_lego(BackClaw.SUPERDOWN, 1)
     # turns right past black line
@@ -122,7 +122,7 @@ def get_wire_shark():
     # lifts backclaw again to prepare to get wireshark
     move_servo_lego(BackClaw.UP, 2)
     # backs up to wireshark
-    drive_straight(ROBOT.choose(red=2800, blue=2700, yellow=2400), -0.5)
+    drive_straight(ROBOT.choose(red=3200, blue=2700, yellow=2400), -0.5)
     drive_straight(ROBOT.choose(red=0, blue=20, yellow=0))
     # sets the backclaw to down prior to enabling it to prevent it from jumping upwards
     stop_motors(0)
@@ -260,7 +260,7 @@ def yellow_deliver_noodle_one():
 
 
 def avoid_create():
-    gyro_turn(80, -80, 65)
+    gyro_turn(80, -80, ROBOT.choose(red=75, blue=65, yellow=65))
     drive_straight(ROBOT.choose(red=2500, blue=2500, yellow=2500))
     stop_motors(0)
     move_servo_lego(Claw.CLOSED, 2, False)
