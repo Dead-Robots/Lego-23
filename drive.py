@@ -1,6 +1,6 @@
 import time
 
-from constants.ports import LEFT_MOTOR, RIGHT_MOTOR, TOP_HAT
+from constants.ports import LEFT_MOTOR, RIGHT_MOTOR, TOP_HAT, TOP_HAT_TWO
 from constants.sensors import TOP_HAT_THRESHOLD, TOP_HAT_THRESHOLD_GREY, gyroscope
 from kipr import motor_power, msleep, analog, clear_motor_position_counter, get_motor_position_counter
 from common import ROBOT
@@ -24,7 +24,7 @@ def drive_straight(duration, direction=1):
     if ROBOT.is_blue:
         drive(int(direction * 98), int(direction * 100), duration)
     if ROBOT.is_red:
-        drive(int(direction * 100), int(direction * 100), duration)
+        drive(int(direction * 96), int(direction * 100), duration)
 
 
 def line_follow(duration):
@@ -232,3 +232,10 @@ def gyro_turn(left_speed, right_speed, angle):
         old_time = time.time()
         msleep(10)
     stop_motors(0)
+
+
+def line_follow_to_line(stop=True):
+    while analog(TOP_HAT_TWO) < TOP_HAT_THRESHOLD:
+        dramatic_line_follow(10)
+    if stop:
+        stop_motors()
