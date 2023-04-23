@@ -129,7 +129,7 @@ def get_wire_shark():
     set_servo_position(BackClaw.port, BackClaw.DOWN)
     enable_servo(BackClaw.port)
     # grabs wireshark
-    msleep(300)
+    msleep(1300)
 
 
 def ws_to_ddos():
@@ -156,6 +156,15 @@ def ws_to_ddos():
 
 
 def ddos_to_analysis():
+    # shakes to disperse ping-pongs in wireshark
+    drive(-65, 65, ROBOT.choose(red=150, blue=150, yellow=100))  # RED UNTESTED!!!!!
+    msleep(100)
+    drive(65, -65, ROBOT.choose(red=150, blue=150, yellow=100))  # RED UNTESTED!!!!!
+    msleep(100)
+    drive(-65, 65, ROBOT.choose(red=150, blue=150, yellow=100))  # RED UNTESTED!!!!!
+    msleep(100)
+    drive(65, -65, ROBOT.choose(red=150, blue=150, yellow=100))  # RED UNTESTED!!!!!
+    msleep(100)
     # line follows to line up with delivery zone
     dramatic_line_follow(ROBOT.choose(red=1500, blue=1450, yellow=1500))
     # turns left to line up with delivery zone
@@ -216,11 +225,11 @@ def deliver_noodle_one():
     # drives away from analysis lab to avoid hitting the cubes while turning
     drive_straight(ROBOT.choose(red=800, blue=1200, yellow=800), 1)
     # turns around to score the noodle
-    gyro_turn(-80, 80, ROBOT.choose(red=145, blue=145, yellow=145))
+    gyro_turn(-80, 80, ROBOT.choose(red=145, blue=148, yellow=145))  # red untested
     drive_straight(ROBOT.choose(red=600, blue=600, yellow=600), -1)
     # lowers the arm and drops the noodle into analysis lab
-    move_servo_lego(Arm.RED_NOODLE_GRAB_2, 4)
-    move_servo_lego(Claw.OPEN, 2, False)
+    move_servo_lego(Arm.DOWN, 4)
+    move_servo_lego(Claw.NOODLE_OPEN, 2, False)
     move_servo_lego(Arm.STRAIGHT, 4, False)
 
 
