@@ -1,9 +1,8 @@
-import time
 from kipr import msleep, enable_servos, set_servo_position, analog, disable_servos, enable_servo
 
 from calibrate import choose_to_calibrate
 from constants.sensors import TOP_HAT_THRESHOLD, calibrate_gyro
-from drive import drive, line_follow, line_follow_left, drive_straight, line_follow_right_lego1, \
+from drive import drive, line_follow, line_follow_left, drive_straight,\
     dramatic_line_follow, line_follow_right, line_follow_ticks, drive_until_black, drive_until_white, gyro_turn, \
     line_follow_to_line
 from servo import move_servo_lego
@@ -269,4 +268,3 @@ def avoid_create():
     move_servo_lego(Claw.CLOSED, 2, False)
     move_servo_lego(Claw.OPEN, 2, False)
     move_servo_lego(Claw.CLOSED, 2, False)
-
