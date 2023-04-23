@@ -102,7 +102,7 @@ class BackClaw(ServoEnum):
     )
 
     DOWN = ROBOT.choose(
-        red=1600,
+        red=1700,
         blue=1050,
         yellow=1650,
         green=1000
