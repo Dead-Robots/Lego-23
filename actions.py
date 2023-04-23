@@ -102,8 +102,9 @@ def deliver_botgal():
 
 
 def get_wire_shark():
+    drive_until_black(0, 100, False)
     # turns past black line
-    gyro_turn(0, 100, ROBOT.choose(red=80, blue=70, yellow=70))
+    gyro_turn(0, 100, ROBOT.choose(red=80, blue=35, yellow=70))
     # turns until next black line to prepare for line follow
     drive_until_black(0, 100, False)
     # line follows to wireshark
@@ -157,14 +158,18 @@ def ws_to_ddos():
 
 def ddos_to_analysis():
     # shakes to disperse ping-pongs in wireshark
+    drive(65, 65, ROBOT.choose(red=150, blue=150, yellow=100))  # RED UNTESTED!!!!!
+    msleep(50)
+    drive(-65, -65, ROBOT.choose(red=150, blue=150, yellow=100))  # RED UNTESTED!!!!!
+    msleep(50)
     drive(-65, 65, ROBOT.choose(red=150, blue=150, yellow=100))  # RED UNTESTED!!!!!
-    msleep(100)
+    msleep(50)
     drive(65, -65, ROBOT.choose(red=150, blue=150, yellow=100))  # RED UNTESTED!!!!!
-    msleep(100)
+    msleep(50)
     drive(-65, 65, ROBOT.choose(red=150, blue=150, yellow=100))  # RED UNTESTED!!!!!
-    msleep(100)
+    msleep(50)
     drive(65, -65, ROBOT.choose(red=150, blue=150, yellow=100))  # RED UNTESTED!!!!!
-    msleep(100)
+    msleep(50)
     # line follows to line up with delivery zone
     dramatic_line_follow(ROBOT.choose(red=1500, blue=1450, yellow=1500))
     # turns left to line up with delivery zone
@@ -225,7 +230,7 @@ def deliver_noodle_one():
     # drives away from analysis lab to avoid hitting the cubes while turning
     drive_straight(ROBOT.choose(red=800, blue=1200, yellow=800), 1)
     # turns around to score the noodle
-    gyro_turn(-80, 80, ROBOT.choose(red=145, blue=148, yellow=145))  # red untested
+    gyro_turn(-80, 80, ROBOT.choose(red=145, blue=155, yellow=145))  # red untested
     drive_straight(ROBOT.choose(red=600, blue=600, yellow=600), -1)
     # lowers the arm and drops the noodle into analysis lab
     move_servo_lego(Arm.DOWN, 4)
@@ -271,9 +276,14 @@ def yellow_deliver_noodle_one():
 def avoid_create():
     gyro_turn(80, -80, ROBOT.choose(red=75, blue=65, yellow=65))
     drive_straight(ROBOT.choose(red=2500, blue=2500, yellow=2500))
-    stop_motors(0)
-    move_servo_lego(Claw.CLOSED, 2, False)
-    move_servo_lego(Claw.OPEN, 2, False)
-    move_servo_lego(Claw.CLOSED, 2, False)
-    move_servo_lego(Claw.OPEN, 2, False)
-    move_servo_lego(Claw.CLOSED, 2, False)
+    stop_motors()
+
+
+def clap_claw():
+    move_servo_lego(Claw.CLOSED, 1, False)
+    move_servo_lego(Claw.OPEN, 1, False)
+    move_servo_lego(Claw.CLOSED, 1, False)
+    move_servo_lego(Claw.OPEN, 1, False)
+    move_servo_lego(Claw.CLOSED, 1, False)
+    move_servo_lego(Claw.OPEN, 1, False)
+    move_servo_lego(Claw.CLOSED, 1, False)
