@@ -1,17 +1,19 @@
 #!/usr/local/bin/python3.10 -u
-from kipr import enable_servos
+from kipr import enable_servos, msleep
 
-from actions import init, shut_down, get_botgal, deliver_botgal, wire_shark, ws_to_ddos, ddos_to_analysis, knock_over_rings, get_noodle_one
-from drive import drive, stop_motors, drive_straight
+from actions import init, shut_down, get_botgal, deliver_botgal, get_wire_shark, ws_to_ddos, ddos_to_analysis, \
+    knock_over_rings, get_noodle_one, deliver_noodle_one, yellow_get_noodle_one, yellow_deliver_noodle_one, \
+    avoid_create
 from common import ROBOT
-from utilities import wait_for_button
-from calibrate import *
+from utilities import wait_for_button, debug
+from calibrate import run_calibration
+from drive import drive_straight
+import time
 
-# TODO: hardware needs to fix blue claw, can't grab botgal. deliver ws to analysis lab, figure out spacing with other
-#  objects
-
+start_time = 0
 
 if __name__ == '__main__':
+    # drive calibration code:
     # run_calibration()
     # straight_distance_fast(3 * 12)
     # wait_for_button()
@@ -20,37 +22,28 @@ if __name__ == '__main__':
 
     if ROBOT.is_blue:
         print("I am BLUE")
-        init()
-        get_botgal()
-        deliver_botgal()
-        wire_shark()
-        ws_to_ddos()
-        ddos_to_analysis()
-        knock_over_rings()
-        #get_noodle_one()
-        shut_down()
     elif ROBOT.is_red:
         print("I am RED")
-        init()
-        get_botgal()
-        deliver_botgal()
-        wire_shark()
-        ws_to_ddos()
-        # wait_for_button("Waiting for ping pong balls.")
-        ddos_to_analysis()
-        knock_over_rings()
-        # wait_for_button()
-        # get_noodle_one()
-        shut_down()
     elif ROBOT.is_yellow:
         print("I am YELLOW")
-        init()
-        get_botgal()
-        # TODO: verify that get_botgal() works with the yellow robot, finish deliver_botgal()
-        deliver_botgal()
-        # wire_shark()
-        shut_down()
-    elif ROBOT.is_green:
-        print("I am GREEN")
     else:
-        print("robot unidentified")
+        print("Help! I'm having an identity crisis (robot unidentified)")
+        debug()
+    init()
+    start_time = time.time()
+    get_botgal()
+    deliver_botgal()
+    get_wire_shark()
+    ws_to_ddos()
+    while time.time() - start_time < 60.8:
+        msleep(10)
+    ddos_to_analysis()
+    knock_over_rings()
+    if ROBOT.is_yellow:
+        yellow_get_noodle_one()
+        yellow_deliver_noodle_one()
+    else:
+        get_noodle_one()
+        deliver_noodle_one()
+    avoid_create()
+    shut_down()

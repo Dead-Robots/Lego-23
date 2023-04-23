@@ -4,18 +4,55 @@ from kipr import b_button, freeze, c_button, a_button, get_motor_position_counte
 
 from common import ROBOT
 from constants.ports import LEFT_MOTOR, RIGHT_MOTOR
-from drive import drive, straight_timed_fast, stop_motors, straight_distance_fast, straight_distance_slow
-from utilities import wait_for_button
+from drive import drive, straight_timed_fast, straight_distance_fast, straight_distance_slow
+from utilities import wait_for_button, stop_motors
+
+
+# def choose_to_calibrate_adam():
+#     while not push_button():
+#         print("Press 'B' to calibrate drive, push button to skip")
+#         while True:
+#             if b_button():
+#                 while b_button():
+#                     pass
+#                 run_calibration()
+#                 break
+#             elif push_button():
+#                 break
+#         break
+#     while push_button():
+#         pass
+
+
+def choose_to_calibrate():
+    print("Press 'B' to calibrate drive, push button to skip")
+    while not push_button():
+        if b_button():
+            while b_button():
+                pass
+            run_calibration()
+    while push_button():
+        pass
 
 
 # Press the green button in the gutter to run the script.
 def run_calibration():
-    calibrate_drive_offset(85, "fast", 10000)
+    calibrate_drive_offset(85, "fast", 5000)
     wait_for_button()
-    calibrate_drive_offset(45, "slow", 10000)
+    calibrate_drive_offset(45, "slow", 8000)
     wait_for_button()
     calibrate_distance_from_ticks(10000)
     wait_for_button()
+    print("fast for 36 inches")
+    straight_distance_fast(36)
+    print("slow for 36 inches")
+    straight_distance_slow(36)
+    wait_for_button()
+    print("fast backwards for 36 inches")
+    straight_distance_fast(-36)
+    print("slow backwards for 36 inches")
+    straight_distance_slow(-36)
+    print("done calibrating :)")
 
 
 def calibrate_drive_offset(base_speed, name: str, duration=7500):
@@ -30,12 +67,12 @@ def calibrate_drive_offset(base_speed, name: str, duration=7500):
         drive(starting_left, starting_right + offset, duration)
         stop_motors()
         while True:
-            if c_button():
-                print("went too far right - offset decreased")
+            if a_button():
+                print("Went too far left - offset decreased")
                 offset -= 1
                 break
-            elif a_button():
-                print("went too far left - offset increased")
+            elif c_button():
+                print("Went too far right - offset increased")
                 offset += 1
                 break
             elif b_button():
