@@ -24,7 +24,7 @@ def init():
     power_on_self_test()
     move_servo_lego(BackClaw.UP)
     move_servo_lego(Claw.CLOSED, 0, False)
-    move_servo_lego(Arm.STRAIGHT, 5, False)
+    move_servo_lego(Arm.START, 5, False)
     wait_for_button("Press button to calibrate light sensor.")
     light.wait_4_light(5)
     shut_down_in(119)

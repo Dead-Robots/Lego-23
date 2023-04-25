@@ -11,7 +11,7 @@ import time
 start_time = 0
 
 if __name__ == '__main__':
-    # drive calibration code:
+    # driv calibration code:
     # run_calibration()
     # straight_distance_fast(3 * 12)
     # wait_for_button()
