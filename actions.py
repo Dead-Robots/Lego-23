@@ -165,19 +165,19 @@ def ws_to_ddos():
 
 def ddos_to_analysis():
     # shakes to disperse ping-pongs in wireshark
-    drive(65, 65, ROBOT.choose(red=175, blue=150, yellow=100))
+    drive(65, 65, ROBOT.choose(red=200, blue=150, yellow=100))
     msleep(50)
-    drive(-65, -65, ROBOT.choose(red=175, blue=150, yellow=100))
+    drive(-65, -65, ROBOT.choose(red=200, blue=150, yellow=100))
     msleep(50)
-    drive(-65, 65, ROBOT.choose(red=175, blue=150, yellow=100))
+    drive(-65, 65, ROBOT.choose(red=200, blue=150, yellow=100))
     msleep(50)
-    drive(65, -65, ROBOT.choose(red=175, blue=150, yellow=100))
+    drive(65, -65, ROBOT.choose(red=200, blue=150, yellow=100))
     msleep(50)
-    drive(-65, 65, ROBOT.choose(red=175, blue=150, yellow=100))
+    drive(-65, 65, ROBOT.choose(red=200, blue=150, yellow=100))
     msleep(50)
-    drive(65, -65, ROBOT.choose(red=175, blue=150, yellow=100))
+    drive(65, -65, ROBOT.choose(red=200, blue=150, yellow=100))
     msleep(50)
-    # line follows to line up with delivery zone
+    # line follows to line up with delivery zone 
     dramatic_line_follow(ROBOT.choose(red=1500, blue=1450, yellow=1500))
     # turns left to line up with delivery zone
     drive(0, 85, ROBOT.choose(red=1500, blue=1500, yellow=1500))
