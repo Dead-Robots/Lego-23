@@ -32,7 +32,7 @@ class Claw(ServoEnum):
     )
 
     RED_NOODLE_GRAB_2 = ROBOT.choose(
-        red=900,
+        red=910,
         blue=1360,
         yellow=1900
     )
