@@ -69,7 +69,7 @@ def get_botgal():
     line_follow(ROBOT.choose(red=2850, blue=2550, yellow=2750))
     drive_straight(ROBOT.choose(red=530, blue=620, yellow=420))
     # backs up to prepare for grab
-    drive_straight(ROBOT.choose(red=200, blue=100, yellow=200), -1)
+    drive_straight(ROBOT.choose(red=100, blue=100, yellow=200), -1)
     # grabs and lifts botgal
     move_servo_lego(Arm.GRAB, 4)
     move_servo_lego(Claw.GRAB, 2, False)
