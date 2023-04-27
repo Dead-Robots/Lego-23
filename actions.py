@@ -211,7 +211,7 @@ def get_noodle_one():
     line_follow_left(ROBOT.choose(red=500, blue=350, yellow=500))
     # turns left to face the noodle
     drive_until_white(-80, 80, False)
-    gyro_turn(-80, 80, ROBOT.choose(red=88, blue=88, yellow=87))
+    gyro_turn(-80, 80, ROBOT.choose(red=88, blue=89, yellow=87))
     # drives forward so the noodle is within reach
     drive_straight(ROBOT.choose(red=700, blue=650, yellow=750))
     # initially grabs the noodle
