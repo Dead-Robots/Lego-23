@@ -4,7 +4,7 @@ from calibrate import choose_to_calibrate
 from constants.sensors import TOP_HAT_THRESHOLD, calibrate_gyro
 from drive import drive, line_follow, line_follow_left, drive_straight, \
     dramatic_line_follow, line_follow_right, line_follow_ticks, drive_until_black, drive_until_white, gyro_turn, \
-    line_follow_to_line
+    line_follow_to_line, drive_straight_until_white, drive_straight_until_black
 from servo import move_servo_lego
 from utilities import wait_for_button, stop_motors, debug
 from constants.ports import LEFT_TOP_HAT, SERVO_REPLACEMENT, RIGHT_TOP_HAT
@@ -80,7 +80,7 @@ def get_botgal():
 def deliver_botgal():
     # backs up to make space for turn
     drive_straight(ROBOT.choose(red=600, blue=600, yellow=600), -1)
-    # turns left past black line
+    # turns left past black linedrive_straight_until_white
     gyro_turn(0, 100, ROBOT.choose(red=40, blue=40, yellow=40))
     # turns left to next black line
     drive_until_black(-85, 85, False)
@@ -88,16 +88,10 @@ def deliver_botgal():
     line_follow_right(ROBOT.choose(red=1150, blue=850, yellow=1000))
     # lowers arm early to avoid hitting green pool noodles
     move_servo_lego(Arm.DOWN, 4)
-    print("arm down")
+    # positions botgal for final delivery
+    drive_straight_until_white()
     drive_until_black(5, 85, False)
-    print("drive until black")
     gyro_turn(80, 0, 15)
-    print("gyro turn")
-    # drives straight to get botgal in line with the delivery zone
-    # drive_straight(ROBOT.choose(red=1300, blue=570, yellow=470))
-    # arcs right to move botgal away from black line
-    # drive_until_white(100, 30, False)
-    # gyro_turn(100, 30, ROBOT.choose(red=3, blue=4, yellow=5))
     # releases botgal
     move_servo_lego(Claw.OPEN, 2)
     # backs away from botgal to make room for lifting arm

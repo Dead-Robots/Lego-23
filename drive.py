@@ -27,6 +27,18 @@ def drive_straight(duration, direction=1):
         drive(int(direction * 96), int(direction * 100), duration)
 
 
+def drive_straight_until_white(direction=1):
+    drive_straight(10, direction)
+    while analog(0) > TOP_HAT_THRESHOLD:
+        pass
+
+
+def drive_straight_until_black(direction=1):
+    drive_straight(10, direction)
+    while analog(0) < TOP_HAT_THRESHOLD:
+        pass
+
+
 def line_follow(duration):
     """
     following right side of black line
