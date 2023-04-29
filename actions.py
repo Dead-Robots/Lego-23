@@ -91,7 +91,7 @@ def deliver_botgal():
     # positions botgal for final delivery
     drive_straight_until_white()
     drive_until_black(5, 85, False)
-    gyro_turn(80, 0, 15)
+    gyro_turn(80, 0, 14)
     # releases botgal
     move_servo_lego(Claw.OPEN, 2)
     # backs away from botgal to make room for lifting arm
