@@ -189,7 +189,7 @@ def knock_over_rings():
     # lowers the arm to prepare to knock over rings
     move_servo_lego(Arm.RING, 4)
     # turns quickly to knock over rings
-    drive(-100, 100, ROBOT.choose(red=450, blue=500, yellow=450))
+    drive(-100, 100, ROBOT.choose(red=500, blue=500, yellow=450))
     stop_motors()
 
 
