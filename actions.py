@@ -110,7 +110,7 @@ def get_wire_shark():
     drive_until_black(0, 100, False)
     # line follows to wireshark
     line_follow_to_line(False)
-    line_follow_ticks(ROBOT.choose(red=5900, blue=4300, yellow=5700), False)
+    line_follow_ticks(ROBOT.choose(red=5750, blue=4300, yellow=5700), False)
     # lowers the backclaw to sweep the poms out of the way
     move_servo_lego(BackClaw.SUPERDOWN, 1)
     # turns right past black line
