@@ -151,7 +151,7 @@ def ws_to_ddos():
     # turns until the end of the black line
     drive_until_white(-40, 40, False)
     # turns left to line up with ddos
-    drive(-65, 65, ROBOT.choose(red=150, blue=125, yellow=100))
+    drive(-65, 65, ROBOT.choose(red=150, blue=135, yellow=100))
     # backs up to position wireshark under ddos
     drive_straight(ROBOT.choose(red=850, blue=800, yellow=830), -1)
     stop_motors()
