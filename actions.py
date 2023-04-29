@@ -66,7 +66,7 @@ def get_botgal():
     # moves from starting position
     move_servo_lego(Claw.OPEN, 2, False)
     # goes to botgal
-    line_follow(ROBOT.choose(red=2850, blue=2550, yellow=2750))
+    line_follow(ROBOT.choose(red=3000, blue=2550, yellow=2750))
     drive_straight(ROBOT.choose(red=530, blue=620, yellow=420))
     # backs up to prepare for grab
     drive_straight(ROBOT.choose(red=100, blue=100, yellow=200), -1)
