@@ -14,25 +14,25 @@ class Claw(ServoEnum):
     )
 
     CLOSED = ROBOT.choose(
-        red=880,
+        red=930,
         blue=1430,
         yellow=1950
     )
 
     GRAB = ROBOT.choose(
-        red=900,
+        red=950,
         blue=1470,
         yellow=2047
     )
 
     RED_NOODLE_GRAB_1 = ROBOT.choose(
-        red=800,
+        red=900,
         blue=1330,
         yellow=1900
     )
 
     RED_NOODLE_GRAB_2 = ROBOT.choose(
-        red=910,
+        red=950,
         blue=1360,
         yellow=1900
     )
