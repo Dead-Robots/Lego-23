@@ -15,13 +15,13 @@ class Claw(ServoEnum):
 
     CLOSED = ROBOT.choose(
         red=930,
-        blue=1430,
+        blue=1410,
         yellow=1950
     )
 
     GRAB = ROBOT.choose(
         red=950,
-        blue=1470,
+        blue=1410,
         yellow=2047
     )
 
@@ -115,18 +115,18 @@ class BackClaw(ServoEnum):
 
     UP = ROBOT.choose(
         red=0,
-        blue=650,
+        blue=400,
         yellow=750
     )
 
     DOWN = ROBOT.choose(
-        red=1000,
+        red=1230,
         blue=1400,
         yellow=1500
     )
 
     SUPERDOWN = ROBOT.choose(
         red=1250,
-        blue=1700,
+        blue=1400,
         yellow=1800
     )

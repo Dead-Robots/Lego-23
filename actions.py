@@ -1,5 +1,5 @@
 from kipr import msleep, enable_servos, set_servo_position, analog, disable_servos, enable_servo
-
+from kipr import motor_power, shut_down_in, wait_for_light
 from calibrate import choose_to_calibrate
 from constants.sensors import TOP_HAT_THRESHOLD, calibrate_gyro
 from drive import drive, line_follow, line_follow_left, drive_straight, \
@@ -8,9 +8,8 @@ from drive import drive, line_follow, line_follow_left, drive_straight, \
 from servo import move_servo_lego
 from utilities import wait_for_button, stop_motors, debug
 from constants.ports import LEFT_TOP_HAT, SERVO_REPLACEMENT, RIGHT_TOP_HAT
-from constants.servos import BackClaw, Claw, Arm
+from constants.servos import BackClaw, Claw, Arm, LIGHT_SENSOR
 from common import ROBOT, light
-from kipr import motor_power, shut_down_in
 
 
 def init():
@@ -26,7 +25,8 @@ def init():
     move_servo_lego(Claw.CLOSED, 0, False)
     move_servo_lego(Arm.START, 5, False)
     wait_for_button("Press button to calibrate light sensor.")
-    light.wait_4_light(5)
+    light.wait_4_light(LIGHT_SENSOR)
+    # wait_for_light(LIGHT_SENSOR)
     shut_down_in(119)
 
 
@@ -110,7 +110,7 @@ def get_wire_shark():
     drive_until_black(0, 100, False)
     # line follows to wireshark
     line_follow_to_line(False)
-    line_follow_ticks(ROBOT.choose(red=5750, blue=4300, yellow=5700), False)
+    line_follow_ticks(ROBOT.choose(red=5750, blue=5000, yellow=5700), False)
     # lowers the backclaw to sweep the poms out of the way
     move_servo_lego(BackClaw.SUPERDOWN, 1)
     # turns right past black line
@@ -143,7 +143,7 @@ def ws_to_ddos():
     enable_servo(BackClaw.port)
     drive_straight(ROBOT.choose(red=150, blue=150, yellow=150), -1)
     # line follow to ddos
-    line_follow_ticks(ROBOT.choose(red=14350, blue=10750, yellow=14350))
+    line_follow_ticks(ROBOT.choose(red=14350, blue=14100, yellow=14350))
     # turns left past black line
     drive(-85, 85, ROBOT.choose(red=1450, blue=1450, yellow=1450))
     # turns until next black line
