@@ -7,7 +7,7 @@ from common import ROBOT
 from utilities import stop_motors
 
 
-def drive(left_speed, right_speed, duration):
+def drive(left_speed, right_speed, duration=0):
     motor_power(LEFT_MOTOR, left_speed)
     motor_power(RIGHT_MOTOR, right_speed)
     msleep(duration)
