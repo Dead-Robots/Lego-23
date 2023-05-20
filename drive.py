@@ -7,7 +7,7 @@ from common import ROBOT
 from utilities import stop_motors
 
 
-def drive(left_speed, right_speed, duration=0):
+def drive(left_speed, right_speed, duration):
     motor_power(LEFT_MOTOR, left_speed)
     motor_power(RIGHT_MOTOR, right_speed)
     msleep(duration)
@@ -235,15 +235,8 @@ def line_follow_ticks(ticks, stop=True):
         stop_motors()
 
 
-def gyro_turn(left_speed, right_speed, angle):
-    old_time = time.time()
+def gyro_drive(left_speed, right_speed):
     drive(left_speed, right_speed, 0)
-    current_turned_distance = 0
-    while abs(current_turned_distance) < abs(angle):
-        current_turned_distance += gyroscope() * (time.time() - old_time) / 8
-        old_time = time.time()
-        msleep(10)
-    stop_motors(0)
 
 
 def line_follow_to_line(stop=True):

@@ -3,31 +3,35 @@ from kipr import motor_power, shut_down_in, wait_for_light
 from calibrate import choose_to_calibrate
 from constants.sensors import TOP_HAT_THRESHOLD, calibrate_gyro
 from drive import drive, line_follow, line_follow_left, drive_straight, \
-    dramatic_line_follow, line_follow_right, line_follow_ticks, drive_until_black, drive_until_white, gyro_turn, \
+    dramatic_line_follow, line_follow_right, line_follow_ticks, drive_until_black, drive_until_white, gyro_drive, \
     line_follow_to_line, drive_straight_until_white, drive_straight_until_black
 from servo import move_servo_lego
 from utilities import wait_for_button, stop_motors, debug
 from constants.ports import LEFT_TOP_HAT, SERVO_REPLACEMENT, RIGHT_TOP_HAT
 from constants.servos import BackClaw, Claw, Arm, LIGHT_SENSOR
 from common import ROBOT, light
+from common.gyro_movements import gyro_init, gyro_turn
 
 
 def init():
-    print("Calibrating gyro, do not touch.")
-    msleep(500)
-    calibrate_gyro()
-    msleep(500)
+    ROBOT.run(
+        gyro_init,
+        red=(gyro_drive, stop_motors, 0, 1),
+        blue=(gyro_drive, stop_motors, 0, 1),
+        yellow=(gyro_drive, stop_motors, 0, 1),
+        green=(gyro_drive, stop_motors, 0, 1)
+    )
     # choose_to_calibrate()
-    wait_for_button("Press button for POST.")
-    enable_servos()
-    power_on_self_test()
-    move_servo_lego(BackClaw.UP)
-    move_servo_lego(Claw.CLOSED, 0, False)
-    move_servo_lego(Arm.START, 5, False)
-    wait_for_button("Press button to calibrate light sensor.")
-    light.wait_4_light(LIGHT_SENSOR)
-    # wait_for_light(LIGHT_SENSOR)
-    shut_down_in(119)
+    # wait_for_button("Press button for POST.")
+    # enable_servos()
+    # power_on_self_test()
+    # move_servo_lego(BackClaw.UP)
+    # move_servo_lego(Claw.CLOSED, 0, False)
+    # move_servo_lego(Arm.START, 5, False)
+    # wait_for_button("Press button to calibrate light sensor.")
+    # light.wait_4_light(LIGHT_SENSOR)
+    # # wait_for_light(LIGHT_SENSOR)
+    # shut_down_in(119)
 
 
 def power_on_self_test():
