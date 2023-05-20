@@ -3,7 +3,7 @@ from kipr import msleep
 
 from actions import init, shut_down, get_botgal, deliver_botgal, get_wire_shark, ws_to_ddos, ddos_to_analysis, \
     knock_over_rings, get_noodle_one, deliver_noodle_one, yellow_get_noodle_one, yellow_deliver_noodle_one, \
-    avoid_create, clap_claw
+    avoid_create, clap_claw, move_hook
 from common import ROBOT
 from utilities import debug
 import time
@@ -31,6 +31,7 @@ if __name__ == '__main__':
     start_time = time.time()
     get_botgal()
     deliver_botgal()
+    # move_hook()
     get_wire_shark()
     ws_to_ddos()
     while time.time() - start_time < 60.8:

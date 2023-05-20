@@ -14,7 +14,7 @@ class Claw(ServoEnum):
     )
 
     CLOSED = ROBOT.choose(
-        red=930,
+        red=1030,
         blue=1410,
         yellow=1950
     )
@@ -48,6 +48,7 @@ class Claw(ServoEnum):
         blue=880,
         yellow=1550
     )
+
 
 
 # Red and Blue have tested values
@@ -108,6 +109,23 @@ class Arm(ServoEnum):
         yellow=1075
     )
 
+    HOOK_DROP = ROBOT.choose(
+        red=1800,
+        blue=1800,
+        yellow=1805
+    )
+
+    HOOK_UP_1 = ROBOT.choose(
+        red=1180,
+        blue=1180,
+        yellow=1180
+    )
+
+    HOOK_UP_2 = ROBOT.choose(
+        red=600,
+        blue=600,
+        yellow=600
+    )
 
 # Red and Blue have tested values
 class BackClaw(ServoEnum):
