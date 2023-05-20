@@ -7,7 +7,7 @@ from actions import init, shut_down, get_botgal, deliver_botgal, get_wire_shark,
 from common import ROBOT
 from utilities import debug
 import time
-from common.gyro_movements import gyro_turn_test
+from common.gyro_movements import gyro_turn_test, gyro_demo
 
 start_time = 0
 
@@ -31,7 +31,8 @@ if __name__ == '__main__':
         print("Help! I'm having an identity crisis (robot unidentified)")
         debug()
     init()
-    gyro_turn_test(-100, 100, 180, 4)
+    gyro_demo()
+    # gyro_turn_test(0, 100, 180, 1)
     # start_time = time.time()
     # get_botgal()
     # deliver_botgal()
