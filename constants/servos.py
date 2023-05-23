@@ -110,15 +110,21 @@ class Arm(ServoEnum):
     )
 
     HOOK_DROP = ROBOT.choose(
-        red=1800,
-        blue=1800,
-        yellow=1805
+        red=1815,
+        blue=1815,
+        yellow=1815
     )
 
-    HOOK_UP_1 = ROBOT.choose(
-        red=1180,
-        blue=1180,
-        yellow=1180
+    HOOK_UP_1_MID = ROBOT.choose(
+        red=1435,
+        blue=1435,
+        yellow=1435
+    )
+
+    HOOK_UP_1_FULL = ROBOT.choose(
+        red=1170,
+        blue=1350,
+        yellow=1350
     )
 
     HOOK_UP_2 = ROBOT.choose(

@@ -138,22 +138,26 @@ def get_wire_shark():
 def move_hook():
     # the below code is commented because it is not consistent as of now
     # # making sure that the claw is closed before picking up the hook
-    # move_servo_lego(Claw.CLOSED, 3, False)
+    move_servo_lego(Claw.CLOSED, 3, False)
     # # go to the side of the hook that is most elevated -- easier to go under
-    # gyro_turn(50, -50, ROBOT.choose(red=3, blue=1, yellow=1))
     # # move straight to go in front of the hook
     # drive_straight(ROBOT.choose(red=220, blue=1000, yellow=300), 1)
     move_servo_lego(Arm.HOOK_DROP, 3, False)
+    wait_for_button("ready to move under hook")
+    drive(80, 0, 75)
     # small forward move to get under the hook
     drive_straight(ROBOT.choose(red=100, blue=200, yellow=100), 1)
     wait_for_button("under the hook?")
     # lifting arm so that the hook can move up
-    move_servo_lego(Arm.HOOK_UP_1, 3, False)
+    move_servo_lego(Arm.HOOK_UP_1_MID, 3, False)
+    wait_for_button("mid way?")
     # move back to make get in the right position before pulling up the hook
-    drive_straight(ROBOT.choose(red=200, blue=100, yellow=100), -1)
+    drive_straight(ROBOT.choose(red=350, blue=100, yellow=100), -1)
+    wait_for_button("backed enough?")
+    move_servo_lego(Arm.HOOK_UP_1_FULL, 3, False)
     wait_for_button("ready to turn left?")
     # moving the hook to the left by making lego pivot
-    drive(0, 60, 500)
+    drive(0, 60, 650)
     wait_for_button("turn left again")
     """ This part of the code wasn't tested yet
     drive(0, 60, 400)
