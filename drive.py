@@ -236,7 +236,7 @@ def line_follow_ticks(ticks, stop=True):
 
 
 def gyro_drive(left_speed, right_speed):
-    drive(left_speed, right_speed, 0)
+    drive(int(round(left_speed, 0)), int(round(right_speed, 0)), 0)
 
 
 def line_follow_to_line(stop=True):

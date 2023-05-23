@@ -16,7 +16,7 @@ from common.gyro_movements import gyro_init, gyro_turn
 def init():
     ROBOT.run(
         gyro_init,
-        red=(gyro_drive, stop_motors, 0, 1),
+        red=(gyro_drive, stop_motors, 0, 1, 0.013, 0.005),
         blue=(gyro_drive, stop_motors, 0.07, 0.965),
         yellow=(gyro_drive, stop_motors, 0, 1),
         green=(gyro_drive, stop_motors, 0, 1)
