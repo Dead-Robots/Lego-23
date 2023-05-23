@@ -16,10 +16,10 @@ from common.gyro_movements import gyro_init, gyro_turn
 def init():
     ROBOT.run(
         gyro_init,
-        red=(gyro_drive, stop_motors, 0, 1),
+        red=(gyro_drive, stop_motors, 0, 1, 0.013, 0.005),
         blue=(gyro_drive, stop_motors, 0.05, 1),
         yellow=(gyro_drive, stop_motors, 0, 1),
-        green=(gyro_drive, stop_motors, 0, 1)
+        green=(gyro_drive, stop_motors, 0, 1, 0.013, 0.005)
     )
     # choose_to_calibrate()
     # wait_for_button("Press button for POST.")
