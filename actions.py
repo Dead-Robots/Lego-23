@@ -17,7 +17,7 @@ def init():
     ROBOT.run(
         gyro_init,
         red=(gyro_drive, stop_motors, 0, 1),
-        blue=(gyro_drive, stop_motors, 0.05, 1),
+        blue=(gyro_drive, stop_motors, 0.07, 0.965),
         yellow=(gyro_drive, stop_motors, 0, 1),
         green=(gyro_drive, stop_motors, 0, 1)
     )
