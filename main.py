@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
     def time_condition():
         return time.time() < now+10
-    straight_drive(100, time_condition)
+    straight_drive(-100, time_condition)
     # gyro_demo()
     # gyro_turn_test(0, 100, 180, 1)
     # start_time = time.time()
