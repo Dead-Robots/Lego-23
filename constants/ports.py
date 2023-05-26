@@ -14,3 +14,6 @@ BACK_CLAW = ROBOT.choose(red=2, blue=2, yellow=2)
 LEFT_TOP_HAT = 0
 RIGHT_TOP_HAT = 1
 LIGHT_SENSOR = 5
+
+# digital ports
+PUSH_SENSOR = 0

@@ -5,7 +5,7 @@ from actions import init, shut_down, get_botgal, deliver_botgal, get_wire_shark,
     knock_over_rings, get_noodle_one, deliver_noodle_one, yellow_get_noodle_one, yellow_deliver_noodle_one, \
     avoid_create, clap_claw
 from common import ROBOT
-from drive import slay_line_follow
+from drive import slay_line_follow, straight_drive_distance
 from utilities import debug
 import time
 from common.gyro_movements import gyro_turn_test, straight_drive
@@ -35,10 +35,7 @@ if __name__ == '__main__':
     now = time.time()
 
     slay_line_follow(4000)
-
-    # def time_condition():
-    #     return time.time() < now+10
-    # straight_drive(-100, time_condition)
+    # straight_drive_distance(100, 24)
     # gyro_demo()
     # gyro_turn_test(0, 100, 180, 1)
     # start_time = time.time()
