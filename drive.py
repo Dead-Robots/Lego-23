@@ -1,10 +1,12 @@
 import time
 
-from constants.ports import LEFT_MOTOR, RIGHT_MOTOR, LEFT_TOP_HAT, RIGHT_TOP_HAT
-from constants.sensors import TOP_HAT_THRESHOLD, TOP_HAT_THRESHOLD_GREY, gyroscope
-from kipr import motor_power, msleep, analog, clear_motor_position_counter, get_motor_position_counter
+from constants.ports import LEFT_MOTOR, RIGHT_MOTOR, LEFT_TOP_HAT, RIGHT_TOP_HAT, PUSH_SENSOR
+from constants.sensors import TOP_HAT_THRESHOLD, TOP_HAT_THRESHOLD_GREY
+from kipr import motor_power, msleep, analog, clear_motor_position_counter, get_motor_position_counter, \
+    get_digital_output
 from common import ROBOT
 from utilities import stop_motors
+from common.gyro_movements import gyro_turn, straight_drive
 
 
 def drive(left_speed, right_speed, duration):
@@ -244,3 +246,29 @@ def line_follow_to_line(stop=True):
         dramatic_line_follow(10)
     if stop:
         stop_motors()
+
+
+def calibrate_straight_drive_distance():
+    start_position = get_motor_position_counter(LEFT_MOTOR) + get_motor_position_counter(RIGHT_MOTOR)
+
+    def condition():
+        return get_digital_output(PUSH_SENSOR) == 0
+    straight_drive(100, condition)
+    print((get_motor_position_counter(LEFT_MOTOR)+get_motor_position_counter(RIGHT_MOTOR)-start_position)
+          + " ticks driven")
+
+
+def straight_drive_distance(speed, inches, stop_when_finished):
+    # Number printed divided by the distance driven when running calibrate_straight_drive_distance
+    straight_drive_distance_proportion = ROBOT.choose(
+        red=1.0,
+        blue=1.0,
+        yellow=1.0,
+        green=1.0
+    )
+    start_position = get_motor_position_counter(LEFT_MOTOR) + get_motor_position_counter(RIGHT_MOTOR)
+
+    def condition():
+        return get_motor_position_counter(LEFT_MOTOR) + get_motor_position_counter(RIGHT_MOTOR) - start_position < \
+            inches * straight_drive_distance_proportion
+    straight_drive(speed, condition, stop_when_finished)

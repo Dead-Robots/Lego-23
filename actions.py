@@ -1,10 +1,11 @@
-from kipr import msleep, enable_servos, set_servo_position, analog, disable_servos, enable_servo
-from kipr import motor_power, shut_down_in, wait_for_light
+from kipr import msleep, enable_servos, set_servo_position, analog, disable_servos, enable_servo, \
+    motor_power, shut_down_in, wait_for_light, a_button, b_button, push_button
 from calibrate import choose_to_calibrate
 from constants.sensors import TOP_HAT_THRESHOLD, calibrate_gyro
 from drive import drive, line_follow, line_follow_left, drive_straight, \
     dramatic_line_follow, line_follow_right, line_follow_ticks, drive_until_black, drive_until_white, gyro_drive, \
-    line_follow_to_line, drive_straight_until_white, drive_straight_until_black
+    line_follow_to_line, drive_straight_until_white, drive_straight_until_black, calibrate_straight_drive_distance, \
+    straight_drive_distance
 from servo import move_servo_lego
 from utilities import wait_for_button, stop_motors, debug
 from constants.ports import LEFT_TOP_HAT, SERVO_REPLACEMENT, RIGHT_TOP_HAT
@@ -21,7 +22,14 @@ def init():
         yellow=(gyro_drive, stop_motors, 0, 1),
         green=(gyro_drive, stop_motors, 0, 1, 0.013, 0.005)
     )
-    # choose_to_calibrate()
+    print("Push button to run the POST.\nPush 'B' to calibrate straight drive distance.")
+    while not push_button():
+        if b_button():
+            while b_button():
+                pass
+            calibrate_straight_drive_distance()
+    while push_button():
+        pass
     # wait_for_button("Press button for POST.")
     # enable_servos()
     # power_on_self_test()

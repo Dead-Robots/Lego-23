@@ -8,6 +8,7 @@ from common import ROBOT
 from utilities import debug
 import time
 from common.gyro_movements import gyro_turn_test, straight_drive
+from drive import straight_drive_distance
 
 start_time = 0
 
@@ -31,12 +32,7 @@ if __name__ == '__main__':
         print("Help! I'm having an identity crisis (robot unidentified)")
         debug()
     init()
-    now = time.time()
-
-
-    def time_condition():
-        return time.time() < now+10
-    straight_drive(-100, time_condition)
+    straight_drive_distance(100, 24)
     # gyro_demo()
     # gyro_turn_test(0, 100, 180, 1)
     # start_time = time.time()
