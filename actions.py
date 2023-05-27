@@ -1,5 +1,7 @@
 from kipr import msleep, enable_servos, set_servo_position, analog, disable_servos, enable_servo
 from kipr import motor_power, shut_down_in, wait_for_light
+
+import servo
 from calibrate import choose_to_calibrate
 from constants.sensors import TOP_HAT_THRESHOLD, calibrate_gyro
 from drive import drive, line_follow, line_follow_left, drive_straight, \
@@ -8,8 +10,23 @@ from drive import drive, line_follow, line_follow_left, drive_straight, \
 from servo import move_servo_lego
 from utilities import wait_for_button, stop_motors, debug
 from constants.ports import LEFT_TOP_HAT, SERVO_REPLACEMENT, RIGHT_TOP_HAT
-from constants.servos import BackClaw, Claw, Arm, LIGHT_SENSOR
+from constants.servos import BackClaw, Claw, Arm, LIGHT_SENSOR, translate_arm
 from common import ROBOT, light
+
+
+def angle_test_arm():
+    servo.move(Arm.NINETY)
+    wait_for_button("waiting for button")
+    servo.move(Arm.ZERO)
+    wait_for_button("waiting for button")
+    servo.move(Arm.FORTY_FIVE)
+
+
+def angle_test_claw():
+    servo.move(Claw.FORTY_FIVE)
+    wait_for_button("waiting for button")
+    servo.move(Claw.ZERO)
+    wait_for_button("waiting for button")
 
 
 def init():
@@ -20,10 +37,11 @@ def init():
     # choose_to_calibrate()
     wait_for_button("Press button for POST.")
     enable_servos()
-    power_on_self_test()
-    move_servo_lego(BackClaw.UP)
-    move_servo_lego(Claw.CLOSED, 0, False)
-    move_servo_lego(Arm.START, 5, False)
+    # power_on_self_test()
+    # set initial servo positions
+    # move_servo_lego(BackClaw.UP)
+    # move_servo_lego(Claw.CLOSED, 0, False)
+    # move_servo_lego(Arm.START, 5, False)
     # wait_for_button("Press button to calibrate light sensor.")
     # light.wait_4_light(LIGHT_SENSOR)
     # wait_for_light(LIGHT_SENSOR)
