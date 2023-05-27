@@ -1,33 +1,41 @@
 from kipr import msleep, enable_servos, set_servo_position, analog, disable_servos, enable_servo, \
     motor_power, shut_down_in, wait_for_light, a_button, b_button, push_button
+import os
 from calibrate import choose_to_calibrate
 from constants.sensors import TOP_HAT_THRESHOLD, calibrate_gyro
 from drive import drive, line_follow, line_follow_left, drive_straight, \
     dramatic_line_follow, line_follow_right, line_follow_ticks, drive_until_black, drive_until_white, gyro_drive, \
-    line_follow_to_line, drive_straight_until_white, drive_straight_until_black, calibrate_straight_drive_distance, \
-    straight_drive_distance
+    line_follow_to_line, drive_straight_until_white, drive_straight_until_black
 from servo import move_servo_lego
 from utilities import wait_for_button, stop_motors, debug
 from constants.ports import LEFT_TOP_HAT, SERVO_REPLACEMENT, RIGHT_TOP_HAT
 from constants.servos import BackClaw, Claw, Arm, LIGHT_SENSOR
 from common import ROBOT, light
-from common.gyro_movements import gyro_init, gyro_turn
+from common.gyro_movements import gyro_init, gyro_turn, calibrate_straight_drive_distance
 
 
 def init():
     ROBOT.run(
         gyro_init,
-        red=(gyro_drive, stop_motors, 0, 1, 0.013, 0.005),
-        blue=(gyro_drive, stop_motors, 0.05, 1),
-        yellow=(gyro_drive, stop_motors, 0, 1),
-        green=(gyro_drive, stop_motors, 0, 1, 0.013, 0.005)
+        red=(gyro_drive, stop_motors, 0.05, 1, 0.013, 0.005),
+        blue=(gyro_drive, stop_motors, 0.05, 1, 0.013, 0.005),
+        yellow=(gyro_drive, stop_motors, 0.05, 1, 0.013, 0.005),
+        green=(gyro_drive, stop_motors, 0.05, 1, 0.013, 0.005)
     )
     print("Push button to run the POST.\nPush 'B' to calibrate straight drive distance.")
     while not push_button():
         if b_button():
             while b_button():
                 pass
-            calibrate_straight_drive_distance()
+            msleep(500)
+            calibrate_straight_drive_distance(ROBOT.choose(
+                red=11.5,
+                blue=11.7,
+                yellow=11.5,
+                green=11.5
+                )
+            )
+
     while push_button():
         pass
     # wait_for_button("Press button for POST.")

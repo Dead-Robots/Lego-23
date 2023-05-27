@@ -1,9 +1,9 @@
 import time
+import os
 
 from constants.ports import LEFT_MOTOR, RIGHT_MOTOR, LEFT_TOP_HAT, RIGHT_TOP_HAT, PUSH_SENSOR
 from constants.sensors import TOP_HAT_THRESHOLD, TOP_HAT_THRESHOLD_GREY
-from kipr import motor_power, msleep, analog, clear_motor_position_counter, get_motor_position_counter, \
-    get_digital_output
+from kipr import motor_power, msleep, analog, clear_motor_position_counter, get_motor_position_counter, digital
 from common import ROBOT
 from utilities import stop_motors
 from common.gyro_movements import gyro_turn, straight_drive
@@ -248,27 +248,37 @@ def line_follow_to_line(stop=True):
         stop_motors()
 
 
-def calibrate_straight_drive_distance():
-    start_position = get_motor_position_counter(LEFT_MOTOR) + get_motor_position_counter(RIGHT_MOTOR)
-
-    def condition():
-        return get_digital_output(PUSH_SENSOR) == 0
-    straight_drive(100, condition)
-    print((get_motor_position_counter(LEFT_MOTOR)+get_motor_position_counter(RIGHT_MOTOR)-start_position)
-          + " ticks driven")
+try:
+    with open(os.path.expanduser("~/straight.txt"), "r") as straight_file:
+        straight_drive_distance_proportion = float(straight_file.read())
+except FileNotFoundError:
+    print("Warning, straight drive distance not calibrated")
+    straight_drive_distance_proportion = 0
 
 
-def straight_drive_distance(speed, inches, stop_when_finished):
-    # Number printed divided by the distance driven when running calibrate_straight_drive_distance
-    straight_drive_distance_proportion = ROBOT.choose(
-        red=1.0,
-        blue=1.0,
-        yellow=1.0,
-        green=1.0
-    )
-    start_position = get_motor_position_counter(LEFT_MOTOR) + get_motor_position_counter(RIGHT_MOTOR)
-
-    def condition():
-        return get_motor_position_counter(LEFT_MOTOR) + get_motor_position_counter(RIGHT_MOTOR) - start_position < \
-            inches * straight_drive_distance_proportion
-    straight_drive(speed, condition, stop_when_finished)
+# def calibrate_straight_drive_distance(robot_length_inches, total_inches=94):
+#     start_position = get_motor_position_counter(LEFT_MOTOR) + get_motor_position_counter(RIGHT_MOTOR)
+#
+#     def condition():
+#         return digital(PUSH_SENSOR) == 0
+#
+#     straight_drive(100, condition)
+#     with open(os.path.expanduser("~/straight.txt"), "w+") as file:
+#         file.write(
+#             str((get_motor_position_counter(LEFT_MOTOR) + get_motor_position_counter(RIGHT_MOTOR) - start_position)
+#                 / (total_inches - robot_length_inches)))
+#
+#
+# def straight_drive_distance(speed, inches, stop_when_finished=True):
+#     start_position = get_motor_position_counter(LEFT_MOTOR) + get_motor_position_counter(RIGHT_MOTOR)
+#     distance_adjustment = ROBOT.choose(
+#         red=0.6,
+#         blue=0.6,
+#         yellow=0.6,
+#         green=0.6
+#     )
+#
+#     def condition():
+#         return abs(get_motor_position_counter(LEFT_MOTOR) + get_motor_position_counter(RIGHT_MOTOR) - start_position) \
+#             < (abs(inches) - abs(distance_adjustment * (speed / 100.0))) * straight_drive_distance_proportion
+#     straight_drive(speed, condition, stop_when_finished)
