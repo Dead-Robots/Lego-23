@@ -31,10 +31,10 @@ if __name__ == '__main__':
     else:
         print("Help! I'm having an identity crisis (robot unidentified)")
         debug()
-    init()
+    # init()
     now = time.time()
 
-    slay_line_follow(4000)
+    slay_line_follow(6000)
     # straight_drive_distance(100, 24)
     # gyro_demo()
     # gyro_turn_test(0, 100, 180, 1)
