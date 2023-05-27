@@ -165,6 +165,26 @@ def line_follow_right_lego1(duration, direction=1):
             drive(0, direction * 85, direction * 85)
 
 
+def slay_line_follow(duration):
+    duration = duration // 1000
+    start_time = time.time()
+    while time.time() - start_time < duration:
+        if analog(LEFT_TOP_HAT) <= 840:
+            drive(100, 70, 0)
+        elif 1125 >= analog(LEFT_TOP_HAT) > 840:
+            drive(100, 92, 0)
+        elif 1410 >= analog(LEFT_TOP_HAT) > 1125:
+            drive(100, 95, 0)
+        elif 1410 > analog(LEFT_TOP_HAT) >= 1980:
+            drive(100, 100, 0)
+        elif 1980 < analog(LEFT_TOP_HAT) <= 2265:
+            drive(97, 100, 0)
+        elif 2265 < analog(LEFT_TOP_HAT) <= 2550:
+            drive(95, 100, 0)
+        else:
+            drive(70, 100, 0)
+
+
 def straight_timed_slow(duration, stop=True):
     offset = ROBOT.load("slow") or 0
     # print("Driving at speed 45 with offset", offset)
