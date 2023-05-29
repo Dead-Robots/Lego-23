@@ -38,6 +38,7 @@ def init():
 
     while push_button():
         pass
+    msleep(500)
     # wait_for_button("Press button for POST.")
     # enable_servos()
     # power_on_self_test()
