@@ -2,10 +2,10 @@ from kipr import msleep, enable_servos, set_servo_position, analog, disable_serv
     motor_power, shut_down_in, wait_for_light, a_button, b_button, push_button
 import os
 from calibrate import choose_to_calibrate
-from constants.sensors import TOP_HAT_THRESHOLD, calibrate_gyro
+from constants.sensors import TOP_HAT_THRESHOLD
 from drive import drive, line_follow, line_follow_left, drive_straight, \
     dramatic_line_follow, line_follow_right, line_follow_ticks, drive_until_black, drive_until_white, gyro_drive, \
-    line_follow_to_line, drive_straight_until_white, drive_straight_until_black
+    line_follow_to_line, drive_straight_until_white, drive_straight_until_black, get_motor_positions, push_sensor
 from servo import move_servo_lego
 from utilities import wait_for_button, stop_motors, debug
 from constants.ports import LEFT_TOP_HAT, SERVO_REPLACEMENT, RIGHT_TOP_HAT
@@ -17,10 +17,10 @@ from common.gyro_movements import gyro_init, gyro_turn, calibrate_straight_drive
 def init():
     ROBOT.run(
         gyro_init,
-        red=(gyro_drive, stop_motors, 0.05, 1, 0.013, 0.005),
-        blue=(gyro_drive, stop_motors, 0.07, 0.965, 0.013, 0.005),
-        yellow=(gyro_drive, stop_motors, 0.05, 1, 0.013, 0.005),
-        green=(gyro_drive, stop_motors, 0.05, 1, 0.013, 0.005)
+        red=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.05, 1, 0.013, 0.005),
+        blue=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.07, 0.965, 0.013, 0.005),
+        yellow=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.05, 1, 0.013, 0.005),
+        green=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.05, 1, 0.013, 0.005)
     )
     print("Push button to run the POST.\nPush 'B' to calibrate straight drive distance.")
     while not push_button():
