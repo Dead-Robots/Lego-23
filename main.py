@@ -19,8 +19,9 @@ if __name__ == '__main__':
     # straight_distance_slow(3 * 12)
     # print("done!")
     enable_servos()
+    move_hook()
     # angle_test_arm()
-    angle_test_claw()
+    # angle_test_claw()
     exit(0)
     if ROBOT.is_blue:
         print("I am BLUE")

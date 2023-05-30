@@ -30,6 +30,15 @@ class Arm(ServoEnum):
     ZERO = translate_arm(0)
     NINETY = translate_arm(90)
     FORTY_FIVE = translate_arm(45)
+    ONE_TEN = translate_arm(110)
+    SEVENTY = translate_arm(70)
+    SEVENTY_FIVE = translate_arm(75)
+    EIGHTY = translate_arm(80)
+    SIXTY_FIVE = translate_arm(65)
+    TWENTY_FIVE = translate_arm(25)
+    THIRTY = translate_arm(30)
+    THIRTY_FIVE = translate_arm(35)
+
 
 
 # Red and Blue have tested values
