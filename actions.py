@@ -3,6 +3,7 @@ from kipr import motor_power, shut_down_in, wait_for_light
 
 import servo
 from calibrate import choose_to_calibrate
+from common.multitasker import Multitasker
 from constants.sensors import TOP_HAT_THRESHOLD, calibrate_gyro
 from drive import drive, line_follow, line_follow_left, drive_straight, \
     dramatic_line_follow, line_follow_right, line_follow_ticks, drive_until_black, drive_until_white, gyro_turn, \
@@ -157,25 +158,35 @@ def move_hook():
     # the below code is commented because it is not consistent as of now
     # # making sure that the claw is closed before picking up the hook
     move_servo_lego(Claw.ZERO, 3, False)
-    # # go to the side of the hook that is most elevated -- easier to go under
-    # # move straight to go in front of the hook
-    # drive_straight(ROBOT.choose(red=220, blue=1000, yellow=300), 1)
     move_servo_lego(Arm.ONE_TEN, 3, False)
-    wait_for_button("ready to move under hook")
-    # drive(80, 0, 75)
-    move_servo_lego(Arm.SEVENTY_FIVE, 3, False)
-    wait_for_button("Half way through?")
-    drive_straight(ROBOT.choose(red=120, blue=70, yellow=70), -1)
-    # lifting arm so that the hook can move up
-    move_servo_lego(Arm.SIXTY_FIVE, 3, False)
-    wait_for_button("ready to turn left?")
-    # moving the hook to the left by making lego pivot
+    wait_for_button("slay")
+    # move_servo_lego(Arm.SEVENTY_FIVE, 3, False)
+    # move back and lift arm at the same time
+    print('code done')
+    with Multitasker() as multitasker:
+        multitasker.do(move_servo_lego, args=(Arm.SIXTY_FIVE, 2, False))
+        multitasker.do(drive_straight, args=(75, -1))
+    wait_for_button("slayy")
     drive(0, 40, 700)
-    wait_for_button("ready for slight turn?")
-    drive_straight(150, -1)
-    wait_for_button("turn left again?")
-    move_servo_lego(Arm.THIRTY_FIVE, 3, False)
-    stop_motors(0)
+    # # # go to the side of the hook that is most elevated -- easier to go under
+    # # # move straight to go in front of the hook
+    # # drive_straight(ROBOT.choose(red=220, blue=1000, yellow=300), 1)
+    # move_servo_lego(Arm.ONE_TEN, 3, False)
+    # wait_for_button("ready to move under hook")
+    # # drive(80, 0, 75)
+    # move_servo_lego(Arm.SEVENTY_FIVE, 3, False)
+    # wait_for_button("Half way through?")
+    # drive_straight(ROBOT.choose(red=120, blue=70, yellow=70), -1)
+    # # lifting arm so that the hook can move up
+    # move_servo_lego(Arm.SIXTY_FIVE, 3, False)
+    # wait_for_button("ready to turn left?")
+    # # moving the hook to the left by making lego pivot
+    # drive(0, 40, 700)
+    # wait_for_button("ready for slight turn?")
+    # drive_straight(150, -1)
+    # wait_for_button("turn left again?")
+    # move_servo_lego(Arm.THIRTY_FIVE, 3, False)
+    # stop_motors(0)
 
 
 def ws_to_ddos():
