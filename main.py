@@ -19,7 +19,7 @@ if __name__ == '__main__':
     # wait_for_button()
     # straight_distance_slow(3 * 12)
     # print("done!")
-
+    print("starting to calibrate robot")
     if ROBOT.is_blue:
         print("I am BLUE")
     elif ROBOT.is_red:
