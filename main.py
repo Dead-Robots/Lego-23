@@ -3,10 +3,10 @@ from kipr import msleep
 
 from actions import init, shut_down, get_botgal, deliver_botgal, get_wire_shark, ws_to_ddos, ddos_to_analysis, \
     knock_over_rings, get_noodle_one, deliver_noodle_one, yellow_get_noodle_one, yellow_deliver_noodle_one, \
-    avoid_create, clap_claw
+    avoid_create, clap_claw, to_revenge_tool
 from common import ROBOT
 from drive import slay_line_follow
-from utilities import debug
+from utilities import debug, wait_for_button
 import time
 from common.gyro_movements import gyro_turn_test, straight_drive, straight_drive_distance
 
@@ -32,6 +32,8 @@ if __name__ == '__main__':
         print("Help! I'm having an identity crisis (robot unidentified)")
         debug()
     init()
+    to_revenge_tool()
+    wait_for_button()
     straight_drive_distance(100, 36)
     # slay_line_follow(6000)
     # gyro_demo()

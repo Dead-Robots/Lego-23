@@ -11,7 +11,7 @@ from utilities import wait_for_button, stop_motors, debug
 from constants.ports import LEFT_TOP_HAT, SERVO_REPLACEMENT, RIGHT_TOP_HAT
 from constants.servos import BackClaw, Claw, Arm, LIGHT_SENSOR
 from common import ROBOT, light
-from common.gyro_movements import gyro_init, gyro_turn, calibrate_straight_drive_distance
+from common.gyro_movements import gyro_init, gyro_turn, calibrate_straight_drive_distance, straight_drive_distance
 
 
 def init():
@@ -20,7 +20,7 @@ def init():
         red=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.05, 1, 0.013, 0.005, 0.0),
         blue=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.07, 0.965, 0.013, 0.005, 0.0),
         yellow=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.05, 1, 0.013, 0.005, 0.0),
-        green=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.05, 1, 0.013, 0.3, 0.4)
+        green=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.05, 0.975, 0.018, 0.3, 0.4)
     )
     print("Push button to run the POST.\nPush 'B' to calibrate straight drive distance.")
     while not push_button():
@@ -32,7 +32,7 @@ def init():
                 red=11.5,
                 blue=11.7,
                 yellow=11.5,
-                green=9.6
+                green=9.5
                 )
             )
 
@@ -95,6 +95,14 @@ def get_botgal():
     move_servo_lego(Arm.GRAB, 4)
     move_servo_lego(Claw.GRAB, 2, False)
     move_servo_lego(Arm.UP, 20, False)
+
+
+def to_revenge_tool():
+    straight_drive_distance(100, 4)
+    gyro_turn(60, -60, 100)
+    wait_for_button("is robot turning good?")
+    straight_drive_distance(100, 25)
+    gyro_turn(60, -60, 20)
 
 
 # bad robots :(
