@@ -4,15 +4,17 @@ from kipr import motor_power, shut_down_in, wait_for_light
 import servo
 from calibrate import choose_to_calibrate
 from common.multitasker import Multitasker
-from constants.sensors import TOP_HAT_THRESHOLD, calibrate_gyro
+from constants.sensors import TOP_HAT_THRESHOLD, calibrate_gyro, push_sensor
 from drive import drive, line_follow, line_follow_left, drive_straight, \
-    dramatic_line_follow, line_follow_right, line_follow_ticks, drive_until_black, drive_until_white, gyro_turn, \
-    line_follow_to_line, drive_straight_until_white, drive_straight_until_black
+    dramatic_line_follow, line_follow_right, line_follow_ticks, drive_until_black, drive_until_white, \
+    line_follow_to_line, drive_straight_until_white, drive_straight_until_black, get_motor_positions, gyro_drive
 from servo import move_servo_lego
 from utilities import wait_for_button, stop_motors, debug
 from constants.ports import LEFT_TOP_HAT, SERVO_REPLACEMENT, RIGHT_TOP_HAT
-from constants.servos import BackClaw, Claw, Arm, LIGHT_SENSOR, translate_arm
+from constants.servos import BackClaw, Claw, Arm, LIGHT_SENSOR, Arm2, Wrist
 from common import ROBOT, light
+from common.gyro_movements import gyro_turn, straight_drive, straight_drive_distance, \
+    calibrate_straight_drive_distance, gyro_init
 
 
 def angle_test_arm():
@@ -23,6 +25,7 @@ def angle_test_arm():
     # servo.move(Arm.FORTY_FIVE)
     servo.move(Arm.THIRTY_FIVE)
 
+
 def angle_test_claw():
     servo.move(Claw.FORTY_FIVE)
     wait_for_button("waiting for button")
@@ -31,12 +34,8 @@ def angle_test_claw():
 
 
 def init():
-    print("Calibrating gyro, do not touch.")
-    msleep(500)
-    calibrate_gyro()
-    msleep(500)
+    gyro_init(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.975, 0.05, 0.018, 0.3, 0.4)
     # choose_to_calibrate()
-    wait_for_button("Press button for POST.")
     enable_servos()
     # power_on_self_test()
     # set initial servo positions
@@ -47,7 +46,7 @@ def init():
     # light.wait_4_light(LIGHT_SENSOR)
     # wait_for_light(LIGHT_SENSOR)
     wait_for_button("Begin run?")
-    shut_down_in(119)
+    # shut_down_in(119)
 
 
 def power_on_self_test():
@@ -156,7 +155,7 @@ def get_wire_shark():
 
 def move_hook():
     # the below code is commented because it is not consistent as of now
-    # # making sure that the claw is closed before picking up the hook
+    # making sure that the claw is closed before picking up the hook
     move_servo_lego(Claw.ZERO, 3, False)
     move_servo_lego(Arm.ONE_TEN, 3, False)
     wait_for_button("slay")
@@ -166,21 +165,21 @@ def move_hook():
     with Multitasker() as multitasker:
         multitasker.do(move_servo_lego, args=(Arm.SIXTY_FIVE, 2, False))
         multitasker.do(drive_straight, args=(75, -1))
-    wait_for_button("slayy")
+    wait_for_button("slay")
     drive(0, 40, 700)
-    # # # go to the side of the hook that is most elevated -- easier to go under
-    # # # move straight to go in front of the hook
-    # # drive_straight(ROBOT.choose(red=220, blue=1000, yellow=300), 1)
+    # go to the side of the hook that is most elevated -- easier to go under
+    # move straight to go in front of the hook
+    # drive_straight(ROBOT.choose(red=220, blue=1000, yellow=300), 1)
     # move_servo_lego(Arm.ONE_TEN, 3, False)
     # wait_for_button("ready to move under hook")
-    # # drive(80, 0, 75)
+    # drive(80, 0, 75)
     # move_servo_lego(Arm.SEVENTY_FIVE, 3, False)
-    # wait_for_button("Half way through?")
+    # wait_for_button("Halfway through?")
     # drive_straight(ROBOT.choose(red=120, blue=70, yellow=70), -1)
-    # # lifting arm so that the hook can move up
+    # lifting arm so that the hook can move up
     # move_servo_lego(Arm.SIXTY_FIVE, 3, False)
     # wait_for_button("ready to turn left?")
-    # # moving the hook to the left by making lego pivot
+    # moving the hook to the left by making lego pivot
     # drive(0, 40, 700)
     # wait_for_button("ready for slight turn?")
     # drive_straight(150, -1)
@@ -343,3 +342,24 @@ def clap_claw():
     move_servo_lego(Claw.CLOSED, 1, False)
     move_servo_lego(Claw.OPEN, 1, False)
     move_servo_lego(Claw.CLOSED, 1, False)
+
+
+def rev():
+    gyro_turn(-20, -12, 10)
+    wait_for_button()
+    servo.move(Arm2.LOWER, 5)
+    wait_for_button()
+    wait_for_button()
+    servo.move(Wrist.DIAGONAL)
+    wait_for_button()
+    servo.move(Arm2.LOW)
+    wait_for_button()
+    gyro_turn(5, -20, 5)
+    gyro_turn(-10, 20, 8)
+    gyro_turn(20, 0, 5)
+    wait_for_button()
+    servo.move(Arm2.MIDDLE)
+    wait_for_button()
+    servo.move(Arm2.HIGH)
+    wait_for_button()
+    servo.move(Wrist.VERTICAL)

@@ -27,8 +27,8 @@ class Claw(ServoEnum):
 class Arm(ServoEnum):
     port = ARM
 
-    ZERO = translate_arm(0)
-    NINETY = translate_arm(90)
+    VERTICAL = translate_arm(0)
+    HORIZONTAL = translate_arm(90)
     FORTY_FIVE = translate_arm(45)
     ONE_TEN = translate_arm(110)
     SEVENTY = translate_arm(70)
@@ -38,7 +38,6 @@ class Arm(ServoEnum):
     TWENTY_FIVE = translate_arm(25)
     THIRTY = translate_arm(30)
     THIRTY_FIVE = translate_arm(35)
-
 
 
 # Red and Blue have tested values
@@ -62,3 +61,21 @@ class BackClaw(ServoEnum):
         blue=1400,
         yellow=1800
     )
+
+
+class Wrist(ServoEnum):
+    port = 1
+
+    VERTICAL = 0
+    DIAGONAL = 375
+    HORIZONTAL = 880
+
+
+class Arm2(ServoEnum):
+    port = 2
+
+    DOWN = 1850
+    LOWER = 1450
+    LOW = 1525
+    MIDDLE = 1075
+    HIGH = 750

@@ -1,4 +1,4 @@
-from kipr import gyro_z, msleep
+from kipr import gyro_z, msleep, digital
 
 from common import ROBOT
 
@@ -29,3 +29,7 @@ def calibrate_gyro():
         msleep(10)
     global gyro_offset
     gyro_offset = total / 50
+
+
+def push_sensor():
+    return digital(0) == 1

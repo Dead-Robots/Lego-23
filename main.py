@@ -3,7 +3,7 @@ from kipr import msleep, enable_servos
 
 from actions import init, shut_down, get_botgal, deliver_botgal, get_wire_shark, ws_to_ddos, ddos_to_analysis, \
     knock_over_rings, get_noodle_one, deliver_noodle_one, yellow_get_noodle_one, yellow_deliver_noodle_one, \
-    avoid_create, clap_claw, move_hook, angle_test_arm, angle_test_claw
+    avoid_create, clap_claw, move_hook, angle_test_arm, angle_test_claw, rev
 from common import ROBOT
 from constants.servos import translate_arm
 from utilities import debug
@@ -12,17 +12,16 @@ import time
 start_time = 0
 
 if __name__ == '__main__':
-    # driv calibration code:
+    # drive calibration code:
     # run_calibration()
     # straight_distance_fast(3 * 12)
     # wait_for_button()
     # straight_distance_slow(3 * 12)
     # print("done!")
-    enable_servos()
-    move_hook()
+    # enable_servos()
+    # move_hook()
     # angle_test_arm()
     # angle_test_claw()
-    exit(0)
     if ROBOT.is_blue:
         print("I am BLUE")
     elif ROBOT.is_red:
@@ -31,8 +30,9 @@ if __name__ == '__main__':
         print("I am YELLOW")
     else:
         print("Help! I'm having an identity crisis (robot unidentified)")
-    #     debug()
-    # init()
+        debug()
+    init()
+    rev()
     # start_time = time.time()
     # # get_botgal()
     # # deliver_botgal()
