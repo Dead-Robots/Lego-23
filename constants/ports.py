@@ -10,6 +10,8 @@ ARM = ROBOT.choose(red=3, blue=3, yellow=1, green=3)
 # instead
 BACK_CLAW = ROBOT.choose(red=2, blue=2, yellow=2, green=2)
 
+REV_CLAW = ROBOT.choose(green=1)
+
 # analog ports
 LEFT_TOP_HAT = 0
 RIGHT_TOP_HAT = 1

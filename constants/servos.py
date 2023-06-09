@@ -57,6 +57,22 @@ class Claw(ServoEnum):
     )
 
 
+class RevClaw(ServoEnum):
+    port = REV_CLAW
+
+    DRIVING = ROBOT.choose(
+        green=350
+    )
+
+    OPEN = ROBOT.choose(
+        green=700
+    )
+
+    CLOSED = ROBOT.choose(
+        green=1400
+    )
+
+
 # Red and Blue have tested values
 class Arm(ServoEnum):
     port = ARM

@@ -9,7 +9,7 @@ from drive import drive, line_follow, line_follow_left, drive_straight, \
 from servo import move_servo_lego
 from utilities import wait_for_button, stop_motors, debug
 from constants.ports import LEFT_TOP_HAT, SERVO_REPLACEMENT, RIGHT_TOP_HAT
-from constants.servos import BackClaw, Claw, Arm, LIGHT_SENSOR
+from constants.servos import BackClaw, Claw, Arm, LIGHT_SENSOR, RevClaw
 from common import ROBOT, light
 from common.gyro_movements import gyro_init, gyro_turn, calibrate_straight_drive_distance, straight_drive_distance
 
@@ -17,10 +17,10 @@ from common.gyro_movements import gyro_init, gyro_turn, calibrate_straight_drive
 def init():
     ROBOT.run(
         gyro_init,
-        red=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.05, 1, 0.013, 0.005, 0.0),
-        blue=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.07, 0.965, 0.013, 0.005, 0.0),
-        yellow=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.05, 1, 0.013, 0.005, 0.0),
-        green=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.05, 0.975, 0.018, 0.3, 0.4)
+        red=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 1, 0.05, 0.013, 0.005, 0.0),
+        blue=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.965, 0.07, 0.013, 0.005, 0.0),
+        yellow=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 1, 0.05, 0.013, 0.005, 0.0),
+        green=(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.965, 0.05, 0.018, 0.3, 0.4)
     )
     print("Push button to run the POST.\nPush 'B' to calibrate straight drive distance.")
     while not push_button():
@@ -40,7 +40,7 @@ def init():
         pass
     msleep(500)
     # wait_for_button("Press button for POST.")
-    # enable_servos()
+    enable_servos()
     # power_on_self_test()
     # move_servo_lego(BackClaw.UP)
     # move_servo_lego(Claw.CLOSED, 0, False)
@@ -317,3 +317,28 @@ def clap_claw():
     move_servo_lego(Claw.CLOSED, 1, False)
     move_servo_lego(Claw.OPEN, 1, False)
     move_servo_lego(Claw.CLOSED, 1, False)
+
+
+def grab_rev():
+    move_servo_lego(RevClaw.DRIVING)
+    wait_for_button()
+    move_servo_lego(RevClaw.OPEN)
+    wait_for_button()
+    move_servo_lego(RevClaw.CLOSED)
+    # stuff that's cool
+
+
+def go_to_revenge():
+    move_servo_lego(RevClaw.DRIVING)
+    straight_drive_distance(100, 6.8)
+    gyro_turn(-80, 0, 90)
+    straight_drive_distance(-100, 22)
+    gyro_turn(-60, 30, 50)
+    # straight_drive_distance(-100, 3)
+    # wait_for_button()
+    # gyro_turn(-60, 0, 20)
+    # wait_for_button()
+    # straight_drive_distance(100, 3)
+    wait_for_button()
+    move_servo_lego(RevClaw.CLOSED)
+
