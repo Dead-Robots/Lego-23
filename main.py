@@ -33,7 +33,6 @@ if __name__ == '__main__':
         debug()
     init()
     go_to_revenge()
-    wait_for_button()
     exit(0)
     # slay_line_follow(6000)
     # gyro_demo()

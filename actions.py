@@ -329,16 +329,18 @@ def grab_rev():
 
 
 def go_to_revenge():
-    move_servo_lego(RevClaw.DRIVING)
-    straight_drive_distance(100, 6.8)
-    gyro_turn(-80, 0, 90)
-    straight_drive_distance(-100, 22)
-    gyro_turn(-60, 30, 50)
+    move_servo_lego(RevClaw.DRIVING, 2)
+    straight_drive_distance(100, 7.25001, False)
+    gyro_turn(-80, 0, 90, False)
+    straight_drive_distance(-100, 23.5, False)
+    gyro_turn(-60, 50, 60, False)
     # straight_drive_distance(-100, 3)
     # wait_for_button()
     # gyro_turn(-60, 0, 20)
     # wait_for_button()
     # straight_drive_distance(100, 3)
-    wait_for_button()
-    move_servo_lego(RevClaw.CLOSED)
+    gyro_turn(35, 80, 15)
+    move_servo_lego(RevClaw.CLOSED, 2)
+    wait_for_button("Push button to release claw.")
+    move_servo_lego(RevClaw.DRIVING, 2)
 
