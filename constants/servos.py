@@ -67,7 +67,9 @@ class Wrist(ServoEnum):
     port = 1
 
     VERTICAL = 0
+    DIAGONAL_VERTICAL = 180
     DIAGONAL = 375
+    DIAGONAL_HORIZONTAL = 625
     HORIZONTAL = 880
 
 
@@ -75,7 +77,7 @@ class Arm2(ServoEnum):
     port = 2
 
     DOWN = 1850
-    LOWER = 1450
+    LOWER = 1425
     LOW = 1525
-    MIDDLE = 1075
+    MIDDLE = 1150
     HIGH = 750
