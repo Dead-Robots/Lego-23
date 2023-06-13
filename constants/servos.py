@@ -32,12 +32,15 @@ class Claw(ServoEnum):
 
     CLOSE = 1300
     OPEN = 450
+    SUPEROPEN = 275
+    PUSH_RET = 850
 
 
 class Arm(ServoEnum):
     port = 2
 
-    DOWN = 1675
+    # RET Values
+    DOWN = 1700
     LOW_LOW_DOWN = 1569
     LOW_DOWN = 1463
     HIGH_LOW_DOWN = 1356
@@ -50,6 +53,10 @@ class Arm(ServoEnum):
     MIDDLE_HIGH = 435
     HIGH_MIDDLE_HIGH = 293
     HIGH = 150
+
+    # Everything Else
+    START = 1875
+    HORIZONTAL = 900
 
 # class OldArm(ServoEnum):
 #     port = ARM

@@ -1,4 +1,4 @@
-from kipr import msleep, enable_servos
+from kipr import msleep, enable_servos, b_button, push_button
 
 import servo
 from common.multitasker import Multitasker
@@ -83,18 +83,63 @@ def servo_value_test(servo1):
 
 
 def init():
-    gyro_init(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.975, 0.05, 0.018, 0.3, 0.4)
+    gyro_init(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.975, 0.08, 0.018, 0.3, 0.4)
     enable_servos()
-    wait_for_button("Begin run?")
+    print("Press 'B' to run the POST.\nPress the button to begin the run.")
+    while not push_button():
+        if b_button():
+            while b_button():
+                pass
+            msleep(250)
+            post()
+    msleep(500)
+
+
+def post():
+    print("Starting POST.")
+    servo.move(Wrist.HORIZONTAL, 2)
+    msleep(300)
+    servo.move(Arm.START, 2)
+    msleep(300)
+    servo.move(Arm.HORIZONTAL, 2)
+    servo.move(Claw.CLOSE, 2)
+    servo.move(Claw.OPEN, 2)
+    servo.move(Claw.CLOSE, 2)
+    msleep(300)
+    servo.move(Arm.HIGH, 2)
+    msleep(300)
+    servo.move(Claw.CLOSE, 2)
+    servo.move(Claw.OPEN, 2)
+    servo.move(Claw.CLOSE, 2)
+    msleep(300)
+    servo.move(Wrist.HORIZONTAL, 2)
+    msleep(300)
+    servo.move(Wrist.VERTICAL, 2)
+    msleep(300)
+    servo.move(Wrist.HORIZONTAL, 2)
+    msleep(300)
+    servo.move(Arm.START, 2)
+    servo.move(Claw.SUPEROPEN, 2)
+    print("POST Complete.")
+
+
+def go_to_ret():
+    servo.move(Arm.HIGH_LOW_DOWN, 2)
+    straight_drive_distance(100, 15)
+    gyro_turn(100, 0, 90)
+    straight_drive_distance(100, 17.3)
+    gyro_turn(100, 0, 70)
+    servo.move(Arm.DOWN, 2)
+    servo.move(Claw.PUSH_RET, 2)
+    wait_for_button()
+    straight_drive_distance(100, 6)
+    servo.move(Claw.OPEN, 2)
+    straight_drive_distance(100, 2.5)
 
 
 def ret():
-    servo.move(Claw.OPEN, 2)
-    servo.move(Wrist.HORIZONTAL, 2)
-    servo.move(Arm.DOWN, 2)
-    wait_for_button("Press button to close claw.")
     servo.move(Claw.CLOSE, 2)
-    wait_for_button("Press button to start.")
+    msleep(200)
     servo.move(Arm.LOW_LOW_DOWN, 2)
     straight_drive_distance(-20, 2)
     servo.move(Arm.LOW_DOWN, 2)

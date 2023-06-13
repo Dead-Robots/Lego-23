@@ -1,8 +1,7 @@
 #!/usr/local/bin/python3.10 -u
-from actions import init, servo_value_test, ret
+from actions import init, servo_value_test, ret, go_to_ret
 from common import ROBOT
-from constants.servos import Wrist, Arm, Claw
-from utilities import debug
+from utilities import debug, wait_for_button
 
 start_time = 0
 
@@ -18,4 +17,6 @@ if __name__ == '__main__':
         debug()
     init()
     # servo_value_test(Wrist)
+    go_to_ret()
+    wait_for_button()
     ret()
