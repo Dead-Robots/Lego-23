@@ -4,59 +4,70 @@ from constants.ports import *
 
 
 def translate_arm(angle):
-    position = int(angle / 175 * 2047 + 549)
+    position = int(angle / 175 * 2047 + int(ROBOT.choose(red=-213, yellow=-165, blue=-165, green=-3)))
     if position < 0 or position > 2047:
-        raise Exception("Resulting position invalid " + str(position))
+        raise Exception("Resulting position invalid " + str(position) + " " + str(angle))
     return position
 
 
 def translate_claw(angle):
-    position = int(-angle / 175 * 2047 + 976)
+    position = int(angle / 175 * 2047 + 287)
     if position < 0 or position > 2047:
-        raise Exception("Resulting position invalid " + str(position))
+        raise Exception("Resulting position invalid " + str(position) + " " + str(angle))
+    return position
+
+
+def translate_wrist(angle):
+    position = int(-angle / 175 * 2047 + int(ROBOT.choose(red=1650, blue=1650, yellow=1650, green=1371)))
+    if position < 0 or position > 2047:
+        raise Exception("Resulting position invalid " + str(position) + " " + str(angle))
     return position
 
 
 class Wrist(ServoEnum):
-    port = 0
+    port = WRIST
+    translation_function = translate_wrist
 
-    VERTICAL = 540
-    DIAGONAL_VERTICAL = 835
-    DIAGONAL = 1110
-    DIAGONAL_HORIZONTAL = 1385
-    HORIZONTAL = 1650
+    VERTICAL = translate_wrist(95)
+    DIAGONAL_VERTICAL = translate_wrist(70)
+    DIAGONAL = translate_wrist(46)
+    DIAGONAL_HORIZONTAL = translate_wrist(23)
+    HORIZONTAL = translate_wrist(0)
 
 
 class Claw(ServoEnum):
-    port = 1
+    port = CLAW
+    translation_function = translate_claw
 
-    CLOSE = 1300
-    OPEN = 450
-    SUPEROPEN = 275
-    PUSH_RET = 850
+    CLOSE = translate_claw(90)
+    OPEN = translate_claw(14)
+    SUPEROPEN = translate_claw(0)
+    PUSH_RET = translate_claw(48)
 
 
 class Arm(ServoEnum):
-    port = 2
+    port = ARM
+    translation_function = translate_arm
 
-    # RET Values
-    DOWN = 1700
-    LOW_LOW_DOWN = 1569
-    LOW_DOWN = 1463
-    HIGH_LOW_DOWN = 1356
-    LOW = 1250
-    LOW_MIDDLE_LOW = 1118
-    MIDDLE_LOW = 985
-    HIGH_MIDDLE_LOW = 853
-    MIDDLE = 720
-    LOW_MIDDLE_HIGH = 578
-    MIDDLE_HIGH = 435
-    HIGH_MIDDLE_HIGH = 293
-    HIGH = 150
+    # RET Values (ugly)
+    RET_PUSH = translate_arm(153)
+    RET_LEVEL_0 = translate_arm(145.6)
+    RET_LEVEL_0_25 = translate_arm(134.6)
+    RET_LEVEL_0_5 = translate_arm(125.6)
+    RET_LEVEL_0_75 = translate_arm(116.6)
+    RET_LEVEL_1 = translate_arm(106.6)
+    RET_LEVEL_1_25 = translate_arm(95.6)
+    RET_LEVEL_1_5 = translate_arm(84.6)
+    RET_LEVEL_1_75 = translate_arm(73.6)
+    RET_LEVEL_2 = translate_arm(61.6)
+    RET_LEVEL_2_25 = translate_arm(49.6)
+    RET_LEVEL_2_5 = translate_arm(37.6)
+    RET_LEVEL_2_75 = translate_arm(25.6)
+    RET_LEVEL_3 = translate_arm(20)
 
     # Everything Else
-    START = 1875
-    HORIZONTAL = 900
+    START = translate_arm(160.6)
+    HORIZONTAL = translate_arm(90)
 
 # class OldArm(ServoEnum):
 #     port = ARM
@@ -95,4 +106,3 @@ class Arm(ServoEnum):
 #         blue=1400,
 #         yellow=1800
 #     )
-

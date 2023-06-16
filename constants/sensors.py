@@ -6,13 +6,15 @@ from common import ROBOT
 TOP_HAT_THRESHOLD_GREY = ROBOT.choose(
     red=3000,
     blue=3000,
-    yellow=3400
+    yellow=3400,
+    green=3000
 )
 
 TOP_HAT_THRESHOLD = ROBOT.choose(
     red=2300,
     blue=2300,
-    yellow=3000
+    yellow=3000,
+    green=2300
 )
 
 gyro_offset = 0
