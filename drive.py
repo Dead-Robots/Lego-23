@@ -1,8 +1,9 @@
 import time
+import os
 
 from constants.ports import LEFT_MOTOR, RIGHT_MOTOR, LEFT_TOP_HAT, RIGHT_TOP_HAT
-from constants.sensors import TOP_HAT_THRESHOLD, TOP_HAT_THRESHOLD_GREY, gyroscope
-from kipr import motor_power, msleep, analog, clear_motor_position_counter, get_motor_position_counter
+from constants.sensors import TOP_HAT_THRESHOLD, TOP_HAT_THRESHOLD_GREY
+from kipr import motor_power, msleep, analog, clear_motor_position_counter, get_motor_position_counter, digital
 from common import ROBOT
 from utilities import stop_motors
 
@@ -25,6 +26,8 @@ def drive_straight(duration, direction=1):
         drive(int(direction * 97), int(direction * 100), duration)
     if ROBOT.is_red:
         drive(int(direction * 96), int(direction * 100), duration)
+    if ROBOT.is_green:
+        drive(int(direction*100), int(direction*100), duration)
 
 
 def drive_straight_until_white(direction=1):
@@ -54,6 +57,8 @@ def line_follow(duration):
                 drive(80, 100, 10)
             elif ROBOT.is_red:
                 drive(80, 100, 10)
+            elif ROBOT.is_green:
+                drive(80, 100, 10)
             else:
                 print("Robot unidentified in line-follow")
         else:  # on black
@@ -63,6 +68,8 @@ def line_follow(duration):
             elif ROBOT.is_blue:
                 drive(100, 85, 10)
             elif ROBOT.is_red:
+                drive(100, 80, 10)
+            elif ROBOT.is_green:
                 drive(100, 80, 10)
             else:
                 print("Robot unidentified in line-follow")
@@ -161,6 +168,26 @@ def line_follow_right_lego1(duration, direction=1):
             drive(0, *([direction * 40, direction * 90][::direction]))
         else:
             drive(0, direction * 85, direction * 85)
+
+
+def slay_line_follow(duration):
+    duration = duration // 1000
+    start_time = time.time()
+    while time.time() - start_time < duration:
+        if analog(LEFT_TOP_HAT) <= 840:
+            drive(100, 70, 0)
+        elif 1125 >= analog(LEFT_TOP_HAT) > 840:
+            drive(100, 92, 0)
+        elif 1410 >= analog(LEFT_TOP_HAT) > 1125:
+            drive(100, 95, 0)
+        elif 1410 > analog(LEFT_TOP_HAT) >= 1980:
+            drive(100, 100, 0)
+        elif 1980 < analog(LEFT_TOP_HAT) <= 2265:
+            drive(97, 100, 0)
+        elif 2265 < analog(LEFT_TOP_HAT) <= 2550:
+            drive(95, 100, 0)
+        else:
+            drive(70, 100, 0)
 
 
 def straight_timed_slow(duration, stop=True):
