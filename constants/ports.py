@@ -6,7 +6,7 @@ SERVO_REPLACEMENT = 1
 
 # servo ports
 CLAW = ROBOT.choose(red=1, blue=0, yellow=0, green=0)
-ARM = ROBOT.choose(red=2, blue=3, yellow=1, green=2)
+ARM = ROBOT.choose(red=2, blue=3, yellow=1, green=3)
 # instead
 WRIST = ROBOT.choose(red=0, blue=2, yellow=2, green=1)
 

@@ -1,8 +1,11 @@
-from kipr import msleep, enable_servos, b_button, push_button
+from kipr import msleep, enable_servos, b_button, push_button, c_button, analog
 
 import servo
+from common import ROBOT
 from common.multitasker import Multitasker
-from constants.sensors import push_sensor
+from common.post import post_core
+from constants.ports import LEFT_TOP_HAT, RIGHT_TOP_HAT
+from constants.sensors import push_sensor, TOP_HAT_THRESHOLD
 from drive import drive, get_motor_positions, gyro_drive
 from utilities import wait_for_button, stop_motors, debug
 from constants.servos import Claw, Arm, Wrist
@@ -83,55 +86,78 @@ def servo_value_test(servo1):
 
 
 def init():
-    gyro_init(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.975, 0.08, 0.018, 0.3, 0.4)
-    enable_servos()
-    print("Press 'B' to run the POST.\nPress the button to begin the run.")
-    while not push_button():
-        if b_button():
-            while b_button():
-                pass
-            msleep(250)
-            post()
+    post_core(test_servos, test_motors, test_sensors, initial_setup, calibrate_drive_distance)
     msleep(500)
 
 
-def post():
-    print("Starting POST.")
+def initial_setup():
+    gyro_init(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.975, 0.08, 0.018, 0.3, 0.4)
+    enable_servos()
     servo.move(Wrist.HORIZONTAL, 2)
-    msleep(300)
+    servo.move(Claw.SUPEROPEN, 2)
+    servo.move(Arm.START, 2)
+
+
+def calibrate_drive_distance():
+    servo.move(Arm.RET_LEVEL_0_25, 2)
+    calibrate_straight_drive_distance(ROBOT.choose(red=10.75, blue=10, yellow=10, green=10))
+
+
+def test_motors():
+    straight_drive_distance(80, 12)
+    gyro_turn(80, 0, 90)
+
+
+def test_servos():
     servo.move(Arm.START, 2)
     msleep(300)
     servo.move(Arm.HORIZONTAL, 2)
-    servo.move(Claw.CLOSE, 2)
-    servo.move(Claw.OPEN, 2)
-    servo.move(Claw.CLOSE, 2)
-    msleep(300)
+    msleep(500)
     servo.move(Arm.RET_LEVEL_3, 2)
     msleep(300)
-    servo.move(Claw.CLOSE, 2)
-    servo.move(Claw.OPEN, 2)
-    servo.move(Claw.CLOSE, 2)
-    msleep(300)
+    servo.move(Arm.HORIZONTAL, 2)
     servo.move(Wrist.HORIZONTAL, 2)
+    msleep(300)
+    servo.move(Wrist.DIAGONAL, 2)
     msleep(300)
     servo.move(Wrist.VERTICAL, 2)
     msleep(300)
     servo.move(Wrist.HORIZONTAL, 2)
-    msleep(300)
-    servo.move(Arm.START, 2)
     servo.move(Claw.SUPEROPEN, 2)
-    msleep(500)
-    straight_drive_distance(80, 12)
-    gyro_turn(80, 0, 90)
-    print("POST Complete.")
+    msleep(300)
+    servo.move(Claw.CLOSE, 2)
+    msleep(300)
+    servo.move(Claw.SUPEROPEN, 2)
+    servo.move(Arm.START, 2)
+
+
+def test_sensors():
+    print("Press push sensor.")
+    while not push_sensor():
+        pass
+    while push_sensor():
+        pass
+    msleep(200)
+    print("Push sensor input detected")
+
+    def condition():
+        return analog(LEFT_TOP_HAT) < TOP_HAT_THRESHOLD
+
+    def condition_2():
+        return analog(RIGHT_TOP_HAT) > TOP_HAT_THRESHOLD
+
+    print("Driving until left top hat sees black.")
+    straight_drive(80, condition)
+    print("Driving until right top hat sees white.")
+    straight_drive(80, condition_2)
 
 
 def go_to_ret():
-    servo.move(Arm.RET_LEVEL_0_75, 2)
+    servo.move(Arm.RET_LEVEL_0_5, 2)
     straight_drive_distance(100, 15)
     gyro_turn(100, 0, 90)
     straight_drive_distance(100, 17.3)
-    gyro_turn(100, 0, 70)
+    gyro_turn(100, 0, 72.5)
     servo.move(Arm.RET_PUSH, 2)
     servo.move(Claw.PUSH_RET, 2)
     straight_drive_distance(100, 6)
@@ -141,24 +167,23 @@ def go_to_ret():
 
 def ret():
     servo.move(Claw.CLOSE, 2)
-    msleep(200)
+    msleep(100)
+    straight_drive_distance(-50, 6)
     servo.move(Arm.RET_LEVEL_0_25, 2)
-    straight_drive_distance(-20, 2)
     servo.move(Arm.RET_LEVEL_0_5, 2)
-    straight_drive_distance(-20, 1)
+    straight_drive_distance(-50, 1)
     servo.move(Wrist.DIAGONAL_HORIZONTAL)
     servo.move(Arm.RET_LEVEL_0_75)
     servo.move(Wrist.DIAGONAL, 2)
     servo.move(Arm.RET_LEVEL_1)
 
-    gyro_turn(-30, -20, 3)
+    gyro_turn(-60, -30, 4)
     servo.move(Wrist.DIAGONAL_VERTICAL, 2)
-    gyro_turn(-30, -10, 4)
+    gyro_turn(-60, -15, 5)
     servo.move(Wrist.VERTICAL, 2)
-    gyro_turn(-30, -10, 4)
+    gyro_turn(-60, -15, 5)
     servo.move(Wrist.DIAGONAL_VERTICAL, 2)
-    gyro_turn(-30, -20, 3)
-    servo.move(Wrist.DIAGONAL, 2)
+    gyro_turn(-60, -30, 4)
     servo.move(Wrist.DIAGONAL_HORIZONTAL, 2)
     servo.move(Arm.RET_LEVEL_1_25, 2)
     servo.move(Wrist.HORIZONTAL, 2)
@@ -169,26 +194,46 @@ def ret():
     servo.move(Arm.RET_LEVEL_2, 2)
 
     servo.move(Wrist.DIAGONAL_VERTICAL, 2)
-    gyro_turn(-20, -5, 12)
+    wait_for_button()
+    gyro_turn(-20, 50, 12)
+    wait_for_button()
     servo.move(Wrist.DIAGONAL, 2)
-    gyro_turn(5, 30, 5)
+    wait_for_button()
+    gyro_turn(10, 50, 5)
+    wait_for_button()
     servo.move(Wrist.DIAGONAL_HORIZONTAL, 2)
+    wait_for_button()
     servo.move(Arm.RET_LEVEL_2_25, 2)
+    wait_for_button()
+    straight_drive_distance(50, 1.5)
+    wait_for_button()
     servo.move(Wrist.HORIZONTAL, 2)
+    wait_for_button()
     servo.move(Arm.RET_LEVEL_2_5, 2)
-    straight_drive_distance(30, 2)
+    wait_for_button()
+    straight_drive_distance(50, 2)
+    wait_for_button()
     servo.move(Wrist.DIAGONAL_HORIZONTAL, 2)
+    wait_for_button()
     servo.move(Arm.RET_LEVEL_2_75, 2)
+    wait_for_button()
     servo.move(Wrist.DIAGONAL, 2)
+    wait_for_button()
     servo.move(Arm.RET_LEVEL_3, 2)
+    wait_for_button()
 
-    straight_drive_distance(20, 1)
+    straight_drive_distance(50, 1)
+    wait_for_button()
     servo.move(Wrist.DIAGONAL_VERTICAL, 2)
-    gyro_turn(-10, 30, 2)
+    wait_for_button()
+    gyro_turn(-5, 60, 2)
+    wait_for_button()
     servo.move(Wrist.VERTICAL, 2)
-    gyro_turn(0, 30, 10)
+    wait_for_button()
+    gyro_turn(0, 60, 10)
+    wait_for_button()
 
     servo.move(Claw.OPEN, 2)
-    straight_drive_distance(-60, 8)
+    straight_drive_distance(-80, 8)
     servo.move(Wrist.HORIZONTAL, 2)
-    servo.move(Arm.RET_LEVEL_0, 2)
+    servo.move(Arm.START, 2)

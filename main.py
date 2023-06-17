@@ -21,6 +21,5 @@ if __name__ == '__main__':
     init()
     # servo_value_test(Claw)
     # wait_for_button('click button to start run')
-    # go_to_ret()
-    # wait_for_button()
+    go_to_ret()
     ret()
