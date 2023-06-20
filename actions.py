@@ -100,7 +100,7 @@ def initial_setup():
 
 def calibrate_drive_distance():
     servo.move(Arm.RET_LEVEL_0_25, 2)
-    calibrate_straight_drive_distance(ROBOT.choose(red=10.75, blue=10, yellow=10, green=10))
+    calibrate_straight_drive_distance(ROBOT.choose(red=10.75, blue=10, yellow=10, green=11))
 
 
 def test_motors():
@@ -177,6 +177,7 @@ def go_to_ret():
 
 
 def ret():
+    # bringing coupler from ground level to level 1
     servo.move(Claw.CLOSE, 2)
     wait_for_button()
     msleep(100)
@@ -195,6 +196,7 @@ def ret():
     servo.move(Arm.RET_LEVEL_1)
     wait_for_button()
 
+    # bringing coupler from level 1 to level 2
     gyro_turn(-60, -30, 4)
     wait_for_button()
     servo.move(Wrist.DIAGONAL_VERTICAL, 2)
@@ -222,6 +224,7 @@ def ret():
     servo.move(Arm.RET_LEVEL_2, 2)
     wait_for_button()
 
+    # bringing coupler from level 2 to level 3
     servo.move(Wrist.DIAGONAL_VERTICAL, 2)
     wait_for_button()
     gyro_turn(-20, 20, 12)
@@ -251,6 +254,7 @@ def ret():
     servo.move(Arm.RET_LEVEL_3, 2)
     wait_for_button()
 
+    # getting the coupler in a good position
     straight_drive_distance(50, 1)
     wait_for_button()
     servo.move(Wrist.DIAGONAL_VERTICAL, 2)
@@ -262,6 +266,7 @@ def ret():
     gyro_turn(0, 60, 10)
     wait_for_button()
 
+    # opening claw in the good position
     servo.move(Claw.OPEN, 2)
     straight_drive_distance(-80, 8)
     servo.move(Wrist.HORIZONTAL, 2)
