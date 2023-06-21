@@ -100,7 +100,7 @@ def initial_setup():
 
 def calibrate_drive_distance():
     servo.move(Arm.RET_LEVEL_0_25, 2)
-    calibrate_straight_drive_distance(ROBOT.choose(red=10.75, blue=10, yellow=10, green=11))
+    calibrate_straight_drive_distance(ROBOT.choose(red=10.75, blue=10, yellow=10, green=10.25))
 
 
 def test_motors():
@@ -140,48 +140,47 @@ def test_sensors():
     msleep(200)
     print("Push sensor input detected")
 
-    def condition():
-        return analog(LEFT_TOP_HAT) < TOP_HAT_THRESHOLD
-
-    def condition_2():
-        return analog(RIGHT_TOP_HAT) > TOP_HAT_THRESHOLD
-
-    print("Driving until left top hat sees black.")
-    straight_drive(80, condition)
-    print("Driving until right top hat sees white.")
-    straight_drive(80, condition_2)
+    # def condition():
+    #     return analog(LEFT_TOP_HAT) < TOP_HAT_THRESHOLD
+    #
+    # def condition_2():
+    #     return analog(RIGHT_TOP_HAT) > TOP_HAT_THRESHOLD
+    #
+    # print("Driving until left top hat sees black.")
+    # straight_drive(80, condition)
+    # print("Driving until right top hat sees white.")
+    # straight_drive(80, condition_2)
 
 
 def go_to_ret():
     servo.move(Arm.RET_LEVEL_0_5, 2)
-    straight_drive_distance(100, 15)
+    straight_drive_distance(100, 12)
     gyro_turn(100, 0, 90)
     straight_drive_distance(100, 16.9)
-    gyro_turn(100, 0, 69.5)
+    gyro_turn(100, 0, 71)
     servo.move(Arm.RET_PUSH, 2)
     servo.move(Claw.PUSH_RET, 2)
-    straight_drive_distance(100, 6)
-    wait_for_button()
-    straight_drive_distance(-100, 1)
-    wait_for_button()
-    servo.move(Arm.RET_LEVEL_0, 2)
-    wait_for_button()
-    servo.move(Claw.OPEN, 2)
-    wait_for_button()
-    straight_drive_distance(100, 2)
-    wait_for_button()
+    straight_drive_distance(100, 11)
+    straight_drive_distance(-100, 2.5)
+    servo.move(Arm.RET_LEVEL_0_25, 2)
+    servo.move(Claw.SUPEROPEN, 2)
+    straight_drive_distance(100, 2.5)
     servo.move(Arm.RET_PUSH, 2)
-    wait_for_button()
     straight_drive_distance(100, 1.5)
+    wait_for_button()
+    servo.move(Arm.START)
     wait_for_button()
 
 
 def ret():
     # bringing coupler from ground level to level 1
     servo.move(Claw.CLOSE, 2)
+    servo.move(Arm.RET_LEVEL_0, 2)
     wait_for_button()
     msleep(100)
-    straight_drive_distance(-50, 4)
+    straight_drive_distance(-50, 2)
+    servo.move(Arm.RET_LEVEL_0_25, 2)
+    straight_drive_distance(-50, 2)
     wait_for_button()
     servo.move(Arm.RET_LEVEL_0_5, 2)
     wait_for_button()

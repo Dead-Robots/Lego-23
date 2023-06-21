@@ -4,14 +4,14 @@ from constants.ports import *
 
 
 def translate_arm(angle):
-    position = int(angle / 175 * 2047 + int(ROBOT.choose(red=-213, yellow=-165, blue=-165, green=-3)))
+    position = int(angle / 175 * 2047 + int(ROBOT.choose(red=-213, yellow=-165, blue=-165, green=-50)))
     if position < 0 or position > 2047:
         raise Exception("Resulting position invalid " + str(position) + " " + str(angle))
     return position
 
 
 def translate_claw(angle):
-    position = int(angle / 175 * 2047 + 287)
+    position = int(angle / 175 * 2047 + ROBOT.choose(red=287, blue=287, yellow=287, green=600))
     if position < 0 or position > 2047:
         raise Exception("Resulting position invalid " + str(position) + " " + str(angle))
     return position
@@ -66,7 +66,7 @@ class Arm(ServoEnum):
     RET_LEVEL_3 = translate_arm(20)
 
     # Everything Else
-    START = translate_arm(160.6)
+    START = translate_arm(175)
     HORIZONTAL = translate_arm(90)
 
 # class OldArm(ServoEnum):
