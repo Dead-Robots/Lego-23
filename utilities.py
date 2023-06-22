@@ -6,7 +6,7 @@ def wait_for_button(text="waiting for button"):
     stop_motors()
     print(text)
     while not push_button():
-        pass
+        msleep(50)
     msleep(1000)
 
 

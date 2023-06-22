@@ -1,6 +1,7 @@
 #!/usr/local/bin/python3.10 -u
 from actions import init, servo_value_test, ret, go_to_ret
 from common import ROBOT
+from common.gyro_movements import gyro_turn_test
 from constants.servos import Wrist, Arm, Claw
 from utilities import debug, wait_for_button
 
@@ -19,7 +20,5 @@ if __name__ == '__main__':
         print("Help! I'm having an identity crisis (robot unidentified)")
         debug()
     init()
-    # servo_value_test(Claw)
-    # wait_for_button('click button to start run')
     go_to_ret()
     ret()

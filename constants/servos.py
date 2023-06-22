@@ -33,6 +33,7 @@ class Wrist(ServoEnum):
     DIAGONAL = translate_wrist(46)
     DIAGONAL_HORIZONTAL = translate_wrist(23)
     HORIZONTAL = translate_wrist(0)
+    DROP = translate_wrist(130)
 
 
 class Claw(ServoEnum):
@@ -51,7 +52,7 @@ class Arm(ServoEnum):
 
     # RET Values (ugly)
     RET_PUSH = translate_arm(170)
-    RET_LEVEL_0 = translate_arm(163)
+    RET_LEVEL_0 = translate_arm(166)
     RET_LEVEL_0_25 = translate_arm(145)
     RET_LEVEL_0_5 = translate_arm(135)
     RET_LEVEL_0_75 = translate_arm(125)
