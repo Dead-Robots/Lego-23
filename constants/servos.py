@@ -44,6 +44,7 @@ class Claw(ServoEnum):
     OPEN = translate_claw(14)
     SUPEROPEN = translate_claw(0)
     PUSH_RET = translate_claw(48)
+    FIREWALL = translate_claw(56.5)
 
 
 class Arm(ServoEnum):
@@ -51,8 +52,8 @@ class Arm(ServoEnum):
     translation_function = translate_arm
 
     # RET Values (ugly)
-    RET_PUSH = translate_arm(170)
-    RET_LEVEL_0 = translate_arm(166)
+    RET_DOWN = translate_arm(170)
+    RET_LEVEL_0 = translate_arm(164)
     RET_LEVEL_0_25 = translate_arm(145)
     RET_LEVEL_0_5 = translate_arm(135)
     RET_LEVEL_0_75 = translate_arm(125)
@@ -69,6 +70,12 @@ class Arm(ServoEnum):
     # Everything Else
     START = translate_arm(175)
     HORIZONTAL = translate_arm(90)
+    GRAB_FIREWALL = translate_arm(160)
+    LIFT_FIREWALL = translate_arm(20)
+    LIFT_FIREWALL_SLIGHTLY = translate_arm(148)
+    BELOW_ALARM = translate_arm(140)
+    ALARM_SQUARE_UP = translate_arm(78)
+    ABOVE_ALARM = translate_arm(55)
 
 # class OldArm(ServoEnum):
 #     port = ARM

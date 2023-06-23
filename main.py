@@ -1,11 +1,13 @@
 #!/usr/local/bin/python3.10 -u
-from actions import init, servo_value_test, ret, go_to_ret
+from actions import init, servo_value_test, ret, go_to_ret, get_firewall, deliver_firewall, return_from_enc, \
+    activate_alarm
 from common import ROBOT
 from common.gyro_movements import gyro_turn_test
 from constants.servos import Wrist, Arm, Claw
 from utilities import debug, wait_for_button
+import time
 
-start_time = 0
+start_time = time.time()
 
 if __name__ == '__main__':
     if ROBOT.is_blue:
@@ -22,3 +24,11 @@ if __name__ == '__main__':
     init()
     go_to_ret()
     ret()
+    get_firewall()
+    deliver_firewall()
+    firewall_time = time.time()
+    print(str(firewall_time-start_time) + " seconds elapsed when firewall dropped.")
+    # return_from_enc()
+    # activate_alarm()
+    end_time = time.time()
+    print(str(end_time-start_time) + " seconds elapsed when finished.")
