@@ -4,21 +4,21 @@ from constants.ports import *
 
 
 def translate_arm(angle):
-    position = int(angle / 175 * 2047 + int(ROBOT.choose(red=-213, yellow=-165, blue=-165, green=-50)))
+    position = int(angle / 175 * 2047 + int(ROBOT.choose(red=-213, yellow=-165, blue=-165, green=-213)))
     if position < 0 or position > 2047:
         raise Exception("Resulting position invalid " + str(position) + " " + str(angle))
     return position
 
 
 def translate_claw(angle):
-    position = int(angle / 175 * 2047 + ROBOT.choose(red=287, blue=287, yellow=287, green=600))
+    position = int(angle / 175 * 2047 + ROBOT.choose(red=287, blue=287, yellow=287, green=830))
     if position < 0 or position > 2047:
         raise Exception("Resulting position invalid " + str(position) + " " + str(angle))
     return position
 
 
 def translate_wrist(angle):
-    position = int(-angle / 175 * 2047 + int(ROBOT.choose(red=1650, blue=1650, yellow=1650, green=1371)))
+    position = int(-angle / 175 * 2047 + int(ROBOT.choose(red=1650, blue=1650, yellow=1650, green=1720)))
     if position < 0 or position > 2047:
         raise Exception("Resulting position invalid " + str(position) + " " + str(angle))
     return position
@@ -33,7 +33,7 @@ class Wrist(ServoEnum):
     DIAGONAL = translate_wrist(46)
     DIAGONAL_HORIZONTAL = translate_wrist(23)
     HORIZONTAL = translate_wrist(0)
-    DROP = translate_wrist(130)
+    DROP = translate_wrist(140)
 
 
 class Claw(ServoEnum):
@@ -68,14 +68,16 @@ class Arm(ServoEnum):
     RET_LEVEL_3 = translate_arm(20)
 
     # Everything Else
-    START = translate_arm(175)
+    START = translate_arm(20)
     HORIZONTAL = translate_arm(90)
     GRAB_FIREWALL = translate_arm(160)
     LIFT_FIREWALL = translate_arm(20)
-    LIFT_FIREWALL_SLIGHTLY = translate_arm(148)
-    BELOW_ALARM = translate_arm(140)
-    ALARM_SQUARE_UP = translate_arm(78)
-    ABOVE_ALARM = translate_arm(55)
+    LIFT_FIREWALL_SLIGHTLY = translate_arm(155)
+    BELOW_ALARM = translate_arm(136)
+    ALARM_SQUARE_UP = translate_arm(106.5)
+    ABOVE_ALARM = translate_arm(35)
+    DOWN = translate_arm(185)
+    NOODLE_GRAB = translate_arm(72)
 
 # class OldArm(ServoEnum):
 #     port = ARM

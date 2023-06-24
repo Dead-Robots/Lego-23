@@ -11,7 +11,7 @@ TOP_HAT_THRESHOLD_GREY = ROBOT.choose(
 )
 
 TOP_HAT_THRESHOLD = ROBOT.choose(
-    red=2300,
+    red=2400,
     blue=2300,
     yellow=3000,
     green=2300

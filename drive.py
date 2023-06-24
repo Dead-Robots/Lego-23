@@ -1,6 +1,7 @@
 import time
 import os
 
+from common.gyro_movements import straight_drive
 from constants.ports import LEFT_MOTOR, RIGHT_MOTOR, LEFT_TOP_HAT, RIGHT_TOP_HAT
 from constants.sensors import TOP_HAT_THRESHOLD, TOP_HAT_THRESHOLD_GREY
 from kipr import motor_power, msleep, analog, clear_motor_position_counter, get_motor_position_counter, digital
@@ -14,32 +15,20 @@ def drive(left_speed, right_speed, duration):
     msleep(duration)
 
 
-def drive_straight(duration, direction=1):
-    """
-    following right side of black line
-    :param duration: time in ms
-    :param direction: 1 for forward or -1 for reverse, defaults to forward
-    """
-    if ROBOT.is_yellow:
-        drive(int(direction * 100), int(direction * 96), duration)
-    if ROBOT.is_blue:
-        drive(int(direction * 97), int(direction * 100), duration)
-    if ROBOT.is_red:
-        drive(int(direction * 96), int(direction * 100), duration)
-    if ROBOT.is_green:
-        drive(int(direction*100), int(direction*100), duration)
+def left_on_black():
+    return analog(LEFT_TOP_HAT) > TOP_HAT_THRESHOLD
 
 
-def drive_straight_until_white(direction=1):
-    drive_straight(10, direction)
-    while analog(0) > TOP_HAT_THRESHOLD:
-        pass
+def left_on_white():
+    return analog(LEFT_TOP_HAT) < TOP_HAT_THRESHOLD
 
 
-def drive_straight_until_black(direction=1):
-    drive_straight(10, direction)
-    while analog(0) < TOP_HAT_THRESHOLD:
-        pass
+def right_on_black():
+    return analog(RIGHT_TOP_HAT) > TOP_HAT_THRESHOLD
+
+
+def right_on_white():
+    return analog(RIGHT_TOP_HAT) < TOP_HAT_THRESHOLD
 
 
 def line_follow(duration):
@@ -75,38 +64,6 @@ def line_follow(duration):
                 print("Robot unidentified in line-follow")
 
 
-def line_follow_left(duration):
-    """
-    following left side of black line
-    :param duration: time in ms
-    """
-
-    x = 0
-    while x < duration:
-        if analog(LEFT_TOP_HAT) < TOP_HAT_THRESHOLD:  # on white
-            x += 10
-            drive(100, 85, 10)
-        else:  # on black
-            x += 10
-            drive(80, 100, 10)
-
-
-def line_follow_to_ddos(duration):  # less aggressive
-    """
-    following left side of black line
-    :param duration: time in ms
-    """
-
-    x = 0
-    while x < duration:
-        if analog(LEFT_TOP_HAT) < TOP_HAT_THRESHOLD:  # on white
-            x += 10
-            drive(100, 90, 10)
-        else:  # on black
-            x += 10
-            drive(85, 100, 10)
-
-
 def line_follow_right(duration):
     """
     following right side of black line
@@ -123,51 +80,129 @@ def line_follow_right(duration):
             drive(100, 62, 10)
 
 
-def dramatic_line_follow(duration):
-    """
-    following left side of black line
-    :param duration: time in ms
-    :redrive:
-    """
-
-    x = 0
-    while x < duration:
-        if analog(LEFT_TOP_HAT) < TOP_HAT_THRESHOLD:  # on white
-            x += 10
-            drive(100, 65, 10)
-        else:  # on black
-            x += 10
-            drive(60, 100, 10)
-
-
-def drive_until_black(left_motor, right_motor, stop=True):
+def drive_until_black(left_motor, right_motor, top_hat=None, stop=True):
     drive(left_motor, right_motor, 0)
-    while analog(LEFT_TOP_HAT) < TOP_HAT_THRESHOLD:
-        pass
+    if top_hat is None:
+        while right_on_white() and left_on_white():
+            pass
+    else:
+        while analog(top_hat) < TOP_HAT_THRESHOLD:
+            pass
     if stop:
         stop_motors()
 
 
-def drive_until_white(left_motor, right_motor, stop=True):
+def drive_until_both_black(left_motor, right_motor, top_hat=None, stop=True):
     drive(left_motor, right_motor, 0)
-    while analog(LEFT_TOP_HAT) > TOP_HAT_THRESHOLD:
-        pass
+    if top_hat is None:
+        while right_on_white() and left_on_white():
+            pass
+    else:
+        while analog(top_hat) < TOP_HAT_THRESHOLD:
+            pass
     if stop:
         stop_motors()
 
 
-def line_follow_right_lego1(duration, direction=1):
+def drive_until_white(left_motor, right_motor, top_hat=None, stop=True):
+    drive(left_motor, right_motor, 0)
+    if top_hat is None:
+        while right_on_black() and left_on_black():
+            pass
+    else:
+        while analog(top_hat) > TOP_HAT_THRESHOLD:
+            pass
+    if stop:
+        stop_motors()
+
+
+def drive_until_both_white(left_motor, right_motor, top_hat=None, stop=True):
+    drive(left_motor, right_motor, 0)
+    if top_hat is None:
+        while right_on_black() or left_on_black():
+            pass
+    else:
+        while analog(top_hat) > TOP_HAT_THRESHOLD:
+            pass
+    if stop:
+        stop_motors()
+
+
+def straight_drive_until_black_left(speed, stop_when_finished=True):
+    def condition():
+        return left_on_white()
+
+    straight_drive(speed, condition, stop_when_finished)
+
+
+def straight_drive_until_black_right(speed, stop_when_finished=True):
+    def condition():
+        return right_on_white()
+
+    straight_drive(speed, condition, stop_when_finished)
+
+
+def straight_drive_until_white_left(speed, stop_when_finished=True):
+    def condition():
+        return left_on_black()
+
+    straight_drive(speed, condition, stop_when_finished)
+
+
+def straight_drive_until_white_right(speed, stop_when_finished=True):
+    def condition():
+        return right_on_black()
+
+    straight_drive(speed, condition, stop_when_finished)
+
+
+def straight_drive_until_black(speed, stop_when_finished=True):
+    def condition():
+        return left_on_white() and right_on_white()
+
+    straight_drive(speed, condition, stop_when_finished)
+
+
+def straight_drive_until_both_black(speed, stop_when_finished=True):
+    def condition():
+        return left_on_white() or right_on_white()
+    straight_drive(speed, condition, stop_when_finished)
+
+
+def straight_drive_until_white(speed, stop_when_finished=True):
+    def condition():
+        return left_on_black() and right_on_black()
+
+    straight_drive(speed, condition, stop_when_finished)
+
+
+def straight_drive_until_both_white(speed, stop_when_finished=True):
+    def condition():
+        return left_on_black() or right_on_black()
+
+    straight_drive(speed, condition, stop_when_finished)
+
+
+def line_follow_time_lego1(top_hat, duration, side="left", direction=1):
     duration = duration // 1000
 
     start_time = time.time()
-
-    while time.time() - start_time < duration:
-        if analog(LEFT_TOP_HAT) > 3100:
-            drive(0, *([direction * 90, direction * 20][::direction]))
-        elif analog(LEFT_TOP_HAT) < 2600:
-            drive(0, *([direction * 40, direction * 90][::direction]))
-        else:
-            drive(0, direction * 85, direction * 85)
+    if side == "left":
+        while time.time() - start_time < duration:
+            if analog(top_hat) > 3100:
+                drive(0, *([direction * 90, direction * 20][::direction]))
+            elif analog(top_hat) < 2600:
+                drive(0, *([direction * 20, direction * 90][::direction]))
+            else:
+                drive(0, direction * 85, direction * 85)
+    else:
+        while time.time() - start_time < duration:
+            if analog(top_hat) > 3100:
+                drive(0, *([direction * 20, direction * 90][::direction]))
+            elif analog(top_hat) < 2600:
+                drive(0, *([direction * 90, direction * 20][::direction]))
+            else:
+                drive(0, direction * 85, direction * 85)
 
 
 def slay_line_follow(duration):
@@ -190,66 +225,6 @@ def slay_line_follow(duration):
             drive(70, 100, 0)
 
 
-def straight_timed_slow(duration, stop=True):
-    offset = ROBOT.load("slow") or 0
-    # print("Driving at speed 45 with offset", offset)
-    motor_power(LEFT_MOTOR, 45)
-    motor_power(RIGHT_MOTOR, 45 + offset)
-    msleep(duration)
-    if stop:
-        stop_motors()
-
-
-def straight_timed_fast(duration, stop=True):
-    offset = ROBOT.load("fast") or 0
-    # print("Driving at speed 85 with offset", offset)
-    motor_power(LEFT_MOTOR, 85)
-    motor_power(RIGHT_MOTOR, 85 + offset)
-    msleep(duration)
-    if stop:
-        stop_motors()
-
-
-def straight_distance_fast(distance):
-    offset = ROBOT.load("fast") or 0
-    ticks = distance * ROBOT.load("inches_to_ticks")
-    if ticks > 0:
-        motor_power(LEFT_MOTOR, 85)
-        motor_power(RIGHT_MOTOR, 85 + offset)
-        clear_motor_position_counter(LEFT_MOTOR)
-        while get_motor_position_counter(LEFT_MOTOR) < ticks:
-            # print(get_motor_position_counter(LEFT_MOTOR), ticks, ROBOT.load("inches_to_ticks"))
-            pass
-    if ticks < 0:
-        motor_power(LEFT_MOTOR, -85)
-        motor_power(RIGHT_MOTOR, -85 - offset)
-        clear_motor_position_counter(LEFT_MOTOR)
-        while get_motor_position_counter(LEFT_MOTOR) > ticks:
-            # print(get_motor_position_counter(LEFT_MOTOR), ticks, ROBOT.load("inches_to_ticks"))
-            pass
-    stop_motors()
-
-
-def straight_distance_slow(distance):
-    offset = ROBOT.load("slow") or 0
-    ticks = distance * ROBOT.load("inches_to_ticks")
-    if ticks > 0:
-        motor_power(LEFT_MOTOR, 45)
-        motor_power(RIGHT_MOTOR, 45 + offset)
-        clear_motor_position_counter(LEFT_MOTOR)
-        while get_motor_position_counter(LEFT_MOTOR) < ticks:
-            # print(get_motor_position_counter(LEFT_MOTOR), ticks, ROBOT.load("inches_to_ticks"))
-            pass
-    if ticks < 0:
-        motor_power(LEFT_MOTOR, -45)
-        motor_power(RIGHT_MOTOR, -45 - offset)
-        clear_motor_position_counter(LEFT_MOTOR)
-        while get_motor_position_counter(LEFT_MOTOR) > ticks:
-            # print(get_motor_position_counter(LEFT_MOTOR), ticks, ROBOT.load("inches_to_ticks"))
-            pass
-    stop_motors()
-
-
 def line_follow_ticks(ticks, stop=True):
     clear_motor_position_counter(RIGHT_MOTOR)
     clear_motor_position_counter(LEFT_MOTOR)
@@ -262,9 +237,9 @@ def line_follow_ticks(ticks, stop=True):
         stop_motors()
 
 
-def line_follow_to_line(stop=True):
-    while analog(RIGHT_TOP_HAT) < TOP_HAT_THRESHOLD:
-        dramatic_line_follow(10)
+def line_follow_to_black(top_hat, stop=True):
+    while analog(top_hat) < TOP_HAT_THRESHOLD:
+        line_follow(10)
     if stop:
         stop_motors()
 
