@@ -301,7 +301,7 @@ def activate_alarm():
     stop_motors(100)
     gyro_turn(100, 0, 48, False)
     stop_motors(100)
-    straight_drive_distance(100, 9, False)
+    straight_drive_distance(100, 10, False)
     stop_motors(100)
     straight_drive_distance(-100, 0.8, False)
     stop_motors(100)
