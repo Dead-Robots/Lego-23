@@ -12,7 +12,8 @@ from constants.sensors import push_sensor, TOP_HAT_THRESHOLD
 from drive import drive, get_motor_positions, gyro_drive, straight_drive_until_black_left, \
     straight_drive_until_white_right, straight_drive_until_black_right, drive_until_black, drive_until_white, \
     straight_drive_until_black, straight_drive_until_white, left_on_white, left_on_black, right_on_black, \
-    right_on_white, drive_until_both_white, straight_drive_until_both_white, straight_drive_until_both_black
+    right_on_white, drive_until_both_white, straight_drive_until_both_white, straight_drive_until_both_black, \
+    enable_motor_2, square_up_top_hats
 from utilities import wait_for_button, stop_motors, debug
 from constants.servos import Claw, Arm, Wrist
 from common.gyro_movements import gyro_turn, straight_drive, straight_drive_distance, \
@@ -98,10 +99,11 @@ def init():
 
 def initial_setup():
     gyro_init(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.965, 0.06, 0.018, 0.3, 0.4)
+    enable_motor_2()
     enable_servos()
     servo.move(Wrist.HORIZONTAL, 2)
     servo.move(Claw.SUPEROPEN, 2)
-    servo.move(Arm.RET_LEVEL_3, 2)
+    servo.move(Arm.START, 2)
 
 
 def calibrate_drive_distance():
@@ -256,7 +258,7 @@ def deliver_firewall():
     servo.move(Arm.LIFT_FIREWALL_SLIGHTLY, 5)
     gyro_turn(100, 0, 44.5, False)
     stop_motors(100)
-    straight_drive_distance(100, 6, False)
+    straight_drive_distance(100, 6.5, False)
     stop_motors(100)
     servo.move(Arm.GRAB_FIREWALL, 2)
     servo.move(Claw.SUPEROPEN, 0)
@@ -266,7 +268,7 @@ def deliver_firewall():
 
 
 def return_from_enc():
-    straight_drive_distance(-100, 4, False)
+    straight_drive_distance(-100, 4.5, False)
     stop_motors(100)
     servo.move(Arm.DOWN, 3)
     gyro_turn(100, 0, 55, False)
@@ -299,16 +301,16 @@ def activate_alarm():
     stop_motors(100)
     straight_drive_until_black_right(100, False)
     stop_motors(100)
-    gyro_turn(100, 0, 48, False)
+    gyro_turn(100, 0, 46, False)
     stop_motors(100)
     straight_drive_distance(100, 10, False)
     stop_motors(100)
-    straight_drive_distance(-100, 0.8, False)
+    straight_drive_distance(-100, 1.2, False)
     stop_motors(100)
     servo.move(Arm.BELOW_ALARM, 4)
-    msleep(250)
+    msleep(100)
     servo.move(Arm.ABOVE_ALARM, 0)
-    msleep(750)
+    msleep(400)
     servo.move(Arm.ALARM_SQUARE_UP, 0)
     straight_drive_distance(-100, 2, False)
     stop_motors(100)
@@ -316,12 +318,39 @@ def activate_alarm():
 
 
 def get_noodle_one():
-    gyro_turn(100, -100, 127, False)
+    gyro_turn(100, -100, 130, False)
     stop_motors(100)
-    wait_for_button()
-    servo.move(Arm.NOODLE_GRAB)
-    straight_drive_distance(100, 16)
+    servo.move(Arm.NOODLE_GRAB, 4)
+    straight_drive_distance(100, 16, False)
     stop_motors(100)
+    servo.move(Claw.CLOSE, 1)
+    msleep(100)
+    servo.move(Arm.NOODLE_LIFT, 4)
+
+
+def deliver_noodle_one():
+    gyro_turn(100, -100, 171.5, False)
+    stop_motors(100)
+    straight_drive_until_black(100, False)
+    stop_motors(100)
+    square_up_top_hats()
+    straight_drive_distance(100, 25, False)
+    stop_motors(100)
+    straight_drive_distance(-100, 4.5, False)
+    stop_motors(100)
+    gyro_turn(-100, 100, 120, False)
+    stop_motors(100)
+    servo.move(Wrist.VERTICAL, 0)
+    servo.move(Arm.NOODLE_DELIVERY, 4)
+    gyro_turn(100, -100, 52, False)
+    stop_motors(100)
+    gyro_turn(100, 0, 12, False)
+    stop_motors(100)
+    servo.move(Claw.OPEN, 2)
+    straight_drive_distance(-100, 6,  False)
+    stop_motors(100)
+    servo.move(Wrist.HORIZONTAL, 0)
+    servo.move(Arm.NOODLE_GRAB, 5)
 
 
 def shutdown(start_time):
@@ -333,21 +362,3 @@ def shutdown(start_time):
     servo.move(Arm.RET_DOWN, 4)
     disable_servos()
 
-
-def square_up_top_hats():
-    straight_drive_until_black(40, False)
-    stop_motors(100)
-    if left_on_black() and right_on_white():
-        drive_until_black(0, 60, RIGHT_TOP_HAT, False)
-        stop_motors(100)
-        drive_until_white(-30, 0, LEFT_TOP_HAT, False)
-        stop_motors(100)
-        drive_until_black(0, 20, RIGHT_TOP_HAT, False)
-        stop_motors(100)
-    if right_on_black() and left_on_white():
-        drive_until_black(60, 0, LEFT_TOP_HAT, False)
-        stop_motors(100)
-        drive_until_white(0, -30, RIGHT_TOP_HAT, False)
-        stop_motors(100)
-        drive_until_black(20, 0, LEFT_TOP_HAT, False)
-        stop_motors(100)

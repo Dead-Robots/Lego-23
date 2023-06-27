@@ -15,6 +15,10 @@ def drive(left_speed, right_speed, duration):
     msleep(duration)
 
 
+def enable_motor_2():
+    motor_power(2, 100)
+
+
 def left_on_black():
     return analog(LEFT_TOP_HAT) > TOP_HAT_THRESHOLD
 
@@ -251,3 +255,22 @@ def get_motor_positions():
 def gyro_drive(left_speed, right_speed):
     motor_power(LEFT_MOTOR, left_speed)
     motor_power(RIGHT_MOTOR, right_speed)
+
+
+def square_up_top_hats():
+    straight_drive_until_black(40, False)
+    stop_motors(100)
+    if left_on_black() and right_on_white():
+        drive_until_black(0, 60, RIGHT_TOP_HAT, False)
+        stop_motors(100)
+        drive_until_white(-30, 0, LEFT_TOP_HAT, False)
+        stop_motors(100)
+        drive_until_black(0, 20, RIGHT_TOP_HAT, False)
+        stop_motors(100)
+    if right_on_black() and left_on_white():
+        drive_until_black(60, 0, LEFT_TOP_HAT, False)
+        stop_motors(100)
+        drive_until_white(0, -30, RIGHT_TOP_HAT, False)
+        stop_motors(100)
+        drive_until_black(20, 0, LEFT_TOP_HAT, False)
+        stop_motors(100)

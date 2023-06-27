@@ -53,7 +53,7 @@ class Arm(ServoEnum):
 
     # RET Values (ugly)
     RET_DOWN = translate_arm(170)
-    RET_LEVEL_0 = translate_arm(164)
+    RET_LEVEL_0 = translate_arm(165)
     RET_LEVEL_0_25 = translate_arm(145)
     RET_LEVEL_0_5 = translate_arm(135)
     RET_LEVEL_0_75 = translate_arm(125)
@@ -77,7 +77,9 @@ class Arm(ServoEnum):
     ALARM_SQUARE_UP = translate_arm(106.5)
     ABOVE_ALARM = translate_arm(35)
     DOWN = translate_arm(185)
-    NOODLE_GRAB = translate_arm(72)
+    NOODLE_GRAB = translate_arm(75)
+    NOODLE_LIFT = translate_arm(20)
+    NOODLE_DELIVERY = translate_arm(96)
 
 # class OldArm(ServoEnum):
 #     port = ARM
