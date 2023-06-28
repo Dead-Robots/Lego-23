@@ -4,7 +4,7 @@ from constants.ports import *
 
 
 def translate_arm(angle):
-    position = int(angle / 175 * 2047 + int(ROBOT.choose(red=-213, yellow=-165, blue=-165, green=-213)))
+    position = int(angle / 175 * 2047 + int(ROBOT.choose(red=-85, yellow=-165, blue=-165, green=-213)))
     if position < 0 or position > 2047:
         raise Exception("Resulting position invalid " + str(position) + " " + str(angle))
     return position
@@ -32,8 +32,8 @@ class Wrist(ServoEnum):
     DIAGONAL_VERTICAL = translate_wrist(70)
     DIAGONAL = translate_wrist(46)
     DIAGONAL_HORIZONTAL = translate_wrist(23)
-    HORIZONTAL = translate_wrist(0)
-    DROP = translate_wrist(140)
+    HORIZONTAL = translate_wrist(-8)
+    DROP = translate_wrist(141)
 
 
 class Claw(ServoEnum):
@@ -76,7 +76,7 @@ class Arm(ServoEnum):
     BELOW_ALARM = translate_arm(136)
     ALARM_SQUARE_UP = translate_arm(106.5)
     ABOVE_ALARM = translate_arm(35)
-    DOWN = translate_arm(185)
+    DOWN = translate_arm(175)
     NOODLE_GRAB = translate_arm(75)
     NOODLE_LIFT = translate_arm(20)
     NOODLE_DELIVERY = translate_arm(96)

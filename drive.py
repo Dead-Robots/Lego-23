@@ -260,6 +260,9 @@ def gyro_drive(left_speed, right_speed):
 def square_up_top_hats():
     straight_drive_until_black(40, False)
     stop_motors(100)
+    if right_on_black() and left_on_black():
+        straight_drive_until_white(-30, False)
+        stop_motors(100)
     if left_on_black() and right_on_white():
         drive_until_black(0, 60, RIGHT_TOP_HAT, False)
         stop_motors(100)
