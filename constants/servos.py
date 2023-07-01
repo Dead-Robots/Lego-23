@@ -4,7 +4,7 @@ from constants.ports import *
 
 
 def translate_arm(angle):
-    position = int(angle / 175 * 2047 + int(ROBOT.choose(red=-85, yellow=-165, blue=-165, green=-213)))
+    position = int(angle / 175 * 2047 + int(ROBOT.choose(red=-85, yellow=-165, blue=-165, green=-85)))
     if position < 0 or position > 2047:
         raise Exception("Resulting position invalid " + str(position) + " " + str(angle))
     return position
@@ -34,6 +34,7 @@ class Wrist(ServoEnum):
     DIAGONAL_HORIZONTAL = translate_wrist(23)
     HORIZONTAL = translate_wrist(-8)
     DROP = translate_wrist(141)
+    NOODLE_DEL = translate_wrist(100)
 
 
 class Claw(ServoEnum):
@@ -80,41 +81,4 @@ class Arm(ServoEnum):
     NOODLE_GRAB = translate_arm(75)
     NOODLE_LIFT = translate_arm(20)
     NOODLE_DELIVERY = translate_arm(96)
-
-# class OldArm(ServoEnum):
-#     port = ARM
-#
-#     VERTICAL = translate_arm(0)
-#     HORIZONTAL = translate_arm(90)
-#     FORTY_FIVE = translate_arm(45)
-#     ONE_TEN = translate_arm(110)
-#     SEVENTY = translate_arm(70)
-#     SEVENTY_FIVE = translate_arm(75)
-#     EIGHTY = translate_arm(80)
-#     SIXTY_FIVE = translate_arm(65)
-#     TWENTY_FIVE = translate_arm(25)
-#     THIRTY = translate_arm(30)
-#     THIRTY_FIVE = translate_arm(35)
-#
-#
-# # Red and Blue have tested values
-# class BackClaw(ServoEnum):
-#     port = BACK_CLAW
-#
-#     UP = ROBOT.choose(
-#         red=0,
-#         blue=400,
-#         yellow=750
-#     )
-#
-#     DOWN = ROBOT.choose(
-#         red=1230,
-#         blue=1400,
-#         yellow=1500
-#     )
-#
-#     SUPERDOWN = ROBOT.choose(
-#         red=1250,
-#         blue=1400,
-#         yellow=1800
-#     )
+    UP = translate_arm(15)

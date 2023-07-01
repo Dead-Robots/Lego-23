@@ -98,12 +98,17 @@ def init():
 
 
 def initial_setup():
-    gyro_init(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.965, 0.06, 0.018, 0.3, 0.4)
+    if ROBOT.is_red:
+        gyro_init(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.965, 0.06, 0.018, 0.3075, 0.4)
+    elif ROBOT.is_green:
+        gyro_init(gyro_drive, stop_motors, get_motor_positions, push_sensor, 0.92, 0.08, 0.018, 0.3075, 0.4)
+    else:
+        raise Exception("Gyro init not found. Currant colors are: RED and GREEN, make sure robot knows robot is robot")
     enable_motor_2()
     enable_servos()
     servo.move(Wrist.HORIZONTAL, 2)
     servo.move(Claw.SUPEROPEN, 2)
-    servo.move(Arm.START, 2)
+    servo.move(Arm.RET_DOWN, 2)
 
 
 def calibrate_drive_distance():
@@ -117,36 +122,30 @@ def test_motors():
 
 
 def test_servos():
-    servo.move(Arm.RET_DOWN, 2)
+    servo.move(Arm.RET_DOWN, 3)
     msleep(300)
-    servo.move(Arm.HORIZONTAL, 2)
+    servo.move(Arm.HORIZONTAL, 3)
     msleep(500)
-    servo.move(Arm.RET_LEVEL_3, 2)
+    servo.move(Arm.RET_LEVEL_3, 3)
     msleep(300)
-    servo.move(Arm.HORIZONTAL, 2)
-    servo.move(Wrist.HORIZONTAL, 2)
+    servo.move(Arm.HORIZONTAL, 3)
+    servo.move(Wrist.HORIZONTAL, 3)
     msleep(300)
-    servo.move(Wrist.DIAGONAL, 2)
+    servo.move(Wrist.DIAGONAL, 3)
     msleep(300)
-    servo.move(Wrist.VERTICAL, 2)
+    servo.move(Wrist.VERTICAL, 3)
     msleep(300)
-    servo.move(Wrist.HORIZONTAL, 2)
-    servo.move(Claw.SUPEROPEN, 2)
+    servo.move(Wrist.HORIZONTAL, 3)
+    servo.move(Claw.SUPEROPEN, 3)
     msleep(300)
-    servo.move(Claw.CLOSE, 2)
+    servo.move(Claw.CLOSE, 3)
     msleep(300)
-    servo.move(Claw.SUPEROPEN, 2)
-    servo.move(Arm.START, 2)
+    servo.move(Claw.SUPEROPEN, 3)
+    servo.move(Arm.RET_DOWN, 3)
 
 
 def test_sensors():
-    print("Press push sensor.")
-    while not push_sensor():
-        pass
-    while push_sensor():
-        pass
-    msleep(200)
-    print("Push sensor input detected")
+
     print("Driving until left top hat sees black.")
     straight_drive_until_black_left(80)
     print("Driving until right top hat sees white.")
@@ -154,24 +153,19 @@ def test_sensors():
 
 
 def go_to_ret():
+    gyro_turn(-80, 80, 90)
+    servo.move(Arm.UP, 2)
+    straight_drive_distance(80, 30.5)
+    gyro_turn(80, -80, 90)
     ROBOT.run(straight_drive_distance,
-              red=(100, 4.75, False), green=(100, 4.5, False))
-    stop_motors(150)
-    gyro_turn(100, 0, 90, False)
-    stop_motors(150)
-    straight_drive_distance(100, 27, False)
-    stop_motors(150)
-    gyro_turn(100, -100, 89, False)
-    stop_motors(150)
-    ROBOT.run(straight_drive_distance,
-              red=(100, 18, False), green=(100, 19.5, False))
+              red=(100, 8, False), green=(100, 6, False))
     gyro_turn(-100, 0, 20, False)
     straight_drive_distance(-100, 17, False)
     stop_motors(10)
     servo.move(Claw.OPEN, 2)
     servo.move(Arm.RET_LEVEL_0, 4)
     stop_motors(10)
-    straight_drive_distance(100, 14.5, False)
+    straight_drive_distance(100, 16.5, False)
     stop_motors(400)
 
 
@@ -243,7 +237,7 @@ def deliver_firewall():
               red=(-100, 13, False), green=(-100, 14, False))
     stop_motors(100)
     servo.move(Arm.LIFT_FIREWALL, 3)
-    gyro_turn(100, 0, 138, False)
+    gyro_turn(100, 0, 140, False)
     stop_motors(100)
     straight_drive_until_black_right(100, False)
     stop_motors(100)
@@ -301,11 +295,11 @@ def activate_alarm():
     stop_motors(100)
     straight_drive_until_black_right(100, False)
     stop_motors(100)
-    gyro_turn(100, 0, 43, False)
+    gyro_turn(100, 0, 46, False)
     stop_motors(100)
     straight_drive_distance(100, 11, False)
     stop_motors(100)
-    straight_drive_distance(-100, 1.1, False)
+    straight_drive_distance(-100, 0.95, False)
     stop_motors(100)
     servo.move(Arm.BELOW_ALARM, 4)
     msleep(100)
@@ -315,6 +309,15 @@ def activate_alarm():
     straight_drive_distance(-100, 2, False)
     stop_motors(100)
     servo.move(Arm.ABOVE_ALARM, 4)
+
+
+def get_enc_key():
+    gyro_turn(100, -100, 110)
+    straight_drive_distance(-80, 14)
+    gyro_turn(-80, 0, 30)
+    wait_for_button()
+    drive(-60, -60, 1000)
+    wait_for_button()
 
 
 def get_noodle_one():
@@ -345,7 +348,7 @@ def deliver_noodle_one():
     stop_motors(100)
     gyro_turn(-100, 100, 120, False)
     stop_motors(100)
-    servo.move(Wrist.VERTICAL, 0)
+    servo.move(Wrist.NOODLE_DEL, 0)
     servo.move(Arm.NOODLE_DELIVERY, 4)
     gyro_turn(100, -100, 50, False)
     stop_motors(100)
@@ -367,4 +370,3 @@ def shutdown(start_time):
     servo.move(Wrist.HORIZONTAL, 2)
     servo.move(Arm.RET_DOWN, 4)
     disable_servos()
-
