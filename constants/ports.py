@@ -1,8 +1,9 @@
 from common import ROBOT
 # motor ports
 RIGHT_MOTOR = 0
+RAKE = 1
+GRAYSON = 2
 LEFT_MOTOR = 3
-SERVO_REPLACEMENT = 1
 
 # servo ports
 CLAW = ROBOT.choose(red=1, blue=0, yellow=0, green=1)

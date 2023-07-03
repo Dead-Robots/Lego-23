@@ -1,25 +1,17 @@
-from kipr import msleep, push_button, disable_servos, freeze
-from constants.ports import LEFT_MOTOR, RIGHT_MOTOR, SERVO_REPLACEMENT
+from kipr import push_button, disable_servos, freeze
+from time import sleep
 
 
-def wait_for_button(text="waiting for button"):
-    stop_motors()
-    print(text)
-    while not push_button():
-        msleep(50)
-    msleep(1000)
-
-
-def stop_motors(stop_time=400, stop_servo_replacement=True):
-    freeze(LEFT_MOTOR)
-    freeze(RIGHT_MOTOR)
-    if stop_servo_replacement:
-        freeze(SERVO_REPLACEMENT)
-    msleep(stop_time)
+def msleep(milliseconds):
+    sleep(milliseconds/1000)
 
 
 def debug():
     disable_servos()
-    stop_motors()
+    freeze(0)
+    freeze(1)
+    freeze(2)
+    freeze(3)
+    msleep(1000)
     print("stopping code for debug")
     exit(0)

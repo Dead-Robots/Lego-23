@@ -2,11 +2,11 @@ import time
 import os
 
 from common.gyro_movements import straight_drive
-from constants.ports import LEFT_MOTOR, RIGHT_MOTOR, LEFT_TOP_HAT, RIGHT_TOP_HAT
+from constants.ports import LEFT_MOTOR, RIGHT_MOTOR, LEFT_TOP_HAT, RIGHT_TOP_HAT, GRAYSON
 from constants.sensors import TOP_HAT_THRESHOLD, TOP_HAT_THRESHOLD_GREY
-from kipr import motor_power, msleep, analog, clear_motor_position_counter, get_motor_position_counter, digital
+from kipr import motor_power, analog, clear_motor_position_counter, get_motor_position_counter, digital, freeze
 from common import ROBOT
-from utilities import stop_motors
+from utilities import msleep
 
 
 def drive(left_speed, right_speed, duration):
@@ -15,8 +15,8 @@ def drive(left_speed, right_speed, duration):
     msleep(duration)
 
 
-def enable_motor_2():
-    motor_power(2, 100)
+def enable_grayson():
+    motor_power(GRAYSON, 100)
 
 
 def left_on_black():
@@ -258,10 +258,10 @@ def gyro_drive(left_speed, right_speed):
 
 
 def square_up_top_hats():
-    straight_drive_until_black(40, False)
+    straight_drive_until_black(100, False)
     stop_motors(100)
     if right_on_black() and left_on_black():
-        straight_drive_until_white(-30, False)
+        straight_drive_until_white(-100, False)
         stop_motors(100)
     if left_on_black() and right_on_white():
         drive_until_black(0, 60, RIGHT_TOP_HAT, False)
@@ -277,3 +277,9 @@ def square_up_top_hats():
         stop_motors(100)
         drive_until_black(20, 0, LEFT_TOP_HAT, False)
         stop_motors(100)
+
+
+def stop_motors(stop_time=400):
+    freeze(LEFT_MOTOR)
+    freeze(RIGHT_MOTOR)
+    msleep(stop_time)

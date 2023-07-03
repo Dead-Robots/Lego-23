@@ -1,5 +1,6 @@
-from kipr import msleep, set_servo_position, get_servo_position, disable_servo, enable_servo
-from utilities import stop_motors
+from kipr import set_servo_position, get_servo_position, disable_servo, enable_servo
+from utilities import msleep
+from drive import stop_motors
 
 
 def move(new_position, step_time=10):
