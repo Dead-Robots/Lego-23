@@ -60,7 +60,12 @@ def calibrate_drive_distance():
 
 
 def test_motors():
-    straight_drive_distance(80, 12)
+    straight_drive_until_both_black(60, False)
+    stop_motors()
+    straight_drive_until_both_white(60, False)
+    stop_motors()
+    straight_drive_distance(80, 5, False)
+    stop_motors()
     gyro_turn(80, -80, 90)
 
 
@@ -90,9 +95,13 @@ def test_servos():
 def test_sensors():
 
     print("Driving until left top hat sees black.")
-    straight_drive_until_black_left(80)
+    straight_drive_until_black_left(80, False)
+    stop_motors()
     print("Driving until right top hat sees white.")
-    straight_drive_until_white_right(80)
+    straight_drive_until_white_right(80, False)
+    msleep(500)
+    gyro_turn(-80, 80, 180)
+    straight_drive_distance(80, 14, True)
 
 
 def go_to_ret():
@@ -192,20 +201,22 @@ def deliver_firewall():
               red=(-100, 14, False), green=(-100, 14, False))
     stop_motors(100)
     servo.move(Arm.LIFT_FIREWALL, 3)
-    gyro_turn(100, -100, 120, False)
+    gyro_turn(100, -100, 50, False)
     stop_motors(100)
-    straight_drive_until_black_right(100, False)
-    stop_motors(100)
-    straight_drive_until_both_white(-100, False)
-    stop_motors(100)
-    square_up_top_hats()
-    gyro_turn(100, 0, 6, False)
-    stop_motors(100)
+    drive(80, 80, 2550)
+    stop_motors()
+    msleep(300)
+    straight_drive_distance(-80, 4)
+    gyro_turn(80, -80, 90)
+    straight_drive_until_both_black(100, False)
+    stop_motors()
+    straight_drive_until_both_white(100, False)
+    stop_motors()
     straight_drive_distance(100, 30, False)
     straight_drive_until_both_black(100, False)
     stop_motors(100)
     servo.move(Arm.LIFT_FIREWALL_SLIGHTLY, 5)
-    gyro_turn(100, 0, 44.5, False)
+    gyro_turn(100, 0, 40.5, False)
     stop_motors(100)
     straight_drive_distance(100, 7.5, False)
     stop_motors(100)
@@ -277,18 +288,11 @@ def get_enc_key():
     straight_drive_distance(-100, 16, False)
     stop_motors(0)
     rake_manager.position = 175
-    msleep(100)
+    msleep(400)
     straight_drive_distance(100, 4, False)
     rake_manager.position = 700
     straight_drive_distance(100, 2, False)
     stop_motors(100)
-    # wait_for_button()
-    # gyro_turn(100, -100, 110)
-    # straight_drive_distance(-80, 14)
-    # gyro_turn(-80, 0, 30)
-    # wait_for_button()
-    # drive(-60, -60, 1000)
-    # wait_for_button()
 
 
 def get_noodle_one():
