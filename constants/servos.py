@@ -32,7 +32,7 @@ class Wrist(ServoEnum):
     DIAGONAL_VERTICAL = translate_wrist(70)
     DIAGONAL = translate_wrist(46)
     DIAGONAL_HORIZONTAL = translate_wrist(23)
-    HORIZONTAL = translate_wrist(-8)
+    HORIZONTAL = translate_wrist(ROBOT.choose(red=-8, green=-2))
     DROP = translate_wrist(141)
     NOODLE_GRAB = translate_wrist(-15)
     NOODLE_DEL = translate_wrist(100)
@@ -55,7 +55,7 @@ class Arm(ServoEnum):
 
     # RET Values (ugly)
     RET_DOWN = translate_arm(170)
-    RET_LEVEL_0 = translate_arm(165)
+    RET_LEVEL_0 = translate_arm(ROBOT.choose(red=165, green=160))
     RET_LEVEL_0_25 = translate_arm(145)
     RET_LEVEL_0_5 = translate_arm(135)
     RET_LEVEL_0_75 = translate_arm(125)

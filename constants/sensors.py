@@ -14,7 +14,7 @@ TOP_HAT_THRESHOLD = ROBOT.choose(
     red=2000,
     blue=2300,
     yellow=3000,
-    green=2300
+    green=1900
 )
 
 gyro_offset = 0

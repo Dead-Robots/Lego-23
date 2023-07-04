@@ -252,34 +252,39 @@ def get_motor_positions():
     return get_motor_position_counter(LEFT_MOTOR), get_motor_position_counter(RIGHT_MOTOR)
 
 
-def gyro_drive(left_speed, right_speed):
+def basic_drive(left_speed, right_speed):
     motor_power(LEFT_MOTOR, left_speed)
     motor_power(RIGHT_MOTOR, right_speed)
 
 
-def square_up_top_hats():
-    straight_drive_until_black(100, False)
+def square_up_top_hats(left_speed=20, right_speed=20, iterations=1):
+    drive_until_both_white(-30, -30)
+    for _ in range(iterations):
+        ls = left_speed
+        rs = right_speed
+        ls2 = -left_speed
+        rs2 = -right_speed
+        basic_drive(ls, rs)
+        while ls != 0 or rs != 0:
+            if left_on_black():
+                ls = 0
+                rs2 = 0 if ls2 else rs2
+            if right_on_black():
+                rs = 0
+                ls2 = 0 if rs2 else ls2
+            basic_drive(ls, rs)
+        while ls2 != 0 or rs2 != 0:
+            if left_on_white():
+                ls2 = 0
+            if right_on_white():
+                rs2 = 0
+            basic_drive(ls2, rs2)
+        left_speed //= 2
+        right_speed //= 2
     stop_motors(100)
-    if right_on_black() and left_on_black():
-        straight_drive_until_white(-100, False)
-        stop_motors(100)
-    if left_on_black() and right_on_white():
-        drive_until_black(0, 60, RIGHT_TOP_HAT, False)
-        stop_motors(100)
-        drive_until_white(-30, 0, LEFT_TOP_HAT, False)
-        stop_motors(100)
-        drive_until_black(0, 20, RIGHT_TOP_HAT, False)
-        stop_motors(100)
-    if right_on_black() and left_on_white():
-        drive_until_black(60, 0, LEFT_TOP_HAT, False)
-        stop_motors(100)
-        drive_until_white(0, -30, RIGHT_TOP_HAT, False)
-        stop_motors(100)
-        drive_until_black(20, 0, LEFT_TOP_HAT, False)
-        stop_motors(100)
 
 
-def stop_motors(stop_time=400):
+def stop_motors(stop_time=100):
     freeze(LEFT_MOTOR)
     freeze(RIGHT_MOTOR)
     msleep(stop_time)

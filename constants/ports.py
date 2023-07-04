@@ -13,4 +13,4 @@ WRIST = ROBOT.choose(red=0, blue=2, yellow=2, green=0)
 # analog ports
 LEFT_TOP_HAT = 0
 RIGHT_TOP_HAT = 1
-LIGHT_SENSOR = 5
+LIGHT_SENSOR = 5  # not yet
