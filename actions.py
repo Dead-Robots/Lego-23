@@ -4,13 +4,14 @@ from time import sleep
 from typing import Optional
 
 from kipr import enable_servos, b_button, push_button, c_button, analog, disable_servos, \
-    clear_motor_position_counter, motor_power
+    clear_motor_position_counter, motor_power, shut_down_in
 
 import servo
 from common import ROBOT
+from common.light import wait_4_light
 from common.multitasker import MultitaskedMotor
 from common.post import post_core
-from constants.ports import RAKE
+from constants.ports import RAKE, LIGHT_SENSOR
 from constants.sensors import push_sensor
 from drive import drive, get_motor_positions, basic_drive, straight_drive_until_black_left, \
     straight_drive_until_white_right, straight_drive_until_black_right, straight_drive_until_black, \
@@ -32,7 +33,8 @@ def angle_test_claw():
 
 def init():
     post_core(test_servos, test_motors, test_sensors, initial_setup, calibrate_drive_distance)
-    msleep(500)
+    wait_4_light(LIGHT_SENSOR)
+    shut_down_in(119)
 
 
 def initial_setup():
@@ -66,9 +68,9 @@ def test_motors():
     stop_motors(100)
     straight_drive_until_both_white(60, False)
     stop_motors(100)
+    rake_manager.position = 0
     straight_drive_distance(80, 5, False)
     stop_motors(100)
-    rake_manager.position = 0
     gyro_turn(80, -80, 90)
 
 
@@ -80,31 +82,29 @@ def test_servos():
     servo.move(Arm.RET_LEVEL_3, 3)
     msleep(300)
     servo.move(Arm.HORIZONTAL, 3)
-    servo.move(Wrist.HORIZONTAL, 3)
+    servo.move(Wrist.HORIZONTAL, 1)
     msleep(300)
-    servo.move(Wrist.DIAGONAL, 3)
+    servo.move(Wrist.DIAGONAL, 1)
     msleep(300)
-    servo.move(Wrist.VERTICAL, 3)
+    servo.move(Wrist.VERTICAL, 1)
     msleep(300)
-    servo.move(Wrist.HORIZONTAL, 3)
-    servo.move(Claw.SUPEROPEN, 3)
-    msleep(300)
-    servo.move(Claw.CLOSE, 3)
-    msleep(300)
-    servo.move(Claw.SUPEROPEN, 3)
+    servo.move(Wrist.HORIZONTAL, 1)
+    servo.move(Claw.SUPEROPEN, 1)
+    servo.move(Claw.CLOSE, 1)
+    servo.move(Claw.SUPEROPEN, 1)
     servo.move(Arm.RET_DOWN, 3)
 
 
 def test_sensors():
 
     print("Driving until left top hat sees black.")
-    straight_drive_until_black_left(80, False)
+    straight_drive_until_black_left(100, False)
     stop_motors()
     print("Driving until right top hat sees white.")
-    straight_drive_until_white_right(80, False)
+    straight_drive_until_white_right(100, False)
     msleep(500)
-    gyro_turn(-80, 80, 180)
-    straight_drive_distance(80, 14, True)
+    gyro_turn(-100, 100, 180)
+    straight_drive_distance(100, 14, True)
 
 
 def go_to_ret():
@@ -118,14 +118,14 @@ def go_to_ret():
     gyro_turn(100, -100, 90, False)
     stop_motors(150)
     ROBOT.run(straight_drive_distance,
-              red=(100, 9, False), green=(100, 9, False))
+              red=(100, 9, False), green=(100, 10, False))
     gyro_turn(-100, 0, 20, False)
     straight_drive_distance(-100, 15.5, False)
     stop_motors(10)
     servo.move(Claw.OPEN, 0)
     servo.move(Arm.RET_LEVEL_0, 2)
     straight_drive_distance(100, 15, False)
-    stop_motors(400)
+    stop_motors(300)
 
 
 def ret():
@@ -150,7 +150,7 @@ def ret():
     gyro_turn(-100, -10, 20, False)
     stop_motors(50)
     servo.move(Wrist.DIAGONAL_HORIZONTAL, 1)
-    servo.move(Arm.RET_LEVEL_2, 1)
+    servo.move(Arm.RET_LEVEL_2, ROBOT.choose(red=3, green=3))
     servo.move(Wrist.DIAGONAL, 1)
     gyro_turn(-80, 100, 6, False)
     stop_motors(50)
@@ -193,14 +193,14 @@ def get_firewall():
     stop_motors(100)
     servo.move(Wrist.HORIZONTAL, 0)
     servo.move(Arm.GRAB_FIREWALL, 4)
-    straight_drive_distance(100, ROBOT.choose(red=12, green=12), False)
+    straight_drive_distance(100, ROBOT.choose(red=12, green=12.5), False)
     stop_motors(100)
     servo.move(Claw.FIREWALL, 2)
     msleep(200)
 
 
 def deliver_firewall():
-    straight_drive_distance(-100, ROBOT.choose(red=14, green=14), False)
+    straight_drive_distance(-100, ROBOT.choose(red=14, green=14.5), False)
     stop_motors(100)
     servo.move(Arm.LIFT_FIREWALL, 3)
     gyro_turn(100, -100, 50, False)
@@ -213,8 +213,8 @@ def deliver_firewall():
     gyro_turn(100, -100, 90, False)
     stop_motors(100)
     straight_drive_distance(100, 10, False)
-    straight_drive_until_black(80, False)
-    square_up_top_hats()
+    straight_drive_until_black(100, False)
+    square_up_top_hats(40, 40, 2)
     straight_drive_distance(100, 20, False)
     stop_motors(100)
     gyro_turn(30, -30, 12, False)
@@ -229,7 +229,7 @@ def deliver_firewall():
     straight_drive_distance(100, 2, False)
     stop_motors(100)
     servo.move(Claw.FIREWALL, 2)
-    gyro_turn(100, 0, 23.5, False)
+    gyro_turn(100, 0, ROBOT.choose(red=16, green=36), False)
     stop_motors(100)
     straight_drive_distance(100, 6.5, False)
     stop_motors(100)
@@ -253,18 +253,18 @@ def return_from_enc():
     straight_drive_distance(100, 0.75, False)
     stop_motors(100)
     servo.move(Arm.ALARM_SQUARE_UP, 3)
-    gyro_turn(100, -100, ROBOT.choose(red=130, green=121.5), False)
+    gyro_turn(100, -100, ROBOT.choose(red=121.5, green=121.5), False)
     stop_motors(100)
     straight_drive_distance(100, 6, False)
     stop_motors(100)
-    gyro_turn(0, 100, 34, False)
+    gyro_turn(0, 100, ROBOT.choose(red=34, green=31), False)
     stop_motors(100)
     straight_drive_distance(100, 10, False)
     straight_drive_until_black(100, False)
     straight_drive_distance(100, 5, False)
     straight_drive_until_black(100, False)
-    square_up_top_hats(40, 40)
-    straight_drive_distance(100, 5, False)
+    square_up_top_hats(40, 40, 2)
+    straight_drive_distance(100, 15, False)
     stop_motors(100)
 
 
@@ -277,32 +277,33 @@ def activate_alarm():
     straight_drive_distance(100, 0.8, False)
     stop_motors(100)
     servo.move(Claw.OPEN, 0)
-    gyro_turn(100, 0, 90, False)
+    gyro_turn(100, 0, ROBOT.choose(red=90, green=93), False)
     stop_motors(100)
-    straight_drive_distance(100, 16, False)
+    straight_drive_distance(100, 6, False)
     stop_motors(100)
-    straight_drive_distance(-100, 1, False)
+    straight_drive_distance(-100, ROBOT.choose(red=1.15, green=1), False)
     stop_motors(100)
     servo.move(Arm.BELOW_ALARM, 4)
     msleep(100)
     servo.move(Arm.ABOVE_ALARM, 0)
-    msleep(400)
+    msleep(600)
     servo.move(Arm.ALARM_SQUARE_UP, 0)
     straight_drive_distance(-100, 2.25, False)
     stop_motors(100)
-    servo.move(Arm.ABOVE_ALARM, 4)
+    servo.move(Arm.RET_DOWN, 4)
 
 
 def get_enc_key():
-    straight_drive_distance(100, ROBOT.choose(red=3, green=3), False)
+    straight_drive_distance(100, ROBOT.choose(red=2.25, green=2.25), False)
     stop_motors(100)
     gyro_turn(100, -100, 90, False)
     stop_motors(100)
     straight_drive_distance(-100, 15.5, False)
     stop_motors(0)
-    rake_manager.position = 480
-    msleep(400)
-    straight_drive_distance(100, 4.5, False)
+    rake_manager.position = 450
+    straight_drive_distance(100, 1, False)
+    rake_manager.position = 485
+    straight_drive_distance(100, 5, False)
     rake_manager.position = 0
     straight_drive_distance(100, 1.5, False)
     stop_motors(100)

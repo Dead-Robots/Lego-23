@@ -259,13 +259,18 @@ def basic_drive(left_speed, right_speed):
 
 def square_up_top_hats(left_speed=20, right_speed=20, iterations=1):
     drive_until_both_white(-30, -30)
+    start_time = time.time()
     for _ in range(iterations):
+        if time.time() - start_time > 3.5:
+            break
         ls = left_speed
         rs = right_speed
         ls2 = -left_speed
         rs2 = -right_speed
         basic_drive(ls, rs)
         while ls != 0 or rs != 0:
+            if time.time() - start_time > 3.5:
+                break
             if left_on_black():
                 ls = 0
                 rs2 = 0 if ls2 else rs2
@@ -274,6 +279,8 @@ def square_up_top_hats(left_speed=20, right_speed=20, iterations=1):
                 ls2 = 0 if rs2 else ls2
             basic_drive(ls, rs)
         while ls2 != 0 or rs2 != 0:
+            if time.time() - start_time > 3.5:
+                break
             if left_on_white():
                 ls2 = 0
             if right_on_white():
@@ -281,6 +288,8 @@ def square_up_top_hats(left_speed=20, right_speed=20, iterations=1):
             basic_drive(ls2, rs2)
         left_speed //= 2
         right_speed //= 2
+        left_speed = max(left_speed, 15)
+        right_speed = max(right_speed, 15)
     stop_motors(100)
 
 
