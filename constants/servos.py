@@ -4,7 +4,7 @@ from constants.ports import *
 
 
 def translate_arm(angle):
-    position = int(angle / 175 * 2047 + int(ROBOT.choose(red=-85, yellow=-165, blue=-165, green=-85)))
+    position = int(angle / 175 * 2047 + int(ROBOT.choose(red=-85, yellow=-165, blue=-165, green=35)))
     if position < 0 or position > 2047:
         raise Exception("Resulting position invalid " + str(position) + " " + str(angle))
     return position
@@ -18,7 +18,7 @@ def translate_claw(angle):
 
 
 def translate_wrist(angle):
-    position = int(-angle / 175 * 2047 + int(ROBOT.choose(red=1650, blue=1650, yellow=1650, green=1720)))
+    position = int(-angle / 175 * 2047 + int(ROBOT.choose(red=1650, blue=1650, yellow=1650, green=1650)))
     if position < 0 or position > 2047:
         raise Exception("Resulting position invalid " + str(position) + " " + str(angle))
     return position
@@ -32,7 +32,7 @@ class Wrist(ServoEnum):
     DIAGONAL_VERTICAL = translate_wrist(70)
     DIAGONAL = translate_wrist(46)
     DIAGONAL_HORIZONTAL = translate_wrist(23)
-    HORIZONTAL = translate_wrist(ROBOT.choose(red=-8, green=-2))
+    HORIZONTAL = translate_wrist(ROBOT.choose(red=-8, green=-11))
     DROP = translate_wrist(141)
     NOODLE_GRAB = translate_wrist(-15)
     NOODLE_DEL = translate_wrist(100)
@@ -70,7 +70,7 @@ class Arm(ServoEnum):
     RET_LEVEL_3 = translate_arm(25)
 
     # Everything Else
-    START = translate_arm(20)
+    START = translate_arm(170)
     HORIZONTAL = translate_arm(90)
     GRAB_FIREWALL = translate_arm(160)
     LIFT_FIREWALL = translate_arm(20)
@@ -78,7 +78,7 @@ class Arm(ServoEnum):
     BELOW_ALARM = translate_arm(136)
     ALARM_SQUARE_UP = translate_arm(111)
     ABOVE_ALARM = translate_arm(35)
-    DOWN = translate_arm(175)
+    DOWN = translate_arm(170)
     NOODLE_GRAB = translate_arm(75)
     NOODLE_LIFT = translate_arm(20)
     NOODLE_DELIVERY = translate_arm(96)

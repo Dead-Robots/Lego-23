@@ -41,7 +41,7 @@ def initial_setup():
     if ROBOT.is_red:
         gyro_init(basic_drive, stop_motors, get_motor_positions, push_sensor, 0.965, 0.06, 0.018, 0.3075, 0.4)
     elif ROBOT.is_green:
-        gyro_init(basic_drive, stop_motors, get_motor_positions, push_sensor, 0.96, 0.06, 0.018, 0.6, 0.4)
+        gyro_init(basic_drive, stop_motors, get_motor_positions, push_sensor, 0.970, 0.06, 0.018, 0.6, 0.4)
     else:
         raise Exception("Gyro init not found. Currant colors are: RED and GREEN, make sure robot knows robot is robot")
     enable_grayson()
@@ -52,7 +52,7 @@ def initial_setup():
     motor_power(RAKE, -20)
     servo.move(Wrist.HORIZONTAL, 2)
     servo.move(Claw.SUPEROPEN, 2)
-    servo.move(Arm.RET_DOWN, 2)
+    servo.move(Arm.START, 2)
     clear_motor_position_counter(RAKE)
     rake_manager = MultitaskedMotor(RAKE, 0)
 
@@ -64,7 +64,7 @@ def calibrate_drive_distance():
 
 def test_motors():
     rake_manager.position = 500
-    square_up_top_hats(60, 60)
+    square_up_top_hats(60, 60, 3, timeout=False)
     stop_motors(100)
     straight_drive_until_both_white(60, False)
     stop_motors(100)
@@ -113,7 +113,7 @@ def go_to_ret():
     servo.move(Claw.CLOSE, 0)
     servo.move(Arm.UP, 2)
     straight_drive_until_black(100, False)
-    straight_drive_distance(100, ROBOT.choose(red=27, green=26.5), False)
+    straight_drive_distance(100, ROBOT.choose(red=27, green=25.5), False)
     stop_motors(150)
     gyro_turn(100, -100, 90, False)
     stop_motors(150)
@@ -205,7 +205,8 @@ def deliver_firewall():
     servo.move(Arm.LIFT_FIREWALL, 3)
     gyro_turn(100, -100, 50, False)
     stop_motors(100)
-    drive(80, 80, 2750)
+    straight_drive_distance(100, 7)
+    drive(80, 80, 1750)
     stop_motors(100)
     msleep(300)
     straight_drive_distance(-100, 4, False)
@@ -228,7 +229,9 @@ def deliver_firewall():
     stop_motors(100)
     straight_drive_distance(100, 2, False)
     stop_motors(100)
+    servo.move(Arm.GRAB_FIREWALL, 3)
     servo.move(Claw.FIREWALL, 2)
+    servo.move(Arm.LIFT_FIREWALL_SLIGHTLY, 3)
     gyro_turn(100, 0, ROBOT.choose(red=16, green=36), False)
     stop_motors(100)
     straight_drive_distance(100, 6.5, False)
@@ -281,7 +284,7 @@ def activate_alarm():
     stop_motors(100)
     straight_drive_distance(100, 6, False)
     stop_motors(100)
-    straight_drive_distance(-100, ROBOT.choose(red=1.15, green=1), False)
+    straight_drive_distance(-100, ROBOT.choose(red=1.5, green=1), False)
     stop_motors(100)
     servo.move(Arm.BELOW_ALARM, 4)
     msleep(100)
@@ -296,62 +299,20 @@ def activate_alarm():
 def get_enc_key():
     straight_drive_distance(100, ROBOT.choose(red=2.25, green=2.25), False)
     stop_motors(100)
-    gyro_turn(100, -100, 90, False)
+    gyro_turn(100, -100, ROBOT.choose(red=90, green=93), False)
     stop_motors(100)
+    rake_manager.position = 350
     straight_drive_distance(-100, 15.5, False)
     stop_motors(0)
     rake_manager.position = 450
-    straight_drive_distance(100, 1, False)
-    rake_manager.position = 485
-    straight_drive_distance(100, 5, False)
-    rake_manager.position = 0
-    straight_drive_distance(100, 1.5, False)
+    straight_drive_distance(100, 0.1, False)
+    rake_manager.position = 520
+    straight_drive_distance(100, 6, False)
     stop_motors(100)
-
-
-def get_noodle_one():
-    gyro_turn(100, -100, 30, False)
-    wait_for_button()
+    rake_manager.position = 420
+    straight_drive_distance(-100, 2, False)
     stop_motors(100)
-    servo.move(Wrist.NOODLE_GRAB, 0)
-    servo.move(Arm.NOODLE_GRAB, 4)
-    straight_drive_distance(100, 16.5, False)
-    stop_motors(100)
-    servo.move(Claw.CLOSE, 1)
-    wait_for_button()
-    msleep(100)
-    servo.move(Arm.NOODLE_LIFT, 4)
-
-
-def deliver_noodle_one():
-    straight_drive_distance(-100, 1, False)
-    gyro_turn(100, -100, 165, False)
-    stop_motors(100)
-    straight_drive_until_black(100, False)
-    stop_motors(100)
-    square_up_top_hats()
-    stop_motors(200)
-    gyro_turn(100, 0, 6, False)
-    stop_motors(100)
-    straight_drive_distance(100, 25, False)
-    stop_motors(100)
-    wait_for_button()
-    straight_drive_distance(-100, 4.5, False)
-    stop_motors(100)
-    gyro_turn(-100, 100, 120, False)
-    stop_motors(100)
-    servo.move(Wrist.NOODLE_DEL, 0)
-    servo.move(Arm.NOODLE_DELIVERY, 4)
-    gyro_turn(100, -100, 50, False)
-    stop_motors(100)
-    wait_for_button()
-    gyro_turn(100, 0, 14, False)
-    stop_motors(100)
-    servo.move(Claw.OPEN, 2)
-    straight_drive_distance(-100, 6,  False)
-    stop_motors(100)
-    servo.move(Wrist.HORIZONTAL, 0)
-    servo.move(Arm.NOODLE_GRAB, 5)
+    rake_manager.position = 540
 
 
 def shutdown(start_time):

@@ -1,12 +1,10 @@
 #!/usr/local/bin/python3.10 -u
-from actions import init, ret, go_to_ret, get_firewall, deliver_firewall, return_from_enc, \
-    activate_alarm, shutdown, get_noodle_one, deliver_noodle_one, get_enc_key
+from actions import init, ret, go_to_ret, get_firewall, deliver_firewall, return_from_enc, activate_alarm, shutdown,\
+    get_enc_key
 from common import ROBOT
-from common.gyro_movements import gyro_turn_test, straight_drive_distance
-from drive import square_up_top_hats, straight_drive_until_black
+from common.gyro_movements import gyro_turn_test
 from utilities import debug
 import time
-from common.gyro_movements import wait_for_button
 
 
 if __name__ == '__main__':
@@ -32,8 +30,6 @@ if __name__ == '__main__':
     return_from_enc()
     activate_alarm()
     get_enc_key()
-    # get_noodle_one()
-    # deliver_noodle_one()
     end_time = time.time()
     print(str(round(end_time-start_time, 2)) + " seconds elapsed when finished.")
     shutdown(end_time)
