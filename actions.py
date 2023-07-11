@@ -117,8 +117,7 @@ def go_to_ret():
     stop_motors(150)
     gyro_turn(100, -100, 90, False)
     stop_motors(150)
-    ROBOT.run(straight_drive_distance,
-              red=(100, 9, False), green=(100, 10, False))
+    ROBOT.run(straight_drive_distance, red=(100, 9, False), green=(100, 11.5, False))
     gyro_turn(-100, 0, 20, False)
     straight_drive_distance(-100, 15.5, False)
     stop_motors(10)
@@ -205,8 +204,8 @@ def deliver_firewall():
     servo.move(Arm.LIFT_FIREWALL, 3)
     gyro_turn(100, -100, 50, False)
     stop_motors(100)
-    straight_drive_distance(100, 7)
-    drive(80, 80, 1750)
+    straight_drive_distance(100, 10, False)
+    drive(80, 80, 1200)
     stop_motors(100)
     msleep(300)
     straight_drive_distance(-100, 4, False)
@@ -260,7 +259,7 @@ def return_from_enc():
     stop_motors(100)
     straight_drive_distance(100, 6, False)
     stop_motors(100)
-    gyro_turn(0, 100, ROBOT.choose(red=34, green=31), False)
+    gyro_turn(0, 100, ROBOT.choose(red=36, green=31), False)
     stop_motors(100)
     straight_drive_distance(100, 10, False)
     straight_drive_until_black(100, False)
@@ -299,7 +298,7 @@ def activate_alarm():
 def get_enc_key():
     straight_drive_distance(100, ROBOT.choose(red=2.25, green=2.25), False)
     stop_motors(100)
-    gyro_turn(100, -100, ROBOT.choose(red=90, green=93), False)
+    gyro_turn(100, -100, ROBOT.choose(red=90, green=91), False)
     stop_motors(100)
     rake_manager.position = 350
     straight_drive_distance(-100, 15.5, False)
@@ -308,11 +307,21 @@ def get_enc_key():
     straight_drive_distance(100, 0.1, False)
     rake_manager.position = 520
     straight_drive_distance(100, 6, False)
+
+    # For single seeding:
+
     stop_motors(100)
-    rake_manager.position = 420
-    straight_drive_distance(-100, 2, False)
+    rake_manager.position = 30
+    straight_drive_distance(100, 4, False)
     stop_motors(100)
-    rake_manager.position = 540
+
+    # For DE and/or double seeding:
+
+    # stop_motors(100)
+    # rake_manager.position = 420
+    # straight_drive_distance(-100, 2, False)
+    # stop_motors(100)
+    # rake_manager.position = 540
 
 
 def shutdown(start_time):
