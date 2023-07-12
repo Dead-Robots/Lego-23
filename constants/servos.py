@@ -67,7 +67,7 @@ class Arm(ServoEnum):
     RET_LEVEL_2_25 = translate_arm(54)
     RET_LEVEL_2_5 = translate_arm(41)
     RET_LEVEL_2_75 = translate_arm(29)
-    RET_LEVEL_3 = translate_arm(25)
+    RET_LEVEL_3 = translate_arm(ROBOT.choose(red=28, green=25))
 
     # Everything Else
     START = translate_arm(170)

@@ -19,7 +19,7 @@ if __name__ == '__main__':
     else:
         print("Help! I'm having an identity crisis (robot unidentified)")
         debug()
-    init()
+    init(is_seeding=True)
     start_time = time.time()
     go_to_ret()
     ret()
