@@ -39,6 +39,7 @@ def init(is_seeding):
     seeding = is_seeding
     if is_seeding:
         high_speed = 90
+    print("Round is seeding? " + str(is_seeding))
     post_core(test_servos, test_motors, test_sensors, initial_setup, calibrate_drive_distance)
     wait_4_light(LIGHT_SENSOR)
     shut_down_in(119)
@@ -241,7 +242,7 @@ def deliver_firewall():
     servo.move(Arm.GRAB_FIREWALL, 3)
     servo.move(Claw.FIREWALL, 2)
     servo.move(Arm.LIFT_FIREWALL_SLIGHTLY, 3)
-    gyro_turn(high_speed, 0, ROBOT.choose(red=16, green=36), False)
+    gyro_turn(high_speed, 0, ROBOT.choose(red=18, green=32), False)
     stop_motors(100)
     straight_drive_distance(high_speed, 6.5, False)
     stop_motors(100)
@@ -273,7 +274,7 @@ def return_from_enc():
     stop_motors(100)
     straight_drive_distance(high_speed, 6, False)
     stop_motors(100)
-    gyro_turn(0, high_speed, ROBOT.choose(red=36, green=31), False)
+    gyro_turn(0, high_speed, ROBOT.choose(red=36, green=33), False)
     stop_motors(100)
     straight_drive_distance(high_speed, 10, False)
     straight_drive_until_black(high_speed, False)
