@@ -123,7 +123,7 @@ def go_to_ret():
     servo.move(Claw.CLOSE, 0)
     servo.move(Arm.UP, 2)
     straight_drive_until_black(high_speed, False)
-    straight_drive_distance(high_speed, ROBOT.choose(red=27, green=25.5), False)
+    straight_drive_distance(high_speed, ROBOT.choose(red=27, green=26), False)
     stop_motors(150)
     gyro_turn(high_speed, -1*high_speed, 90, False)
     stop_motors(150)
